@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		071B60C124111F860043B381 /* CGPathBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071B60C024111F860043B381 /* CGPathBlocks.swift */; };
 		07EFFD29240E8E92008D517B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EFFD28240E8E92008D517B /* AppDelegate.swift */; };
 		07EFFD2B240E8E92008D517B /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 07EFFD2A240E8E92008D517B /* GameScene.sks */; };
 		07EFFD2D240E8E92008D517B /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 07EFFD2C240E8E92008D517B /* Actions.sks */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		071B60C024111F860043B381 /* CGPathBlocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPathBlocks.swift; sourceTree = "<group>"; };
 		07EFFD25240E8E92008D517B /* testePhysics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testePhysics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07EFFD28240E8E92008D517B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		07EFFD2A240E8E92008D517B /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				07EFFD35240E8E97008D517B /* Assets.xcassets */,
 				07EFFD37240E8E97008D517B /* LaunchScreen.storyboard */,
 				07EFFD3A240E8E97008D517B /* Info.plist */,
+				071B60C024111F860043B381 /* CGPathBlocks.swift */,
 			);
 			path = testePhysics;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 			files = (
 				07EFFD2F240E8E92008D517B /* GameScene.swift in Sources */,
 				07EFFD31240E8E92008D517B /* GameViewController.swift in Sources */,
+				071B60C124111F860043B381 /* CGPathBlocks.swift in Sources */,
 				07EFFD29240E8E92008D517B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

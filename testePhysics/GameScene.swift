@@ -16,7 +16,7 @@ class GameScene: SKScene {
     var node: SKSpriteNode!
     
     
-    private let pieceArray = ["bar", "squad", "tareco", "tecoteco"]
+    private let pieceArray = ["bar", "square", "tareco", "teco"]
     
     override func didMove(to view: SKView) {
         
@@ -47,10 +47,11 @@ class GameScene: SKScene {
     func touchDown(atPoint pos : CGPoint) {
         //teco]
         
-        let texture = SKTexture(image: UIImage(named: pieceArray.randomElement()!)!)
+        let texture = SKTexture(image:
+            UIImage(named: pieceArray.randomElement()! + "_" +  ["1","2","3","4"].randomElement()!)!)
         let pieceNode = SKSpriteNode(texture: texture)
         
-        pieceNode.scale(to: node.size)
+        
         
         pieceNode.physicsBody = SKPhysicsBody(texture: pieceNode.texture!, size: pieceNode.size)
         
