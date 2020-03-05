@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		071B60C124111F860043B381 /* CGPathBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071B60C024111F860043B381 /* CGPathBlocks.swift */; };
+		071B60C124111F860043B381 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071B60C024111F860043B381 /* Block.swift */; };
+		0758202124112901008DE26F /* SquareBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0758202024112901008DE26F /* SquareBlock.swift */; };
+		07582023241129B7008DE26F /* BarBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07582022241129B7008DE26F /* BarBlock.swift */; };
+		0758202524112A36008DE26F /* TarecoBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0758202424112A36008DE26F /* TarecoBlock.swift */; };
+		0758202724112B1B008DE26F /* TecoBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0758202624112B1B008DE26F /* TecoBlock.swift */; };
 		07EFFD29240E8E92008D517B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EFFD28240E8E92008D517B /* AppDelegate.swift */; };
 		07EFFD2B240E8E92008D517B /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 07EFFD2A240E8E92008D517B /* GameScene.sks */; };
 		07EFFD2D240E8E92008D517B /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 07EFFD2C240E8E92008D517B /* Actions.sks */; };
@@ -19,7 +23,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		071B60C024111F860043B381 /* CGPathBlocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPathBlocks.swift; sourceTree = "<group>"; };
+		071B60C024111F860043B381 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		0758202024112901008DE26F /* SquareBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareBlock.swift; sourceTree = "<group>"; };
+		07582022241129B7008DE26F /* BarBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarBlock.swift; sourceTree = "<group>"; };
+		0758202424112A36008DE26F /* TarecoBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TarecoBlock.swift; sourceTree = "<group>"; };
+		0758202624112B1B008DE26F /* TecoBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TecoBlock.swift; sourceTree = "<group>"; };
 		07EFFD25240E8E92008D517B /* testePhysics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testePhysics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07EFFD28240E8E92008D517B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		07EFFD2A240E8E92008D517B /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -71,7 +79,11 @@
 				07EFFD35240E8E97008D517B /* Assets.xcassets */,
 				07EFFD37240E8E97008D517B /* LaunchScreen.storyboard */,
 				07EFFD3A240E8E97008D517B /* Info.plist */,
-				071B60C024111F860043B381 /* CGPathBlocks.swift */,
+				071B60C024111F860043B381 /* Block.swift */,
+				0758202024112901008DE26F /* SquareBlock.swift */,
+				07582022241129B7008DE26F /* BarBlock.swift */,
+				0758202424112A36008DE26F /* TarecoBlock.swift */,
+				0758202624112B1B008DE26F /* TecoBlock.swift */,
 			);
 			path = testePhysics;
 			sourceTree = "<group>";
@@ -149,10 +161,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0758202724112B1B008DE26F /* TecoBlock.swift in Sources */,
 				07EFFD2F240E8E92008D517B /* GameScene.swift in Sources */,
 				07EFFD31240E8E92008D517B /* GameViewController.swift in Sources */,
-				071B60C124111F860043B381 /* CGPathBlocks.swift in Sources */,
+				071B60C124111F860043B381 /* Block.swift in Sources */,
+				07582023241129B7008DE26F /* BarBlock.swift in Sources */,
 				07EFFD29240E8E92008D517B /* AppDelegate.swift in Sources */,
+				0758202524112A36008DE26F /* TarecoBlock.swift in Sources */,
+				0758202124112901008DE26F /* SquareBlock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -18,6 +18,10 @@ class GameScene: SKScene {
     
     private let pieceArray = ["bar", "square", "tareco", "teco"]
     
+    var textureCountArray = [1,2,3,4,5]
+    
+    var textureCount = 0
+    
     override func didMove(to view: SKView) {
         
          node = childNode(withName: "tareco") as! SKSpriteNode
@@ -48,7 +52,7 @@ class GameScene: SKScene {
         //teco]
         
         let texture = SKTexture(image:
-            UIImage(named: pieceArray.randomElement()! + "_" +  ["1","2","3","4"].randomElement()!)!)
+            UIImage(named: pieceArray.randomElement()! + "_" +  )!)
         let pieceNode = SKSpriteNode(texture: texture)
         
         
