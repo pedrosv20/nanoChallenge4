@@ -11,11 +11,28 @@ import SpriteKit
 import CoreGraphics
 
 class Block {
-    let path: CGMutablePath!
+    let node: SKSpriteNode
+    let path: CGMutablePath
     let texture: SKTexture
+    let type: BlockType
     
-    init(path: CGMutablePath, texture: String) {
+    init(path: CGMutablePath, texture: SKTexture, type: BlockType) {
+        self.type = type
         self.path = path
-        self.texture = SKTexture(imageNamed: texture)
+        self.texture = texture
+        self.node = SKSpriteNode(texture: texture)
+        configNode()
+    }
+    
+    func configNode() {
+        self.node.zPosition = 1
+        
+        self.node.physicsBody = SKPhysicsBody(polygonFrom: self.path)
+        
+        self.node.physicsBody?.affectedByGravity = true
+        self.node.physicsBody?.mass = 0.689066648483276
+        self.node.physicsBody?.friction = 1
+        self.node.physicsBody?.linearDamping = 3
+        
     }
 }

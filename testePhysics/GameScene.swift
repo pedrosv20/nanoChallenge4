@@ -15,8 +15,10 @@ class GameScene: SKScene {
     private var spinnyNode : SKShapeNode?
     var node: SKSpriteNode!
     
+    let builder = BlockBuilder()
     
-    private let pieceArray = ["bar", "square", "tareco", "teco"]
+    
+    private let pieceArray = ["bar", "square", "teco", "tareco"]
     
     var textureCountArray = [1,2,3,4,5]
     
@@ -24,48 +26,81 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         
-         node = childNode(withName: "tareco") as! SKSpriteNode
+         createLinesGride()
+
+    }
+    func createLinesGride(){
+        let spaceLines = CGFloat(50/1)
+
+        let screenSize = UIScreen.main.bounds
+        let screenWidth = screenSize.width
+        print("screenWidth: \(screenWidth)")
+        let numberGrids = Int(screenWidth / spaceLines) - 2
+        print("numberGrids: \(numberGrids)")
+
+        //line center
+        let centerLine = self.createLine(x: 0)
+        centerLine.strokeColor = .blue
+        addChild(centerLine)
         
-        // Get label node from scene and store it for use later
-//        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-//        if let label = self.label {
-//            label.alpha = 0.0
-//            label.run(SKAction.fadeIn(withDuration: 2.0))
-//        }
-//
-//        // Create shape node to use during mouse interaction
-//        let w = (self.size.width + self.size.height) * 0.05
-//        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-//
-//        if let spinnyNode = self.spinnyNode {
-//            spinnyNode.lineWidth = 2.5
-//
-//            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-//            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-//                                              SKAction.fadeOut(withDuration: 0.5),
-//                                              SKAction.removeFromParent()]))
-//        }
+        
+        for i in 1...numberGrids{
+            let x = CGFloat(i)*spaceLines
+            addChild(self.createLine(x: x))
+            addChild(self.createLine(x: -x))
+            
+        }
+        
+    }
+    
+    func createLine(x : CGFloat) -> SKShapeNode{
+        let line = SKShapeNode()
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLines(between: [CGPoint(x: x, y: 600), CGPoint(x: x, y: -600)])
+        line.path = path
+        line.strokeColor = .red
+        line.zPosition = 2
+    
+        return line
     }
     
     
     func touchDown(atPoint pos : CGPoint) {
         //teco]
+        let blockElement = pieceArray.randomElement()!
+        let blockElementPosition = pieceArray.firstIndex(of: blockElement)!
+        let texture = blockElement + "_" + (String((textureCount % 5) + 1))
         
-        let texture = SKTexture(image:
-            UIImage(named: pieceArray.randomElement()! + "_" +  )!)
-        let pieceNode = SKSpriteNode(texture: texture)
+        let block = builder.createBlock(texture: texture, path: BlockType.allCases[blockElementPosition])
         
         
+        print(block.type)
+        block.node.position = CGPoint(x: pos.x, y: 300 )
+        block.node.anchorPoint = CGPoint(x: 0, y: 1)
+        block.node.texture = nil
         
-        pieceNode.physicsBody = SKPhysicsBody(texture: pieceNode.texture!, size: pieceNode.size)
         
-        pieceNode.position = CGPoint(x: pos.x, y: 300 )
-        pieceNode.physicsBody?.affectedByGravity = true
-        pieceNode.physicsBody?.mass = 0.689066648483276
-        pieceNode.physicsBody?.linearDamping = 3
+        self.addChild(block.node)
         
-        self.addChild(pieceNode)
+        textureCount += 1
         
+//        pieceArray.randomElement()! + "_" + (String((textureCount % 5) + 1))
+//        textureCount += 1
+//        let node = SKSpriteNode(texture: texture)
+//        pieceNode.zPosition = 1
+//
+//
+//
+//        pieceNode.physicsBody = SKPhysicsBody(texture: pieceNode.texture!, size: pieceNode.size)
+//
+//        pieceNode.position = CGPoint(x: pos.x, y: 300 )
+//        pieceNode.physicsBody?.affectedByGravity = true
+//        pieceNode.physicsBody?.mass = 0.689066648483276
+//        pieceNode.physicsBody?.linearDamping = 3
+//
+//        self.addChild(pieceNode)
+//
         
     }
     
