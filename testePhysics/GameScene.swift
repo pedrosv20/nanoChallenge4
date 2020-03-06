@@ -77,8 +77,8 @@ class GameScene: SKScene {
         
         print(block.type)
         block.node.position = CGPoint(x: pos.x, y: 300 )
-        block.node.anchorPoint = CGPoint(x: 0, y: 1)
-        block.node.texture = nil
+//        block.node.anchorPoint = CGPoint(x: 0, y: 1)
+//        block.node.texture = nil
         
         
         self.addChild(block.node)

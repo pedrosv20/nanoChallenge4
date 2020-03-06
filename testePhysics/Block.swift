@@ -27,12 +27,16 @@ class Block {
     func configNode() {
         self.node.zPosition = 1
         
-        self.node.physicsBody = SKPhysicsBody(polygonFrom: self.path)
+//        self.node.physicsBody = SKPhysicsBody(texture: self.texture, size: self.node.size)
+        self.node.physicsBody = SKPhysicsBody(texture: self.node.texture!, alphaThreshold: 0.9, size: self.node.size)
         
+        self.node.physicsBody?.usesPreciseCollisionDetection = true
         self.node.physicsBody?.affectedByGravity = true
         self.node.physicsBody?.mass = 0.689066648483276
         self.node.physicsBody?.friction = 1
         self.node.physicsBody?.linearDamping = 3
+        
+        
         
     }
 }
