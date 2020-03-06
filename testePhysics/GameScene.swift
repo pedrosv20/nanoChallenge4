@@ -24,9 +24,13 @@ class GameScene: SKScene {
     
     var textureCount = 0
     
+    var didCollide = false
+    
+    var currentNode: SKNode!
+    
     override func didMove(to view: SKView) {
         
-         createLinesGride()
+//         createLinesGride()
 
     }
     func createLinesGride(){
@@ -65,43 +69,27 @@ class GameScene: SKScene {
         return line
     }
     
-    
-    func touchDown(atPoint pos : CGPoint) {
-        //teco]
+    func addBlockInScene() {
         let blockElement = pieceArray.randomElement()!
         let blockElementPosition = pieceArray.firstIndex(of: blockElement)!
         let texture = blockElement + "_" + (String((textureCount % 5) + 1))
+        
         
         let block = builder.createBlock(texture: texture, path: BlockType.allCases[blockElementPosition])
         
         
         print(block.type)
-        block.node.position = CGPoint(x: pos.x, y: 300 )
-        block.node.anchorPoint = CGPoint(x: 0, y: 1)
-        block.node.texture = nil
-        
-        
+        block.node.position = CGPoint(x: self.scene!.position.x, y: 300)
+//        block.node.anchorPoint = CGPoint(x: 0, y: 1)
+        self.currentNode = block.node
         self.addChild(block.node)
         
         textureCount += 1
-        
-//        pieceArray.randomElement()! + "_" + (String((textureCount % 5) + 1))
-//        textureCount += 1
-//        let node = SKSpriteNode(texture: texture)
-//        pieceNode.zPosition = 1
-//
-//
-//
-//        pieceNode.physicsBody = SKPhysicsBody(texture: pieceNode.texture!, size: pieceNode.size)
-//
-//        pieceNode.position = CGPoint(x: pos.x, y: 300 )
-//        pieceNode.physicsBody?.affectedByGravity = true
-//        pieceNode.physicsBody?.mass = 0.689066648483276
-//        pieceNode.physicsBody?.linearDamping = 3
-//
-//        self.addChild(pieceNode)
-//
-        
+    }
+    
+    func touchDown(atPoint pos : CGPoint) {
+
+        addBlockInScene()
     }
     
     func touchMoved(toPoint pos : CGPoint) {
@@ -135,5 +123,13 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+//        if !didCollide {
+//            addBlockInScene()
+//            didCollide = true
+//
+//        }
+//        if (self.currentNode.physicsBody?.allContactedBodies().count != 0) {
+//            didCollide = false
+//        }
     }
 }
