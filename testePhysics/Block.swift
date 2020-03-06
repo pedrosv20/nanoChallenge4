@@ -27,6 +27,7 @@ class Block {
     func configNode() {
         self.node.zPosition = 1
         
+
      
         
 //        self.node.physicsBody = SKPhysicsBody(polygonFrom: self.path)
@@ -37,13 +38,20 @@ class Block {
         
         self.node.anchorPoint = CGPoint(x:0, y: 1)
         self.node.physicsBody = physic
-        
-        self.node.physicsBody?.affectedByGravity = true
-        self.node.physicsBody?.mass = 0.689066648483276
-        self.node.physicsBody?.friction = 1
-        self.node.physicsBody?.usesPreciseCollisionDetection = true
-        self.node.physicsBody?.linearDamping = 3
 
+        self.node.physicsBody = SKPhysicsBody(texture: self.texture, size: self.node.size)
+//        self.node.physicsBody = SKPhysicsBody(polygonFrom: self.path)
+
+        
+//        self.node.physicsBody?.usesPreciseCollisionDetection = true
+//        self.node.physicsBody?.affectedByGravity = true
+//        self.node.physicsBody?.mass = 0.689066648483276
+//        self.node.physicsBody?.friction = 1
+//        self.node.physicsBody?.usesPreciseCollisionDetection = true
+//        self.node.physicsBody?.linearDamping = 3
+
+        
+        
         
     }
 }

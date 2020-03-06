@@ -23,14 +23,16 @@ class GameScene: SKScene {
     var textureCountArray = [1,2,3,4,5]
     
     var textureCount = 0
-    
+
     var didCollide = false
     
     var currentNode: SKNode!
     
+    let grid = 25
+    
     override func didMove(to view: SKView) {
         
-//         createLinesGride()
+         createLinesGride()
 
     }
     func createLinesGride(){
@@ -69,6 +71,7 @@ class GameScene: SKScene {
         return line
     }
     
+
     func addBlockInScene() {
         let blockElement = pieceArray.randomElement()!
         let blockElementPosition = pieceArray.firstIndex(of: blockElement)!
@@ -79,6 +82,7 @@ class GameScene: SKScene {
         
         
         print(block.type)
+
         block.node.position = CGPoint(x: self.scene!.position.x, y: 300)
 //        block.node.anchorPoint = CGPoint(x: 0, y: 1)
         self.currentNode = block.node
@@ -90,14 +94,34 @@ class GameScene: SKScene {
     func touchDown(atPoint pos : CGPoint) {
 
         addBlockInScene()
+
     }
     
     func touchMoved(toPoint pos : CGPoint) {
-
+        
+        let newPosition = Double((Int(pos.x)%self.grid)*self.grid).rounded()
+        print("actual position: \(pos.x)    :   position grid: \(newPosition)")
     }
     
     func touchUp(atPoint pos : CGPoint) {
 
+    }
+    
+    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+            if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+                switch swipeGesture.direction {
+                case UISwipeGestureRecognizer.Direction.right:
+                    print("Swiped right")
+                case UISwipeGestureRecognizer.Direction.down:
+                    print("Swiped down")
+                case UISwipeGestureRecognizer.Direction.left:
+                    print("Swiped left")
+                case UISwipeGestureRecognizer.Direction.up:
+                    print("Swiped up")
+                default:
+                    break
+                }
+            }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
