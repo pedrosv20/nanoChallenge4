@@ -24,32 +24,9 @@ class GameScene: SKScene {
     
     var textureCount = 0
     
+    let grid = 25
+    
     override func didMove(to view: SKView) {
-        
-         createLinesGride()
-
-    }
-    func createLinesGride(){
-        let spaceLines = CGFloat(50/1)
-
-        let screenSize = UIScreen.main.bounds
-        let screenWidth = screenSize.width
-        print("screenWidth: \(screenWidth)")
-        let numberGrids = Int(screenWidth / spaceLines) - 2
-        print("numberGrids: \(numberGrids)")
-
-        //line center
-        let centerLine = self.createLine(x: 0)
-        centerLine.strokeColor = .blue
-        addChild(centerLine)
-        
-        
-        for i in 1...numberGrids{
-            let x = CGFloat(i)*spaceLines
-            addChild(self.createLine(x: x))
-            addChild(self.createLine(x: -x))
-            
-        }
         
     }
     
@@ -67,6 +44,7 @@ class GameScene: SKScene {
     
     
     func touchDown(atPoint pos : CGPoint) {
+        /*
         //teco]
         let blockElement = pieceArray.randomElement()!
         let blockElementPosition = pieceArray.firstIndex(of: blockElement)!
@@ -77,7 +55,7 @@ class GameScene: SKScene {
         
         print(block.type)
         block.node.position = CGPoint(x: pos.x, y: 300 )
-//        block.node.anchorPoint = CGPoint(x: 0, y: 1)
+        block.node.anchorPoint = CGPoint(x: 0, y: 1)
 //        block.node.texture = nil
         
         
@@ -101,15 +79,34 @@ class GameScene: SKScene {
 //
 //        self.addChild(pieceNode)
 //
-        
+        */
     }
     
     func touchMoved(toPoint pos : CGPoint) {
-
+        
+        let newPosition = Double((Int(pos.x)%self.grid)*self.grid).rounded()
+        print("actual position: \(pos.x)    :   position grid: \(newPosition)")
     }
     
     func touchUp(atPoint pos : CGPoint) {
 
+    }
+    
+    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+            if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+                switch swipeGesture.direction {
+                case UISwipeGestureRecognizer.Direction.right:
+                    print("Swiped right")
+                case UISwipeGestureRecognizer.Direction.down:
+                    print("Swiped down")
+                case UISwipeGestureRecognizer.Direction.left:
+                    print("Swiped left")
+                case UISwipeGestureRecognizer.Direction.up:
+                    print("Swiped up")
+                default:
+                    break
+                }
+            }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
