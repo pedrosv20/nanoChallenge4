@@ -12,43 +12,66 @@ import CoreGraphics
 
 class Block {
     let node: SKSpriteNode
-    let path: CGMutablePath
     let texture: SKTexture
+    
     let type: BlockType
     
-    init(path: CGMutablePath, texture: SKTexture, type: BlockType) {
+    let tarecoPath = SKTexture(imageNamed: "tarecoPath")
+    let tecoPath = SKTexture(imageNamed: "tecoPath")
+    let barPath = SKTexture(imageNamed: "barPath")
+    let squarePath = SKTexture(imageNamed: "squarePath")
+    
+    let tarecoSize = CGSize(width: 145.82, height: 95.96)
+    let tecoSize = CGSize(width: 145.93, height: 95.99)
+    let barSize = CGSize(width: 194.02, height: 45.08)
+    let squareSize = CGSize(width: 96, height: 95.79)
+    
+    
+    init(texture: SKTexture, type: BlockType) {
         self.type = type
-        self.path = path
         self.texture = texture
         self.node = SKSpriteNode(texture: texture)
-        configNode()
+        
+        
+        
+        self.configNode(nodeTexture: texture)
+        
     }
     
-    func configNode() {
-        self.node.zPosition = 1
+    func configNode(nodeTexture: SKTexture) {
+        var physicsTexture: SKTexture? = nil
+        var textureSize: CGSize? = nil
+        switch type {
+        case .Bar:
+            physicsTexture = barPath
+            textureSize = barSize
+            break
+        case .Square:
+            physicsTexture = squarePath
+            textureSize = squareSize
+            break
+        case .Tareco:
+            physicsTexture = tarecoPath
+            textureSize = tarecoSize
+            break
+        case .Teco:
+            physicsTexture = tecoPath
+            textureSize = tecoSize
+            break
+            
+        }
+        self.node.zPosition = 2
         
+        self.node.physicsBody = SKPhysicsBody(texture: physicsTexture!, size: textureSize!)
+ 
+        self.node.physicsBody?.usesPreciseCollisionDetection = true
+        self.node.physicsBody?.affectedByGravity = true
+        self.node.physicsBody?.mass = 0.2
+        self.node.physicsBody?.friction = 1
+        self.node.physicsBody?.linearDamping = 10
+        self.node.physicsBody?.restitution = 0.01
 
-     
         
-//        self.node.physicsBody = SKPhysicsBody(polygonFrom: self.path)
-        let physic =  SKPhysicsBody(polygonFrom: self.path)
-        self.node.anchorPoint = CGPoint(x:0.5, y: 0.5)
-        
-        self.node.scale(to: CGSize(width: node.size.width * 1.1, height: node.size.height * 1.1))
-        
-        self.node.anchorPoint = CGPoint(x:0, y: 1)
-        self.node.physicsBody = physic
-
-        self.node.physicsBody = SKPhysicsBody(texture: self.texture, size: self.node.size)
-//        self.node.physicsBody = SKPhysicsBody(polygonFrom: self.path)
-
-        
-//        self.node.physicsBody?.usesPreciseCollisionDetection = true
-//        self.node.physicsBody?.affectedByGravity = true
-//        self.node.physicsBody?.mass = 0.689066648483276
-//        self.node.physicsBody?.friction = 1
-//        self.node.physicsBody?.usesPreciseCollisionDetection = true
-//        self.node.physicsBody?.linearDamping = 3
 
         
         

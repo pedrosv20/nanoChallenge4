@@ -44,12 +44,12 @@ class PathHelper {
         pathSquare.closeSubpath()
 
 
-        pathTeco.addLines(between: [CGPoint(x: 0, y: 0),
-                                      CGPoint(x: 100, y: 0),
-                                      CGPoint(x: 100, y: -50),
-                                      CGPoint(x: 150, y: -50),
-                                      CGPoint(x: 150, y: -100),
-                                      CGPoint(x: 50, y: -100),
+        pathTeco.addLines(between: [CGPoint(x: 2, y: -2),
+                                      CGPoint(x: -98, y: -2),
+                                      CGPoint(x: -98, y: -52),
+                                      CGPoint(x: 148, y: -52),
+                                      CGPoint(x: 148, y: -98),
+                                      CGPoint(x: 50, y: -98),
                                       CGPoint(x: 50, y: -50),
                                       CGPoint(x: 0, y: -50), CGPoint(x: 0, y: 0)])
 //        pathTeco.closeSubpath()
