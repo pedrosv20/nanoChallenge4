@@ -14,6 +14,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     var node: SKSpriteNode!
+    var cam = SKCameraNode()
+    var blocksList :[SKNode] = []
+    var maxY : CGFloat?
+    var distance : CGFloat = 0.0
     
     let builder = BlockBuilder()
     var minTick = 0
@@ -51,11 +55,13 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     
     override func didMove(to view: SKView) {
+//        self.cam = self.camera
+        self.camera = self.cam
         
         background = childNode(withName: "background") as! SKSpriteNode
         
         background!.zPosition = 0
-        createLinesGride()
+//        createLinesGride()
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestured))
         panGesture.delegate = self
         self.view?.addGestureRecognizer(panGesture)
@@ -76,41 +82,41 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         return true
     }
 
-    func createLinesGride(){
-        let spaceLines = CGFloat(50/1)
-        
-        let screenSize = UIScreen.main.bounds
-        let screenWidth = screenSize.width
-//        print("screenWidth: \(screenWidth)")
-        let numberGrids = Int(screenWidth / spaceLines) - 2
-//        print("numberGrids: \(numberGrids)")
-        
-        //line center
-        let centerLine = self.createLine(x: 0)
-        centerLine.strokeColor = .blue
-        //        addChild(centerLine)
-        
-        
-        for i in 1...numberGrids{
-            let x = CGFloat(i)*spaceLines
-            addChild(self.createLine(x: x))
-            addChild(self.createLine(x: -x))
-            
-        }
-        
-    }
+//    func createLinesGride(){
+//        let spaceLines = CGFloat(50/1)
+//
+//        let screenSize = UIScreen.main.bounds
+//        let screenWidth = screenSize.width
+////        print("screenWidth: \(screenWidth)")
+//        let numberGrids = Int(screenWidth / spaceLines) - 2
+////        print("numberGrids: \(numberGrids)")
+//
+//        //line center
+//        let centerLine = self.createLine(x: 0)
+//        centerLine.strokeColor = .blue
+//        //        addChild(centerLine)
+//
+//
+//        for i in 1...numberGrids{
+//            let x = CGFloat(i)*spaceLines
+//            addChild(self.createLine(x: x))
+//            addChild(self.createLine(x: -x))
+//
+//        }
+//
+//    }
     
-    func createLine(x : CGFloat) -> SKShapeNode{
-        let line = SKShapeNode()
-        let path = CGMutablePath()
-        path.move(to: CGPoint(x: 0, y: 0))
-        path.addLines(between: [CGPoint(x: x, y: 600), CGPoint(x: x, y: -600)])
-        line.path = path
-        line.strokeColor = .red
-        line.zPosition = 2
-        
-        return line
-    }
+//    func createLine(x1 : CGFloat, x2 :CGFloat, y1 :CGFloat, y2 :CGFloat) -> SKShapeNode{
+//        let line = SKShapeNode()
+//        let path = CGMutablePath()
+//        path.move(to: CGPoint(x: 0, y: 0))
+//        path.addLines(between: [CGPoint(x: x1, y: y1), CGPoint(x: x2, y: y2)])
+//        line.path = path
+//        line.strokeColor = .red
+//        line.zPosition = 2
+//
+//        return line
+//    }
     
     func addBlockInScene() {
         self.isFalling = true
@@ -119,6 +125,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         let texture = blockElement + "_" + (String((textureCount % 5) + 1))
 //        print("teste", texture)
         let block = builder.createBlock(texture: texture, path: BlockType.allCases[blockElementPosition])
+        
         
         block.node.position = CGPoint(x: self.scene!.position.x, y: 400)
         
@@ -132,6 +139,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         
         self.addChild(self.currentNode!)
         self.addChild(guideRectangle!)
+        
+        //MARK: ADD ARRAY BLOCKS
+//        self.blocksList.append(self.currentNode!)
         
         
         textureCount += 1
@@ -227,6 +237,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         if self.currentNode != nil {
             
             if (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Polygon"))! || (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Rectangle"))! || (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Compound"))!  {
+
+                //MARK: ADD ARRAY BLOCKS
+                self.blocksList.append(self.currentNode!)
                 
                 self.currentNode?.removeAllChildren()
                 self.currentNode = nil
@@ -237,6 +250,8 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 
             else if self.currentNode!.position.y <= CGFloat(-600) {
 //                print("xobla")
+                blocksList.remove(at: blocksList.firstIndex(of: self.currentNode!)!)
+                
                 self.currentNode?.removeAllChildren()
                 self.removeChildren(in: [self.currentNode!])
                 self.currentNode = nil
@@ -246,6 +261,34 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             }
             
         }
+    }
+    
+    //MARK: UPDATE CAMERA
+    func updateCamera(){
+        
+        let roler :CGFloat = self.frame.minY + (self.frame.height/3)
+        
+            if(self.maxY != nil){
+                var positions :[CGFloat] = [roler]
+                for block in self.blocksList{
+//                    if((block.physicsBody?.velocity.dy)! > CGFloat(-19)){
+//                        positions.append(block.position.y + (block.frame.height/2))
+//                    }
+                    positions.append(block.position.y + (block.frame.height/2))
+                }
+                self.maxY = positions.max()
+            }else{
+                self.maxY = roler
+            }
+        
+        if(self.maxY! > roler){
+            self.distance = self.maxY! - roler
+            
+            
+        }
+        
+        
+        
     }
     
     var beganPosition : CGPoint = .zero
@@ -382,6 +425,25 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     //    }
     
     override func update(_ currentTime: TimeInterval) {
+
+        print(self.currentNode?.physicsBody?.velocity)
+        self.updateCamera()
+        
+        if(self.maxY != nil){
+            
+            if((self.cam.position.y) < self.distance){
+                //subir camera
+                self.cam.position.y += 1
+                if(self.cam.position.y > self.distance){
+                    self.cam.position.y = self.distance
+                }
+            }else{
+                self.cam.position.y -= 1
+                if(self.cam.position.y < self.distance){
+                    self.cam.position.y = self.distance
+                }
+            }
+        }
         
         minTick += 1
         if minTick >= maxTick {
