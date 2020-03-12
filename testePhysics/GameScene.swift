@@ -14,48 +14,49 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     var node: SKSpriteNode!
-    
     let builder = BlockBuilder()
     var minTick = 0
     let maxTick = 60
-    
     private let pieceArray = ["bar", "square", "teco", "tareco"]
-    
     var textureCountArray = [1,2,3,4,5]
-    
     var textureCount = 0
-    
     var isFalling = false
-    
     var currentNode: SKNode?
-    
     let grid = 25
-    
     var guideRectangle: SKShapeNode?
-    
     var background: SKNode?
-    
     var rotated = false
-    
-    //    var touchTimer: Timer?
-    
     var touchStart: DispatchTime!
-    
     var touchEnd: DispatchTime!
-    
     var startPos: CGFloat!
-    
     var panGesture: UIPanGestureRecognizer!
-    
     var didSwipe = false
+    var playEnable = false
+    var labelPlay: SKLabelNode?
+    var baseNode: SKNode?
     
+    var minTickIntro = 0
+    var maxTickIntro = 20
+    
+    var introArray: [SKNode] = []
     
     override func didMove(to view: SKView) {
         
         background = childNode(withName: "background") as! SKSpriteNode
-        
         background!.zPosition = 0
-        createLinesGride()
+       
+        baseNode = childNode(withName: "baseNode") as! SKSpriteNode
+        
+        baseNode!.zPosition = 1
+        baseNode?.physicsBody?.isDynamic = false
+        
+        labelPlay = (childNode(withName: "playLabel") as! SKLabelNode)
+        let fadeIn = SKAction.fadeIn(withDuration: 0.5)
+        let fadeOut = SKAction.fadeOut(withDuration: 0.5)
+        let sequence  = SKAction.sequence([fadeIn,fadeOut])
+        labelPlay?.run(SKAction.repeatForever(sequence))
+        labelPlay?.zPosition = 4
+        
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestured))
         panGesture.delegate = self
         self.view?.addGestureRecognizer(panGesture)
@@ -67,7 +68,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     }
     
     @objc func handleSwipeDown() {
-        print("Swipe Down")
         dropBlock()
     }
 
@@ -119,8 +119,12 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         let texture = blockElement + "_" + (String((textureCount % 5) + 1))
 //        print("teste", texture)
         let block = builder.createBlock(texture: texture, path: BlockType.allCases[blockElementPosition])
+        let xPos = CGFloat.random(in: (self.scene!.position.x - 200) ..< (self.scene!.position.x + 200))
         
-        block.node.position = CGPoint(x: self.scene!.position.x, y: 400)
+        let maxX = self.view!.bounds.width/2 + block.node.size.width/2
+        let minX = -1 * maxX
+        
+        block.node.position = CGPoint(x: round(min(max(minX, xPos), maxX)), y: 400)
         
         self.currentNode = block.node
         
@@ -128,6 +132,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         guideRectangle?.zPosition = 1
         guideRectangle!.fillColor = .blue
         guideRectangle!.alpha = 0.3
+        guideRectangle?.position.x = self.currentNode!.position.x
         
         
         self.addChild(self.currentNode!)
@@ -138,8 +143,29 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         
     }
     
+    func addBlockInSceneIntro() {
+        self.isFalling = true
+        let blockElement = pieceArray.randomElement()!
+        let blockElementPosition = pieceArray.firstIndex(of: blockElement)!
+        let texture = blockElement + "_" + (String((textureCount % 5) + 1))
+        //        print("teste", texture)
+        let block = builder.createBlock(texture: texture, path: BlockType.allCases[blockElementPosition])
+        let xPos = CGFloat.random(in: (self.scene!.position.x - 200) ..< (self.scene!.position.x + 200))
+        
+        let maxX = self.view!.bounds.width/2 + block.node.size.width/2
+        let minX = -1 * maxX
+        
+        block.node.position = CGPoint(x: round(min(max(minX, xPos), maxX)), y: 400)
+        block.node.physicsBody = nil
+        block.node.run(SKAction.moveTo(y: (self.camera?.position.y)! - 100, duration: 0.5))
+         d 
+        addChild(block.node)
+        textureCount += 1
+        introArray.append(block.node)
+        
+    }
+    
     func touchDown(atPoint pos : CGPoint) {
-//        print("entrou down")
         touchStart = DispatchTime.now()
     }
     
@@ -151,13 +177,18 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         
 //        print("entrou up \(getElapsedTime(touchStart: touchStart))")
         if getElapsedTime(touchStart: touchStart) <= 0.15 {
+            if !playEnable {
+                playEnable = true
+            } else {
             print("1 \(didSwipe)")
             if didSwipe == false {
                 print("2")
+                
                 rotateBlock()
             }
             
             didSwipe = false
+            }
         }
     }
     
@@ -383,15 +414,40 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         
-        minTick += 1
-        if minTick >= maxTick {
-            if !isFalling {
-                addBlockInScene()
+        if playEnable {
+            baseNode?.physicsBody?.isDynamic = true
+            baseNode?.alpha = 1
+            if !introArray.isEmpty {
+                for i in introArray {
+                    i.removeFromParent()
+                }
             }
-            minTick = 0
+            labelPlay?.removeFromParent()
+            minTick += 1
+            if minTick >= maxTick {
+                
+                if !isFalling {
+                    addBlockInScene()
+                }
+                
+                
+                minTick = 0
+            }
+            if currentNode?.physicsBody != nil {
+                checkCollision()
+            }
+            
+        } else {
+            baseNode?.alpha = 0
+            minTickIntro += 1
+            if minTickIntro >= maxTickIntro {
+                minTickIntro = 0
+                addBlockInSceneIntro()
+            }
+            
+            
         }
-        if currentNode?.physicsBody != nil {
-            checkCollision()
-        }
+        
+        
     }
 }

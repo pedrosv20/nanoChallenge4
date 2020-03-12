@@ -22,7 +22,7 @@ class Block {
     let squarePath = SKTexture(imageNamed: "squarePath")
     
     let tarecoSize = CGSize(width: 145.78, height: 95.83)
-    let tecoSize = CGSize(width: 145.88, height: 95.95)
+    let tecoSize = CGSize(width: 144.91, height: 95.95)
     let barSize = CGSize(width: 194.02, height: 45.08)
     let squareSize = CGSize(width: 96, height: 95.79)
     
@@ -66,10 +66,10 @@ class Block {
  
         self.node.physicsBody?.usesPreciseCollisionDetection = true
         self.node.physicsBody?.affectedByGravity = true
-        self.node.physicsBody?.mass = 0.2
+        self.node.physicsBody?.mass = 1
         self.node.physicsBody?.friction = 1
         self.node.physicsBody?.linearDamping = 10
-        self.node.physicsBody?.restitution = 0.01
+        self.node.physicsBody?.restitution = 0.001
 
         
 
