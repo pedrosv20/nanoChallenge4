@@ -129,25 +129,33 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         let blockElementPosition = pieceArray.firstIndex(of: blockElement)!
         let texture = blockElement + "_" + (String((textureCount % 5) + 1))
 //        print("teste", texture)
-        let block = builder.createBlock(texture: texture, path: BlockType.allCases[blockElementPosition])
+        let block = builder.createBlock(texture: texture,
+                                        path: BlockType.allCases[blockElementPosition])
+        
         let xPos = CGFloat.random(in: (self.scene!.position.x - 200) ..< (self.scene!.position.x + 200))
         
 
         let maxX = self.view!.bounds.width/2 + block.node.size.width/2
         let minX = -1 * maxX
         
-        let maxY = self.view!.bounds.height/2
+        let maxY = 400 +  self.cam.position.y
+        let newX = round(min(max(minX, xPos), maxX))
         
-        block.node.position = CGPoint(x: round(min(max(minX, xPos), maxX)), y: maxY)
+        block.node.position = CGPoint(x: newX ,
+                                      y: maxY)
 
         
         self.currentNode = block.node
         
-        guideRectangle = SKShapeNode(rect: CGRect(x: 0 - block.node.size.width / 2, y: -self.frame.height/2, width: block.node.size.width, height: self.frame.height))
+        guideRectangle = SKShapeNode(rect: CGRect(x: 0 - block.node.size.width / 2,
+                                                  y: -self.frame.height/2,
+                                                  width: block.node.size.width,
+                                                  height: self.frame.height))
         guideRectangle?.zPosition = 1
         guideRectangle!.fillColor = .blue
         guideRectangle!.alpha = 0.3
         guideRectangle?.position.x = self.currentNode!.position.x
+        
         
         
         self.addChild(self.currentNode!)
@@ -197,9 +205,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             if !playEnable {
                 playEnable = true
             } else {
-            print("1 \(didSwipe)")
+            
             if didSwipe == false {
-                print("2")
+                
                 
                 rotateBlock()
             }
@@ -368,7 +376,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
   
     override func update(_ currentTime: TimeInterval) {
         
-        print(self.cam.position.y)
+        print("cam", self.cam.position.y)
+        print("bounds", self.view?.bounds)
+        print("self", self.size)
         
         
         if playEnable {
@@ -384,7 +394,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             gameName?.removeFromParent()
             minTick += 1
             if minTick >= maxTick {
-                print(isFalling)
                 if !isFalling {
                     addBlockInScene()
                 }
@@ -410,6 +419,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                     if(self.cam.position.y < self.distance){
                         self.cam.position.y = self.distance
                     }
+                }
+                if guideRectangle != nil {
+                    guideRectangle!.position.y = (self.camera?.position.y)!
                 }
             }
         } else {
