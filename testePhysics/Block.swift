@@ -23,8 +23,8 @@ class Block {
     
     let tarecoSize = CGSize(width: 146, height: 95.88)
     let tecoSize = CGSize(width: 145.96, height: 96.02)
-    let barSize = CGSize(width: 194.02, height: 45.08)
-    let squareSize = CGSize(width: 96, height: 95.79)
+    let barSize = CGSize(width: 194.73, height: 46.18)
+    let squareSize = CGSize(width: 95.9, height: 95.99)
     
     
     init(texture: SKTexture, type: BlockType) {
