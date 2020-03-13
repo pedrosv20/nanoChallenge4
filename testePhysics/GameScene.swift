@@ -36,7 +36,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     var panGesture: UIPanGestureRecognizer!
     var didSwipe = false
     var playEnable = false
-    var labelPlay: SKLabelNode?
+    var labelPlay: SKSpriteNode?
     var baseNode: SKNode?
     
     var minTickIntro = 0
@@ -44,7 +44,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     var introArray: [SKNode] = []
     
-    var gameName: SKLabelNode?
+    var gameName: SKSpriteNode?
     
     var lifes = 3
     
@@ -52,7 +52,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
 //        self.cam = self.camera
         self.camera = self.cam
         
-        gameName = childNode(withName: "nameLabel") as! SKLabelNode
+        gameName = childNode(withName: "nameLabel") as! SKSpriteNode
         gameName?.zPosition = 2
         
         background = childNode(withName: "background") as! SKSpriteNode
@@ -63,7 +63,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         baseNode!.zPosition = 2
         baseNode?.physicsBody?.isDynamic = false
         
-        labelPlay = (childNode(withName: "playLabel") as! SKLabelNode)
+        labelPlay = (childNode(withName: "playLabel") as! SKSpriteNode)
         let fadeIn = SKAction.fadeIn(withDuration: 0.5)
         let fadeOut = SKAction.fadeOut(withDuration: 0.5)
         let sequence  = SKAction.sequence([fadeIn,fadeOut])
