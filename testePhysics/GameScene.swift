@@ -47,6 +47,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     
     var lifes = 3
+    var lifeInGame: SKLabelNode?
+    var scoreInGame: SKLabelNode?
+    
     
     var mist: SKNode?
     var nameLabel: SKNode?
@@ -96,7 +99,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         
         layerScore = childNode(withName: "layerScore") as! SKSpriteNode
         
+        mist = childNode(withName: "mist") as! SKSpriteNode
         
+        lifeInGame = (childNode(withName: "lifeInGame") as! SKLabelNode)
+        scoreInGame = (childNode(withName: "scoreInGame") as! SKLabelNode)
     }
     @objc func handleSwipeDown() {
         dropBlock()
@@ -421,7 +427,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 
             }
         }
-        
+        if Int(highestY + 15) < 0 {
+            return 0
+        }
         return Int(highestY + 15)
     }
     
@@ -439,13 +447,25 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                     i.removeFromParent()
                 }
             }
+            if !self.children.contains(lifeInGame!) {
+                self.addChild(lifeInGame!)
+            }
+            if !self.children.contains(scoreInGame!) {
+                self.addChild(scoreInGame!)
+            }
             
+            lifeInGame?.text = "life: \(getLifes())"
+            scoreInGame?.text = "score: \(returnScore())m"
+            
+            lifeInGame?.zPosition = 2
+            scoreInGame?.zPosition = 2
             
             baseNode?.alpha = 1
+            baseNode?.zPosition = 1
             playLabel?.removeFromParent()
             nameLabel?.removeFromParent()
             layerScore?.removeFromParent()
-            
+            self.mist?.zPosition  = 3
             
             minTick += 1
             if minTick >= maxTick {
@@ -479,7 +499,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                     }
                 }
                 if guideRectangle != nil {
-                    guideRectangle!.position.y = (self.camera?.position.y)!
+                    guideRectangle!.position.y = (self.cam.position.y)
+                    self.mist?.position.y = self.cam.position.y - self.frame.height / 2 + 80
+                    self.lifeInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 100
+                    self.scoreInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 100
                     
                 }
             }
@@ -515,9 +538,18 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             
         } else { //tela inicial
             
-            baseNode?.alpha = 0
-            self.cam.position.y = 0
+            if self.children.contains(scoreInGame!) {
+                scoreInGame!.removeFromParent()
+            }
+            if self.children.contains(lifeInGame!) {
+                lifeInGame?.removeFromParent()
+            }
             
+            
+            baseNode?.alpha = 0
+            
+            self.cam.position.y = 0
+            self.mist?.zPosition  = 1
             if !self.children.contains(playLabel!) {
                 self.addChild(playLabel!)
             }
@@ -527,8 +559,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             if !self.children.contains(layerScore!) {
                 addChild(layerScore!)
                 labelScore = (layerScore!.children.first as! SKLabelNode)
+                layerScore?.zPosition = 2
                 labelScore!.text = "\(UserInfo.shared.highScore)m"
-                labelScore?.zPosition = layerScore!.zPosition + 1
+                labelScore?.zPosition = layerScore!.zPosition + 2
                 
             }
 
