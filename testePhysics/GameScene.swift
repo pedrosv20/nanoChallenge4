@@ -11,8 +11,7 @@ import GameplayKit
 
 class GameScene: SKScene, UIGestureRecognizerDelegate {
     
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
+
     var node: SKSpriteNode!
     var cam = SKCameraNode()
     var blocksList :[SKNode] = []
@@ -36,40 +35,30 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     var panGesture: UIPanGestureRecognizer!
     var didSwipe = false
     var playEnable = false
-    var labelPlay: SKSpriteNode?
+    
     var baseNode: SKNode?
+    var highestY: CGFloat = -600
     
     var minTickIntro = 0
     var maxTickIntro = 20
     
     var introArray: [SKNode] = []
     
-    var gameName: SKSpriteNode?
+    
     
     var lifes = 3
+    
+    var mist: SKNode?
+    var nameLabel: SKNode?
+    var playLabel: SKNode?
+    var layerScore: SKNode?
     
     override func didMove(to view: SKView) {
 //        self.cam = self.camera
         self.camera = self.cam
         
-        gameName = childNode(withName: "nameLabel") as! SKSpriteNode
-        gameName?.zPosition = 2
+        setupUI()
         
-        background = childNode(withName: "background") as! SKSpriteNode
-        background!.zPosition = 0
-       
-        baseNode = childNode(withName: "baseNode") as! SKSpriteNode
-        
-        baseNode!.zPosition = 2
-        baseNode?.physicsBody?.isDynamic = false
-        
-        labelPlay = (childNode(withName: "playLabel") as! SKSpriteNode)
-        let fadeIn = SKAction.fadeIn(withDuration: 0.5)
-        let fadeOut = SKAction.fadeOut(withDuration: 0.5)
-        let sequence  = SKAction.sequence([fadeIn,fadeOut])
-        labelPlay?.run(SKAction.repeatForever(sequence))
-        labelPlay?.zPosition = 4
-
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestured))
         panGesture.delegate = self
         self.view?.addGestureRecognizer(panGesture)
@@ -79,7 +68,33 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         swipe.direction = .down
         self.view?.addGestureRecognizer(swipe)
     }
-    
+    func setupUI() {
+        
+        nameLabel = childNode(withName: "nameLabel") as! SKSpriteNode
+        
+        nameLabel?.zPosition = 2
+        
+        background = childNode(withName: "background") as! SKSpriteNode
+        
+        background!.zPosition = 0
+        
+        baseNode = childNode(withName: "baseNode") as! SKSpriteNode
+        
+        baseNode!.zPosition = 2
+        
+        baseNode?.physicsBody?.isDynamic = false
+        
+        playLabel = (childNode(withName: "playLabel") as! SKSpriteNode)
+        
+        let fadeIn = SKAction.fadeIn(withDuration: 0.6)
+        let fadeOut = SKAction.fadeOut(withDuration: 0.7)
+        let sequence  = SKAction.sequence([fadeIn,fadeOut])
+        
+        playLabel?.run(SKAction.repeatForever(sequence))
+        playLabel?.zPosition = 4
+        
+        layerScore = childNode(withName: "layerScore") as! SKSpriteNode
+    }
     @objc func handleSwipeDown() {
         dropBlock()
     }
@@ -205,6 +220,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
 //        print("entrou up \(getElapsedTime(touchStart: touchStart))")
         if getElapsedTime(touchStart: touchStart) <= 0.15 {
             if !playEnable {
+                self.cam.position.y = 0
                 playEnable = true
             } else {
             
@@ -341,6 +357,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 }
                 self.maxY = positions.max()
             }else{
+                print("tey", self.frame.minY + self.frame.height / 3)
                 self.maxY = roler
             }
         
@@ -394,7 +411,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     }
     
     func returnScore() -> Int{
-        var highestY: CGFloat = -600
+        
         for block in blocksList {
             if block.position.y / 40 > highestY {
                 highestY = block.position.y / 40
@@ -410,7 +427,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
   
     override func update(_ currentTime: TimeInterval) {
         
-      
+        print(self.cam.position.y)
         print(returnScore())
         
         if playEnable { //game
@@ -422,9 +439,13 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                     i.removeFromParent()
                 }
             }
+            
+            
             baseNode?.alpha = 1
-            labelPlay?.removeFromParent()
-            gameName?.removeFromParent()
+            playLabel?.removeFromParent()
+            nameLabel?.removeFromParent()
+            layerScore?.removeFromParent()
+            
             minTick += 1
             if minTick >= maxTick {
                 if !isFalling {
@@ -458,7 +479,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                     
                 }
             }
-            if getLifes() <= 0 {
+            if getLifes() <= 0 { //gameOver
                 if self.currentNode != nil {
                     currentNode?.removeFromParent()
                 }
@@ -471,18 +492,29 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 if !blocksList.isEmpty {
                     for block in blocksList {
                         block.removeFromParent()
+                        
                     }
+                    blocksList.removeAll()
                 }
+                maxY = 0
+                highestY = -600
+                distance = 0.0
+                self.cam.position.y = 0
             }
             
         } else { //tela inicial
             
             baseNode?.alpha = 0
-            if !self.children.contains(labelPlay!) {
-                self.addChild(labelPlay!)
+            self.cam.position.y = 0
+            
+            if !self.children.contains(playLabel!) {
+                self.addChild(playLabel!)
             }
-            if !self.children.contains(gameName!) {
-                addChild(gameName!)
+            if !self.children.contains(nameLabel!) {
+                addChild(nameLabel!)
+            }
+            if !self.children.contains(layerScore!) {
+                addChild(layerScore!)
             }
             
 

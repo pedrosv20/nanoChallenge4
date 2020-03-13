@@ -68,7 +68,7 @@ class Block {
         self.node.physicsBody?.affectedByGravity = true
         self.node.physicsBody?.mass = 1
         self.node.physicsBody?.friction = 1
-        self.node.physicsBody?.linearDamping = 10
+        self.node.physicsBody?.linearDamping = 6
         self.node.physicsBody?.restitution = 0.001
 
         
