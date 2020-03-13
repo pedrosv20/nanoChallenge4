@@ -507,6 +507,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 highestY = -600
                 distance = 0.0
                 self.cam.position.y = 0
+                self.isUserInteractionEnabled = false
+                Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (Timer) in
+                    self.isUserInteractionEnabled = true
+                }
             }
             
         } else { //tela inicial
