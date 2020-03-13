@@ -40,7 +40,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     var highestY: CGFloat = -600
     
     var minTickIntro = 0
-    var maxTickIntro = 20
+    var maxTickIntro = 15
     
     var introArray: [SKNode] = []
     
@@ -52,6 +52,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     var nameLabel: SKNode?
     var playLabel: SKNode?
     var layerScore: SKNode?
+    var labelScore: SKLabelNode?
     
     override func didMove(to view: SKView) {
 //        self.cam = self.camera
@@ -94,6 +95,8 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         playLabel?.zPosition = 4
         
         layerScore = childNode(withName: "layerScore") as! SKSpriteNode
+        
+        
     }
     @objc func handleSwipeDown() {
         dropBlock()
@@ -418,6 +421,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 
             }
         }
+        
         return Int(highestY + 15)
     }
     
@@ -427,13 +431,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
   
     override func update(_ currentTime: TimeInterval) {
         
-        print(self.cam.position.y)
-        print(returnScore())
-        
+
         if playEnable { //game
 
-            
-            
             if !introArray.isEmpty {
                 for i in introArray {
                     i.removeFromParent()
@@ -446,6 +446,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             nameLabel?.removeFromParent()
             layerScore?.removeFromParent()
             
+            
             minTick += 1
             if minTick >= maxTick {
                 if !isFalling {
@@ -453,6 +454,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 }
             
                 minTick = 0
+                if !(UserInfo.shared.highScore > returnScore()) {
+                    UserInfo.shared.highScore = returnScore()
+                }
             }
             if currentNode?.physicsBody != nil {
                 checkCollision()
@@ -480,6 +484,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 }
             }
             if getLifes() <= 0 { //gameOver
+                
                 if self.currentNode != nil {
                     currentNode?.removeFromParent()
                 }
@@ -496,6 +501,8 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                     }
                     blocksList.removeAll()
                 }
+                
+                
                 maxY = 0
                 highestY = -600
                 distance = 0.0
@@ -515,7 +522,12 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             }
             if !self.children.contains(layerScore!) {
                 addChild(layerScore!)
+                labelScore = (layerScore!.children.first as! SKLabelNode)
+                labelScore!.text = "\(UserInfo.shared.highScore)m"
+                labelScore?.zPosition = layerScore!.zPosition + 1
+                
             }
+
             
 
             minTickIntro += 1
