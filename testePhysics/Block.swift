@@ -21,8 +21,8 @@ class Block {
     let barPath = SKTexture(imageNamed: "barPath")
     let squarePath = SKTexture(imageNamed: "squarePath")
     
-    let tarecoSize = CGSize(width: 145.78, height: 95.83)
-    let tecoSize = CGSize(width: 144.91, height: 95.95)
+    let tarecoSize = CGSize(width: 146, height: 95.88)
+    let tecoSize = CGSize(width: 145.96, height: 96.02)
     let barSize = CGSize(width: 194.02, height: 45.08)
     let squareSize = CGSize(width: 96, height: 95.79)
     
