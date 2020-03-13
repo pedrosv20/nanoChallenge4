@@ -46,6 +46,8 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     var gameName: SKLabelNode?
     
+    var lifes = 3
+    
     override func didMove(to view: SKView) {
 //        self.cam = self.camera
         self.camera = self.cam
@@ -138,11 +140,11 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         let maxX = self.view!.bounds.width/2 + block.node.size.width/2
         let minX = -1 * maxX
         
-        let maxY = 400 +  self.cam.position.y
+        let yPos = 400 +  self.cam.position.y
         let newX = round(min(max(minX, xPos), maxX))
         
         block.node.position = CGPoint(x: newX ,
-                                      y: maxY)
+                                      y: yPos)
 
         
         self.currentNode = block.node
@@ -224,6 +226,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             
         }
     }
+    
     func rotateBlock() {
         if currentNode != nil {
             self.currentNode!.zRotation -= .pi/2
@@ -295,15 +298,30 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 
                 
             else if self.currentNode!.position.y <= CGFloat(-600) {
-//                print("xobla")
-                blocksList.remove(at: blocksList.firstIndex(of: self.currentNode!)!)
+                
+                do {
+                    try blocksList.remove(at: blocksList.firstIndex(of: self.currentNode!)!)
+                } catch {
+                    
+                }
+                
                 
                 self.currentNode?.removeAllChildren()
                 self.removeChildren(in: [self.currentNode!])
                 self.currentNode = nil
                 self.isFalling = false
                 self.guideRectangle!.removeFromParent()
+                lifes -= 1
                 
+            }
+                
+            else  {
+                for block in blocksList {
+                    if block.position.y < -600 {
+                        blocksList.remove(at: blocksList.firstIndex(of: block)!)
+                        lifes -= 1
+                    }
+                }
             }
             
         }
@@ -319,6 +337,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 for block in self.blocksList{
 
                     positions.append(block.position.y + (block.frame.height/2))
+                    
                 }
                 self.maxY = positions.max()
             }else{
@@ -373,23 +392,37 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         }
         
     }
+    
+    func returnScore() -> Int{
+        var highestY: CGFloat = -600
+        for block in blocksList {
+            if block.position.y / 40 > highestY {
+                highestY = block.position.y / 40
+                
+            }
+        }
+        return Int(highestY + 15)
+    }
+    
+    func getLifes() -> Int {
+        return lifes
+    }
   
     override func update(_ currentTime: TimeInterval) {
         
-        print("cam", self.cam.position.y)
-        print("bounds", self.view?.bounds)
-        print("self", self.size)
+      
+        print(returnScore())
         
-        
-        if playEnable {
+        if playEnable { //game
 
             
-            baseNode?.alpha = 1
+            
             if !introArray.isEmpty {
                 for i in introArray {
                     i.removeFromParent()
                 }
             }
+            baseNode?.alpha = 1
             labelPlay?.removeFromParent()
             gameName?.removeFromParent()
             minTick += 1
@@ -422,10 +455,37 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 }
                 if guideRectangle != nil {
                     guideRectangle!.position.y = (self.camera?.position.y)!
+                    
                 }
             }
-        } else {
+            if getLifes() <= 0 {
+                if self.currentNode != nil {
+                    currentNode?.removeFromParent()
+                }
+                if self.guideRectangle != nil {
+                    guideRectangle?.removeFromParent()
+                }
+                self.playEnable = false
+                lifes = 3
+                self.isFalling = false
+                if !blocksList.isEmpty {
+                    for block in blocksList {
+                        block.removeFromParent()
+                    }
+                }
+            }
+            
+        } else { //tela inicial
+            
             baseNode?.alpha = 0
+            if !self.children.contains(labelPlay!) {
+                self.addChild(labelPlay!)
+            }
+            if !self.children.contains(gameName!) {
+                addChild(gameName!)
+            }
+            
+
             minTickIntro += 1
             if minTickIntro >= maxTickIntro {
                 minTickIntro = 0
