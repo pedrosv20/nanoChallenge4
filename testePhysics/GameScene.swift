@@ -314,8 +314,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         if self.currentNode != nil {
             
             if (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Polygon"))! || (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Rectangle"))! || (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Compound"))!  {
-
+                
                 //MARK: ADD ARRAY BLOCKS
+                self.currentNode?.physicsBody?.linearDamping = 6
                 self.blocksList.append(self.currentNode!)
                 
                 self.currentNode?.removeAllChildren()
@@ -348,6 +349,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                             blocksList.remove(at: blocksList.firstIndex(of: block)!)
                         }
                         lifes -= 1
+                        self.guideRectangle!.removeFromParent()
                     }
                 }
             }
@@ -518,7 +520,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             if getLifes() <= 0 { //gameOver
                 
 
+                
                 self.controller?.showAd()
+                self.mist?.position.y = -583
 
                 if self.currentNode != nil {
                     currentNode?.removeFromParent()
