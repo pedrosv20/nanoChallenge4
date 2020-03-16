@@ -322,7 +322,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             }
                 
                 
-            else if self.currentNode!.position.y <= CGFloat(-600) {
+            else if self.currentNode!.position.y <= CGFloat(-600 + self.cam.position.y) {
                 
                 do {
                     try blocksList.remove(at: blocksList.firstIndex(of: self.currentNode!)!)
@@ -561,7 +561,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 labelScore = (layerScore!.children.first as! SKLabelNode)
                 layerScore?.zPosition = 2
                 labelScore!.text = "\(UserInfo.shared.highScore)m"
-                labelScore?.zPosition = layerScore!.zPosition + 2
+                labelScore?.zPosition = 5
                 
             }
 

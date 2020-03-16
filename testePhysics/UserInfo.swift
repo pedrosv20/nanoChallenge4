@@ -11,6 +11,7 @@ import Foundation
 class UserInfo {
     
     var highScore = 0
+    
     public static let shared = UserInfo()
     
     private init() {
