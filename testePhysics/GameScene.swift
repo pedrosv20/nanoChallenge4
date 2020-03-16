@@ -12,6 +12,7 @@ import GameplayKit
 class GameScene: SKScene, UIGestureRecognizerDelegate {
     
 
+    public var controller: GameViewController?
     var node: SKSpriteNode!
     var cam = SKCameraNode()
     var blocksList :[SKNode] = []
@@ -61,6 +62,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
 //        self.cam = self.camera
         self.camera = self.cam
         
+        
         setupUI()
         
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestured))
@@ -106,6 +108,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     }
     @objc func handleSwipeDown() {
         dropBlock()
+        
     }
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -264,7 +267,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             self.guideRectangle?.position.x = currentNode!.position.x
             addChild(guideRectangle!)
         }
-        //TODO: testar torque
+        
         
     }
     
@@ -324,10 +327,8 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 
             else if self.currentNode!.position.y <= CGFloat(-600 + self.cam.position.y) {
                 
-                do {
-                    try blocksList.remove(at: blocksList.firstIndex(of: self.currentNode!)!)
-                } catch {
-                    
+                if blocksList.contains(currentNode!) {
+                    blocksList.remove(at: blocksList.firstIndex(of: self.currentNode!)!)
                 }
                 
                 
@@ -343,7 +344,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             else  {
                 for block in blocksList {
                     if block.position.y < -600 {
-                        blocksList.remove(at: blocksList.firstIndex(of: block)!)
+                        if blocksList.contains(block) {
+                            blocksList.remove(at: blocksList.firstIndex(of: block)!)
+                        }
                         lifes -= 1
                     }
                 }
@@ -379,6 +382,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         
         
     }
+    
     
     var beganPosition : CGPoint = .zero
     
@@ -421,8 +425,12 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     func returnScore() -> Int{
         
+//        var param = self.view!.frame.size.height / 10
+        
+        
         for block in blocksList {
             if block.position.y / 40 > highestY {
+                print(block.position.y / 40)
                 highestY = block.position.y / 40
                 
             }
@@ -432,6 +440,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         }
         return Int(highestY + 15)
     }
+    
     
     func getLifes() -> Int {
         return lifes
@@ -508,6 +517,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             }
             if getLifes() <= 0 { //gameOver
                 
+
+                self.controller?.showAd()
+
                 if self.currentNode != nil {
                     currentNode?.removeFromParent()
                 }
