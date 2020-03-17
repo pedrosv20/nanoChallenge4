@@ -362,6 +362,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 self.isUserInteractionEnabled = true
             }
             self.controller?.showAd()
+            clearBlocks()
 
             
         }

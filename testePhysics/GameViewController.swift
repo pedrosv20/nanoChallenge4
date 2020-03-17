@@ -40,9 +40,6 @@ class GameViewController: UIViewController, GADInterstitialDelegate{
             view.ignoresSiblingOrder = true
             
         }
-        
-        
-       
     }
     
 
@@ -54,7 +51,8 @@ class GameViewController: UIViewController, GADInterstitialDelegate{
     }
 
     func interstitialDidDismissScreen(_ ad: GADInterstitial) {
-      interstitial = createAndLoadInterstitial()
+        interstitial = createAndLoadInterstitial()
+        print("saiu")
     }
     
     func showAd() {
@@ -62,10 +60,6 @@ class GameViewController: UIViewController, GADInterstitialDelegate{
             interstitial.present(fromRootViewController: self)
         }
     }
-    
-
-    
-
 
     override var shouldAutorotate: Bool {
         return true
