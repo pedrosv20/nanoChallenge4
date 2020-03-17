@@ -349,7 +349,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                             blocksList.remove(at: blocksList.firstIndex(of: block)!)
                         }
                         lifes -= 1
-                        self.guideRectangle!.removeFromParent()
+//                        self.guideRectangle!.removeFromParent()
                     }
                 }
             }
