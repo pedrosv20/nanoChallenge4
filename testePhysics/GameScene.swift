@@ -168,7 +168,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         let xPos = CGFloat.random(in: (self.scene!.position.x - 200) ..< (self.scene!.position.x + 200))
         let maxX = self.view!.bounds.width/2 + block.node.size.width/2
         let minX = -1 * maxX
-        block.node.position = CGPoint(x: round(min(max(minX, xPos), maxX)), y: 400)
+        block.node.position = CGPoint(x: round(min(max(minX, xPos), maxX)), y: 650)
         block.node.physicsBody = nil
         block.node.run(SKAction.moveTo(y: (self.camera?.position.y)! - 1000, duration: 1))
         addChild(block.node)
@@ -325,15 +325,16 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     func returnScore() -> Int {
         for block in blocksList {
-            if block.position.y / 40 > highestY {
-                print(block.position.y / 40)
-                highestY = block.position.y / 40
+            if block.frame.maxY / 50 > highestY {
+//                print(block.position.y / 40)
+                highestY = block.frame.maxY / 50
+                print(highestY)
             }
         }
-        if Int(highestY + 15) < 0 {
+        if Int(highestY + 12) < 0 {
             return 0
         }
-        return Int(highestY + 15)
+        return Int(highestY + 12)
     }
     
     func getLifes() -> Int {
@@ -352,7 +353,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             
             lifes = 3
             self.isFalling = false
-
+            self.playEnable = false
             maxY = 0
             highestY = -600
             distance = 0.0
@@ -361,7 +362,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (Timer) in
                 self.isUserInteractionEnabled = true
             }
-            self.controller?.showAd()
+            self.controller?.showRewardedAd()
             clearBlocks()
 
             
@@ -468,6 +469,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
+        
         if playEnable { //game
             UIConfigInGame()
             minTick += 1
@@ -481,6 +483,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 }
             }
             if currentNode?.physicsBody != nil {
+//                print(currentNode?.frame.maxY)
                 checkCollision()
             }
             cameraObserver()
