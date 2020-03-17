@@ -48,8 +48,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     
     var lifes = 3
-    var lifeInGame: SKLabelNode?
+//    var lifeInGame: SKLabelNode?
+    var heartInGame: SKNode?
     var scoreInGame: SKLabelNode?
+    var layerScoreInGame : SKNode?
     
     
     var mist: SKNode?
@@ -103,8 +105,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         
         mist = childNode(withName: "mist") as! SKSpriteNode
         
-        lifeInGame = (childNode(withName: "lifeInGame") as! SKLabelNode)
+//        lifeInGame = (childNode(withName: "lifeInGame") as! SKLabelNode)
+        heartInGame = (childNode(withName: "heartInGame")!)
         scoreInGame = (childNode(withName: "scoreInGame") as! SKLabelNode)
+        layerScoreInGame = (childNode(withName: "layerScoreInGame")!)
     }
     @objc func handleSwipeDown() {
         dropBlock()
@@ -505,8 +509,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             if guideRectangle != nil {
                 guideRectangle!.position.y = (self.cam.position.y)
                 self.mist?.position.y = self.cam.position.y - self.frame.height / 2 + 80
-                self.lifeInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 100
-                self.scoreInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 100
+//                self.lifeInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 100
+                self.heartInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 100
+                self.scoreInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 120
+                self.layerScoreInGame?.position.y = self.cam.position.y + self.frame.height / 2 - 100
                 
             }
         }
@@ -518,18 +524,27 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 i.removeFromParent()
             }
         }
-        if !self.children.contains(lifeInGame!) {
-            self.addChild(lifeInGame!)
+//        if !self.children.contains(lifeInGame!) {
+//            self.addChild(lifeInGame!)
+//        }
+        if !self.children.contains(heartInGame!) {
+            self.addChild(heartInGame!)
         }
         if !self.children.contains(scoreInGame!) {
             self.addChild(scoreInGame!)
         }
+        if !self.children.contains(layerScoreInGame!) {
+            self.addChild(layerScoreInGame!)
+        }
         
-        lifeInGame?.text = "life: \(getLifes())"
-        scoreInGame?.text = "score: \(returnScore())m"
+//        lifeInGame?.text = "life: \(getLifes())"
+        heartInGame?.run(SKAction.setTexture(SKTexture(imageNamed: "heart_\(getLifes())")))
+        scoreInGame?.text = "\(returnScore())m"
         
-        lifeInGame?.zPosition = 2
-        scoreInGame?.zPosition = 2
+//        lifeInGame?.zPosition = 2
+        heartInGame?.zPosition = 2
+        layerScoreInGame?.zPosition = 2
+        scoreInGame?.zPosition = 3
         
         baseNode?.alpha = 1
         baseNode?.zPosition = 1
@@ -543,8 +558,14 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         if self.children.contains(scoreInGame!) {
             scoreInGame!.removeFromParent()
         }
-        if self.children.contains(lifeInGame!) {
-            lifeInGame?.removeFromParent()
+        if self.children.contains(layerScoreInGame!) {
+            layerScoreInGame!.removeFromParent()
+        }
+//        if self.children.contains(lifeInGame!) {
+//            lifeInGame?.removeFromParent()
+//        }
+        if self.children.contains(heartInGame!) {
+            heartInGame?.removeFromParent()
         }
         
         
