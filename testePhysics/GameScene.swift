@@ -447,43 +447,136 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     func getLifes() -> Int {
         return lifes
     }
-  
-    override func update(_ currentTime: TimeInterval) {
-        
+    
+    func gameOver() {
+        if getLifes() <= 0 { //gameOver
+            
 
-        if playEnable { //game
+            
+            self.controller?.showAd()
+            self.mist?.position.y = -583
 
-            if !introArray.isEmpty {
-                for i in introArray {
-                    i.removeFromParent()
+            if self.currentNode != nil {
+                currentNode?.removeFromParent()
+            }
+            if self.guideRectangle != nil {
+                guideRectangle?.removeFromParent()
+            }
+            self.playEnable = false
+            lifes = 3
+            self.isFalling = false
+            if !blocksList.isEmpty {
+                for block in blocksList {
+                    block.removeFromParent()
+                    
+                }
+                blocksList.removeAll()
+            }
+            
+            
+            maxY = 0
+            highestY = -600
+            distance = 0.0
+            self.cam.position.y = 0
+            self.isUserInteractionEnabled = false
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (Timer) in
+                self.isUserInteractionEnabled = true
+            }
+        }
+    }
+    
+    func cameraObserver() {
+        self.updateCamera()
+
+        if(self.maxY != nil){
+
+            if((self.cam.position.y) < self.distance){
+                //subir camera
+                self.cam.position.y += 1
+                if(self.cam.position.y > self.distance){
+                    self.cam.position.y = self.distance
+                }
+            }else{
+                self.cam.position.y -= 1
+                if(self.cam.position.y < self.distance){
+                    self.cam.position.y = self.distance
                 }
             }
-            if !self.children.contains(lifeInGame!) {
-                self.addChild(lifeInGame!)
+            if guideRectangle != nil {
+                guideRectangle!.position.y = (self.cam.position.y)
+                self.mist?.position.y = self.cam.position.y - self.frame.height / 2 + 80
+                self.lifeInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 100
+                self.scoreInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 100
+                
             }
-            if !self.children.contains(scoreInGame!) {
-                self.addChild(scoreInGame!)
+        }
+    }
+    
+    func UIConfigInGame() {
+        if !introArray.isEmpty {
+            for i in introArray {
+                i.removeFromParent()
             }
+        }
+        if !self.children.contains(lifeInGame!) {
+            self.addChild(lifeInGame!)
+        }
+        if !self.children.contains(scoreInGame!) {
+            self.addChild(scoreInGame!)
+        }
+        
+        lifeInGame?.text = "life: \(getLifes())"
+        scoreInGame?.text = "score: \(returnScore())m"
+        
+        lifeInGame?.zPosition = 2
+        scoreInGame?.zPosition = 2
+        
+        baseNode?.alpha = 1
+        baseNode?.zPosition = 1
+        playLabel?.removeFromParent()
+        nameLabel?.removeFromParent()
+        layerScore?.removeFromParent()
+        self.mist?.zPosition  = 3
+    }
+    
+    func UIConfigMenus() {
+        if self.children.contains(scoreInGame!) {
+            scoreInGame!.removeFromParent()
+        }
+        if self.children.contains(lifeInGame!) {
+            lifeInGame?.removeFromParent()
+        }
+        
+        
+        baseNode?.alpha = 0
+        
+        self.cam.position.y = 0
+        self.mist?.zPosition  = 1
+        if !self.children.contains(playLabel!) {
+            self.addChild(playLabel!)
+        }
+        if !self.children.contains(nameLabel!) {
+            addChild(nameLabel!)
+        }
+        if !self.children.contains(layerScore!) {
+            addChild(layerScore!)
+            labelScore = (layerScore!.children.first as! SKLabelNode)
+            layerScore?.zPosition = 2
+            labelScore!.text = "\(UserInfo.shared.highScore)m"
+            labelScore?.zPosition = 5
             
-            lifeInGame?.text = "life: \(getLifes())"
-            scoreInGame?.text = "score: \(returnScore())m"
+        }
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        if playEnable { //game
             
-            lifeInGame?.zPosition = 2
-            scoreInGame?.zPosition = 2
-            
-            baseNode?.alpha = 1
-            baseNode?.zPosition = 1
-            playLabel?.removeFromParent()
-            nameLabel?.removeFromParent()
-            layerScore?.removeFromParent()
-            self.mist?.zPosition  = 3
-            
+            UIConfigInGame()
             minTick += 1
             if minTick >= maxTick {
                 if !isFalling {
                     addBlockInScene()
                 }
-            
                 minTick = 0
                 if !(UserInfo.shared.highScore > returnScore()) {
                     UserInfo.shared.highScore = returnScore()
@@ -492,105 +585,15 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             if currentNode?.physicsBody != nil {
                 checkCollision()
             }
-            
-            self.updateCamera()
-
-            if(self.maxY != nil){
-
-                if((self.cam.position.y) < self.distance){
-                    //subir camera
-                    self.cam.position.y += 1
-                    if(self.cam.position.y > self.distance){
-                        self.cam.position.y = self.distance
-                    }
-                }else{
-                    self.cam.position.y -= 1
-                    if(self.cam.position.y < self.distance){
-                        self.cam.position.y = self.distance
-                    }
-                }
-                if guideRectangle != nil {
-                    guideRectangle!.position.y = (self.cam.position.y)
-                    self.mist?.position.y = self.cam.position.y - self.frame.height / 2 + 80
-                    self.lifeInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 100
-                    self.scoreInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 100
-                    
-                }
-            }
-            if getLifes() <= 0 { //gameOver
-                
-
-                
-                self.controller?.showAd()
-                self.mist?.position.y = -583
-
-                if self.currentNode != nil {
-                    currentNode?.removeFromParent()
-                }
-                if self.guideRectangle != nil {
-                    guideRectangle?.removeFromParent()
-                }
-                self.playEnable = false
-                lifes = 3
-                self.isFalling = false
-                if !blocksList.isEmpty {
-                    for block in blocksList {
-                        block.removeFromParent()
-                        
-                    }
-                    blocksList.removeAll()
-                }
-                
-                
-                maxY = 0
-                highestY = -600
-                distance = 0.0
-                self.cam.position.y = 0
-                self.isUserInteractionEnabled = false
-                Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (Timer) in
-                    self.isUserInteractionEnabled = true
-                }
-            }
-            
+            cameraObserver()
+            gameOver()
         } else { //tela inicial
-            
-            if self.children.contains(scoreInGame!) {
-                scoreInGame!.removeFromParent()
-            }
-            if self.children.contains(lifeInGame!) {
-                lifeInGame?.removeFromParent()
-            }
-            
-            
-            baseNode?.alpha = 0
-            
-            self.cam.position.y = 0
-            self.mist?.zPosition  = 1
-            if !self.children.contains(playLabel!) {
-                self.addChild(playLabel!)
-            }
-            if !self.children.contains(nameLabel!) {
-                addChild(nameLabel!)
-            }
-            if !self.children.contains(layerScore!) {
-                addChild(layerScore!)
-                labelScore = (layerScore!.children.first as! SKLabelNode)
-                layerScore?.zPosition = 2
-                labelScore!.text = "\(UserInfo.shared.highScore)m"
-                labelScore?.zPosition = 5
-                
-            }
-
-            
-
+            UIConfigMenus()
             minTickIntro += 1
             if minTickIntro >= maxTickIntro {
                 minTickIntro = 0
                 addBlockInSceneIntro()
             }
-        
         }
-        
-        
     }
 }
