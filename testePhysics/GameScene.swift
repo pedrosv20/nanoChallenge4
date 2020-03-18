@@ -51,6 +51,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     var layerScore: SKNode?
     var labelScore: SKLabelNode?
     var beganPosition : CGPoint = .zero
+    var highScoreLine: SKShapeNode? = nil
     
     override func didMove(to view: SKView) {
 //        self.cam = self.camera
@@ -136,7 +137,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         let blockElement = pieceArray.randomElement()!
         let blockElementPosition = pieceArray.firstIndex(of: blockElement)!
         let texture = blockElement + "_" + (String((textureCount % 5) + 1))
-//        print("teste", texture)
         let block = builder.createBlock(texture: texture,
                                         path: BlockType.allCases[blockElementPosition])
         let xPos = CGFloat.random(in: (self.scene!.position.x - 200) ..< (self.scene!.position.x + 200))
@@ -186,10 +186,11 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     func touchUp(atPoint pos : CGPoint) {
         if getElapsedTime(touchStart: touchStart) <= 0.15 {
             if !playEnable {
-                self.cam.position.y = 0
-                playEnable = true
+                if (playLabel?.contains(pos))! {
+                    self.cam.position.y = 0
+                    playEnable = true
+                }
             } else {
-            
             if didSwipe == false {
                 rotateBlock()
             }
@@ -336,6 +337,30 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         }
         return Int(highestY + 12)
     }
+      func createLine(x1 : CGFloat, x2 :CGFloat, y1 :CGFloat, y2 :CGFloat) -> SKShapeNode{
+            let line = SKShapeNode()
+            let path = CGMutablePath()
+            path.move(to: CGPoint(x: 0, y: 0))
+            path.addLines(between: [CGPoint(x: x1, y: y1), CGPoint(x: x2, y: y2)])
+            line.path = path
+            line.strokeColor = .red
+            line.zPosition = 2
+    
+            return line
+        }
+    
+    func addLine() {
+        let linePositionY = (UserInfo.shared.highScore - 12) * 50
+        let line = createLine(x1: self.frame.minX, x2: self.frame.maxX, y1: CGFloat(linePositionY), y2: CGFloat(linePositionY))
+        line.name = "line"
+        for children in self.children {
+            if children.name == "line" {
+                children.removeFromParent()
+            }
+        }
+        highScoreLine = line
+        addChild(highScoreLine!)
+    }
     
     func getLifes() -> Int {
         return lifes
@@ -343,6 +368,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     func gameOver() {
         if getLifes() <= 0 { //gameOver
+            if highScoreLine == nil {
+                addLine()
+            }
             self.mist?.position.y = -583
             if self.currentNode != nil {
                 currentNode?.removeFromParent()
@@ -362,7 +390,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (Timer) in
                 self.isUserInteractionEnabled = true
             }
-            self.controller?.showRewardedAd()
+//            self.controller?.showRewardedAd()
             clearBlocks()
 
             
@@ -463,15 +491,34 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             addChild(layerScore!)
             labelScore = (layerScore!.children.first as! SKLabelNode)
             layerScore?.zPosition = 2
+            print("carregou labelScore")
             labelScore!.text = "\(UserInfo.shared.highScore)m"
-            labelScore?.zPosition = 5
+            labelScore?.zPosition = 3
         }
+    }
+    
+    func checkHighScore() {
+        
+        if highScoreLine != nil {
+            print("#1", maxY!, highScoreLine!.frame.midY)
+            if maxY != 0.0 {
+                if  maxY! > highScoreLine!.frame.midY {
+                    self.highScoreLine!.removeFromParent()
+                    self.highScoreLine = nil
+                }
+            }
+            
+        }
+            
     }
     
     override func update(_ currentTime: TimeInterval) {
         
         if playEnable { //game
             UIConfigInGame()
+            highScoreLine?.isHidden = false
+            
+            checkHighScore()
             minTick += 1
             if minTick >= maxTick {
                 if !isFalling {
@@ -492,6 +539,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             
             
         } else { //tela inicial
+            highScoreLine?.isHidden = true
             UIConfigMenus()
             minTickIntro += 1
             if minTickIntro >= maxTickIntro {
