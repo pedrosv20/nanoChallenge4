@@ -8,6 +8,7 @@
 
 import SpriteKit
 import GameplayKit
+import AudioToolbox
 
 class GameScene: SKScene, UIGestureRecognizerDelegate {
     
@@ -80,16 +81,16 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     override func didMove(to view: SKView) {
         //        self.cam = self.camera
+
         self.camera = self.cam
         
         self.audioManager = AudioManager()
-        
-        //Run bg
         run(self.audioManager!.bg)
         
         //        self.bgSound = SKAction.playSoundFileNamed("Towers Music.wav", waitForCompletion: true)
         //        run(bgSound!)
         
+
         setupUI()
         
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestured))
@@ -102,7 +103,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         self.view?.addGestureRecognizer(swipe)
     }
     
-    func playSound(sound : SKAction){
+    func vibrate(){
+        let generator = UIImpactFeedbackGenerator(style: .heavy)
+        generator.impactOccurred()
     }
     
     func setupUI() {
@@ -248,7 +251,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         
         //MARK: ADD ARRAY BLOCKS
         //        self.blocksList.append(self.currentNode!)
-        
         
         textureCount += 1
         
@@ -428,6 +430,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 }
                 
                 run(self.audioManager!.blockOut)
+                self.vibrate()
                 
                 self.currentNode?.removeAllChildren()
                 self.removeChildren(in: [self.currentNode!])
@@ -445,7 +448,11 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                             blocksList.remove(at: blocksList.firstIndex(of: block)!)
                         }
                         lifes -= 1
-                        //                        self.guideRectangle!.removeFromParent()
+
+                        run(self.audioManager!.blockOut)
+                        self.vibrate()
+//                        self.guideRectangle!.removeFromParent()
+
                     }
                 }
             }
@@ -543,7 +550,8 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         path.move(to: CGPoint(x: 0, y: 0))
         path.addLines(between: [CGPoint(x: x1, y: y1), CGPoint(x: x2, y: y2)])
         line.path = path
-        line.strokeColor = .red
+        line.lineWidth = 2.0
+        line.strokeColor = .yellow
         line.zPosition = 2
         
         return line
