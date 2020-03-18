@@ -11,23 +11,25 @@ import SpriteKit
 import GameplayKit
 import GoogleMobileAds
 
-class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardedAdDelegate{
+class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBasedVideoAdDelegate{
     
     func rewardedAd(_ rewardedAd: GADRewardedAd, userDidEarn reward: GADAdReward) {
         
     }
     
-
+    var gameScene: GameScene!
     var interstitial: GADInterstitial!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers =
         [ "6f0766e55539d67ae625c3ed00af5546" ]
+        GADRewardBasedVideoAd.sharedInstance().delegate = self
         interstitial = createAndLoadInterstitial()
         let request = GADRequest()
         interstitial.load(request)
+        
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
@@ -36,7 +38,9 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
                 scene.scaleMode = .aspectFill
                 
                 if let gameScene = scene as? GameScene {
-                    gameScene.controller = self
+                    self.gameScene = gameScene
+                    self.gameScene.controller = self
+                    
                 }
                 // Present the scene
                 view.presentScene(scene)
@@ -55,6 +59,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
       return interstitial
     }
 
+
     func interstitialDidDismissScreen(_ ad: GADInterstitial) {
         interstitial = createAndLoadInterstitial()
         print("saiu")
@@ -69,6 +74,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
     func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
         didRewardUserWith reward: GADAdReward) {
       print("Reward received with currency: \(reward.type), amount \(reward.amount).")
+        self.gameScene.lifes = 1
     }
 
     func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd:GADRewardBasedVideoAd) {
@@ -77,6 +83,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
 
     func rewardBasedVideoAdDidOpen(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
       print("Opened reward based video ad.")
+        
     }
 
     func rewardBasedVideoAdDidStartPlaying(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
@@ -85,11 +92,21 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
 
     func rewardBasedVideoAdDidCompletePlaying(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
       print("Reward based video ad has completed.")
+        
     }
 
     func rewardBasedVideoAdDidClose(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
+        print("TEYQUETINHO")
       GADRewardBasedVideoAd.sharedInstance().load(GADRequest(),
           withAdUnitID: "ca-app-pub-3940256099942544/1712485313")
+        if self.gameScene.lifes  < 1 {
+            self.gameScene.playEnable = .menu
+            self.gameScene.goBackground?.removeFromParent()
+        } else {
+            self.gameScene.playEnable = .play
+        }
+        self.gameScene.isPaused = false
+        
     }
 
     func rewardBasedVideoAdWillLeaveApplication(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
