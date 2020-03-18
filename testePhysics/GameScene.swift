@@ -48,11 +48,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     
     var lifes = 3
-//    var lifeInGame: SKLabelNode?
     var heartInGame: SKNode?
     var scoreInGame: SKLabelNode?
     var layerScoreInGame : SKNode?
-    
     
     var mist: SKNode?
     var nameLabel: SKNode?
@@ -63,10 +61,20 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     var highScoreLine: SKShapeNode? = nil
 
     
+    //Sounds
+    var audioManager :AudioManager?
+    
     override func didMove(to view: SKView) {
 //        self.cam = self.camera
         self.camera = self.cam
         
+        self.audioManager = AudioManager()
+        
+        //Run bg
+        run(self.audioManager!.bg)
+        
+//        self.bgSound = SKAction.playSoundFileNamed("Towers Music.wav", waitForCompletion: true)
+//        run(bgSound!)
         
         setupUI()
         
@@ -79,6 +87,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         swipe.direction = .down
         self.view?.addGestureRecognizer(swipe)
     }
+    
+    func playSound(sound : SKAction){
+    }
+    
     func setupUI() {
         
         nameLabel = childNode(withName: "nameLabel") as! SKSpriteNode
@@ -341,6 +353,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 //MARK: ADD LINHA
 //                self.addChild(self.createLine(y: (self.currentNode?.frame.maxY)!))
                 
+               //Play sound
+                run(self.audioManager!.blockTouch)
+                
                 self.currentNode?.removeAllChildren()
                 self.currentNode = nil
                 self.isFalling = false
@@ -353,7 +368,8 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 if blocksList.contains(currentNode!) {
                     blocksList.remove(at: blocksList.firstIndex(of: self.currentNode!)!)
                 }
-                
+
+                run(self.audioManager!.blockOut)
                 
                 self.currentNode?.removeAllChildren()
                 self.removeChildren(in: [self.currentNode!])
