@@ -451,28 +451,29 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         
         
         for block in blocksList {
-            if block.frame.maxY / 40 > highestY {
-                print(block.frame.maxY / 40)
-                highestY = block.frame.maxY / 40
+            if block.frame.maxY / 50 > highestY {
+                print(block.frame.maxY / 50)
+                highestY = block.frame.maxY / 50
                 
             }
         }
-        if Int(highestY + 15) < 0 {
+        if Int(highestY + 12) < 0 {
             return 0
         }
-        return Int(highestY + 15)
+        return Int(highestY + 12)
     }
-      func createLine(x1 : CGFloat, x2 :CGFloat, y1 :CGFloat, y2 :CGFloat) -> SKShapeNode{
-            let line = SKShapeNode()
-            let path = CGMutablePath()
-            path.move(to: CGPoint(x: 0, y: 0))
-            path.addLines(between: [CGPoint(x: x1, y: y1), CGPoint(x: x2, y: y2)])
-            line.path = path
-            line.strokeColor = .red
-            line.zPosition = 2
     
-            return line
-        }
+    func createLine(x1 : CGFloat, x2 :CGFloat, y1 :CGFloat, y2 :CGFloat) -> SKShapeNode{
+        let line = SKShapeNode()
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLines(between: [CGPoint(x: x1, y: y1), CGPoint(x: x2, y: y2)])
+        line.path = path
+        line.strokeColor = .red
+        line.zPosition = 2
+
+        return line
+    }
     
     func addLine() {
         let linePositionY = (UserInfo.shared.highScore - 12) * 50
