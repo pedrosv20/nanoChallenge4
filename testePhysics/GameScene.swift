@@ -728,7 +728,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             addChild(nameLabel!)
         }
         if !self.children.contains(layerScore!) {
-            addChild(layerScore!)gi
+            addChild(layerScore!)
             layerScore?.zPosition = 2
             labelScore?.text = "\(UserInfo.shared.highScore)m"
             labelScore?.zPosition = 5

@@ -11,6 +11,7 @@
 		0758202924112F3A008DE26F /* BlockBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0758202824112F3A008DE26F /* BlockBuilder.swift */; };
 		0758202B241136F0008DE26F /* PathHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0758202A241136F0008DE26F /* PathHelper.swift */; };
 		0758202D241137FD008DE26F /* BlockType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0758202C241137FD008DE26F /* BlockType.swift */; };
+		077C3471242305BD00E92A9E /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077C3470242305BD00E92A9E /* GameKit.framework */; };
 		079C9B7124224406002EDEEE /* New Record .wav in Resources */ = {isa = PBXBuildFile; fileRef = 079C9B6B24224406002EDEEE /* New Record .wav */; };
 		079C9B7224224406002EDEEE /* Block touch.wav in Resources */ = {isa = PBXBuildFile; fileRef = 079C9B6C24224406002EDEEE /* Block touch.wav */; };
 		079C9B7324224406002EDEEE /* Lose.wav in Resources */ = {isa = PBXBuildFile; fileRef = 079C9B6D24224406002EDEEE /* Lose.wav */; };
@@ -36,6 +37,7 @@
 		0758202824112F3A008DE26F /* BlockBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockBuilder.swift; sourceTree = "<group>"; };
 		0758202A241136F0008DE26F /* PathHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathHelper.swift; sourceTree = "<group>"; };
 		0758202C241137FD008DE26F /* BlockType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockType.swift; sourceTree = "<group>"; };
+		077C3470242305BD00E92A9E /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		079C9B68242242C2002EDEEE /* AudioManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		079C9B6B24224406002EDEEE /* New Record .wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "New Record .wav"; sourceTree = "<group>"; };
 		079C9B6C24224406002EDEEE /* Block touch.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Block touch.wav"; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF04E3C5C6156B477F783EC6 /* Pods_testePhysics.framework in Frameworks */,
+				077C3471242305BD00E92A9E /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,6 +164,7 @@
 		EA515D2F48C4699B65CA2057 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				077C3470242305BD00E92A9E /* GameKit.framework */,
 				9FEE4D044313EBCE5ED3CD90 /* Pods_testePhysics.framework */,
 			);
 			name = Frameworks;

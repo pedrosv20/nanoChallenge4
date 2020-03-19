@@ -10,8 +10,16 @@ import UIKit
 import SpriteKit
 import GameplayKit
 import GoogleMobileAds
+import GameKit
 
-class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBasedVideoAdDelegate{
+class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBasedVideoAdDelegate, GKGameCenterControllerDelegate{
+    
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        print("foi")
+    }
+    
+    
+    
     
     func rewardedAd(_ rewardedAd: GADRewardedAd, userDidEarn reward: GADAdReward) {
         
@@ -19,10 +27,18 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
     
     var gameScene: GameScene!
     var interstitial: GADInterstitial!
+    var gcEnabled = Bool()
+    var gcDefaultLeaderBoard = String()
+    
+    var score = 0
+    
+    let leaderboardId = "com.PedroVargas.HighScore"
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        authenticateLocalPlayer()
+        
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers =
         [ "6f0766e55539d67ae625c3ed00af5546" ]
         GADRewardBasedVideoAd.sharedInstance().delegate = self
@@ -51,6 +67,47 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
         }
     }
     
+   func authenticateLocalPlayer() {
+    let localPlayer: GKLocalPlayer = GKLocalPlayer.local
+             
+        localPlayer.authenticateHandler = {(ViewController, error) -> Void in
+            if((ViewController) != nil) {
+                // 1. Show login if player is not logged in
+                self.present(ViewController!, animated: true, completion: nil)
+            } else if (localPlayer.isAuthenticated) {
+                // 2. Player is already authenticated & logged in, load game center
+                self.gcEnabled = true
+                     
+                // Get the default leaderboard ID
+                localPlayer.loadDefaultLeaderboardIdentifier(completionHandler: { (leaderboardIdentifer, error) in
+                    if error != nil { print(error)
+                    } else { self.gcDefaultLeaderBoard = leaderboardIdentifer! }
+                })
+                 
+            } else {
+                // 3. Game center is not enabled on the users device
+                self.gcEnabled = false
+                print("Local player could not be authenticated!")
+                print(error)
+            }
+        }
+    }
+    
+    func addValue() {
+        score += 10
+//           scoreLabel.text = "\(score)"
+        
+           // Submit score to GC leaderboard
+           let bestScoreInt = GKScore(leaderboardIdentifier: leaderboardId)
+           bestScoreInt.value = Int64(score)
+           GKScore.report([bestScoreInt]) { (error) in
+               if error != nil {
+                   print(error!.localizedDescription)
+               } else {
+                   print("Best Score submitted to your Leaderboard!")
+               }
+           }
+    }
 
     func createAndLoadInterstitial() -> GADInterstitial {
       var interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
