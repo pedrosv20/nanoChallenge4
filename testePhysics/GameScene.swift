@@ -76,7 +76,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     var maxScoreLabel: SKLabelNode?
     var gameOverLabel: SKLabelNode?
     var goCloseButton: SKNode?
-//    var gameCenterButton: SKNode?
+    var gameCenterButton: SKNode?
     //Sounds
     
     var audioManager :AudioManager?
@@ -164,9 +164,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         maxScoreLabel = (goBackgroundLite!.childNode(withName: "maxScoreLabel") as! SKLabelNode)
         goCloseButton = goBackgroundLite!.childNode(withName: "goCloseButton")
         goCloseButton!.name = "goCloseButton"
-//
-//        gameCenterButton = self.childNode(withName: "gameCenter")
-//        gameCenterButton!.name = "gameCenter"
+
+        gameCenterButton = self.childNode(withName: "gameCenter")
+        gameCenterButton!.name = "gameCenter"
         
         
         
@@ -376,28 +376,28 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             let touchedNodes = self.nodes(at: positionInScene)
             for touch in touchedNodes {
                 let touchName = touch.name
-//                print(touch.name)
+                print(touchName, UserInfo.shared.showRewardedAd)
                 if (touchName != nil && touchName!.contains("go_extraLife") ) {
                     self.controller?.showRewardedAd()
                     UserInfo.shared.showRewardedAd = true
                     self.isPaused = true
                     
                 }
-                else if (touchName != nil && touchName!.contains("go_noThanks")  ) {
+                else if (touchName != nil && touchName!.contains("go_noThanks")) {
                     UserInfo.shared.showRewardedAd = false
                     self.playEnable = .menu
                     self.isPaused = false
                     
                 }
-                else if (touchName != nil && (touchName?.contains("goCloseButton"))!) {
+                else if (touchName != nil && touchName!.contains("goCloseButton")) {
                     self.playEnable = .menu
                     self.isPaused = false
                     
                     
                 }
-//                else if (touchName != nil && (touchName?.contains("gameCenter"))!) {
-//                    self.controller!.openGameCenter()
-//                }
+                else if (touchName != nil && (touchName?.contains("gameCenter"))!) {
+                    GameCenter.shared.showLeaderboard(presentingVC: self.controller!)
+                }
             }
         }
     }
@@ -694,14 +694,14 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             layerScore?.removeAllChildren()
             layerScore?.removeFromParent()
         }
-//        if self.children.contains(gameCenterButton!) {
-//            gameCenterButton?.removeFromParent()
-//        }
+        if self.children.contains(gameCenterButton!) {
+            gameCenterButton?.removeFromParent()
+        }
         
         //        lifeInGame?.text = "life: \(getLifes())"
         heartInGame?.run(SKAction.setTexture(SKTexture(imageNamed: "heart_\(getLifes())")))
         scoreInGame?.text = "\(returnScore())m"
-//        self.controller?.addValue(score: returnScore())
+        GameCenter.shared.updateScore(with: returnScore())
         
         //        lifeInGame?.zPosition = 2
         heartInGame?.zPosition = 2
@@ -739,9 +739,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         if !self.children.contains(nameLabel!) {
             addChild(nameLabel!)
         }
-//        if !self.children.contains(gameCenterButton!) {
-//            addChild(gameCenterButton!)
-//        }
+        if !self.children.contains(gameCenterButton!) {
+            addChild(gameCenterButton!)
+        }
         if !self.children.contains(layerScore!) {
             addChild(layerScore!)
             layerScore?.zPosition = 2
@@ -770,7 +770,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        
+        print(UserInfo.shared.showRewardedAd)
         
         
         if playEnable == .play { //game
@@ -810,6 +810,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
 //                print("Aaaaa")
             }
 //            print(self.children)
+            UserInfo.shared.showRewardedAd = false
             self.lifes = 3
             if self.guideRectangle != nil {
                 self.guideRectangle?.removeFromParent()
@@ -836,7 +837,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             self.guideRectangle?.removeAllChildren()
             self.guideRectangle?.removeFromParent()
             //tela inicial
-            UserInfo.shared.showRewardedAd = false
             highScoreLine?.isHidden = true
             
             UIConfigMenus()

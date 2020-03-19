@@ -7,17 +7,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "573C00BD-3D75-41B4-912C-1ECBDBE44E62"
-            shouldBeEnabled = "No"
+            uuid = "27D8C944-78F5-4445-9ABF-AB538F997BA3"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "testePhysics/GameViewController.swift"
+            filePath = "testePhysics/GameScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
-            landmarkName = "GameViewController"
-            landmarkType = "3">
+            startingLineNumber = "381"
+            endingLineNumber = "381"
+            landmarkName = "touchesEnded(_:with:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

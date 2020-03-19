@@ -14,6 +14,8 @@
 		077C3471242305BD00E92A9E /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077C3470242305BD00E92A9E /* GameKit.framework */; };
 		077C3474242312A200E92A9E /* Block Out.wav in Resources */ = {isa = PBXBuildFile; fileRef = 077C3472242312A200E92A9E /* Block Out.wav */; };
 		077C3475242312A200E92A9E /* Towers Music.wav in Resources */ = {isa = PBXBuildFile; fileRef = 077C3473242312A200E92A9E /* Towers Music.wav */; };
+		077C34792423151500E92A9E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 077C34782423151500E92A9E /* GoogleService-Info.plist */; };
+		0788D3D62423B0F2003EBE69 /* GameCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0788D3D52423B0F2003EBE69 /* GameCenter.swift */; };
 		079C9B7124224406002EDEEE /* New Record .wav in Resources */ = {isa = PBXBuildFile; fileRef = 079C9B6B24224406002EDEEE /* New Record .wav */; };
 		079C9B7224224406002EDEEE /* Block touch.wav in Resources */ = {isa = PBXBuildFile; fileRef = 079C9B6C24224406002EDEEE /* Block touch.wav */; };
 		079C9B7324224406002EDEEE /* Lose.wav in Resources */ = {isa = PBXBuildFile; fileRef = 079C9B6D24224406002EDEEE /* Lose.wav */; };
@@ -27,7 +29,6 @@
 		07EFFD34240E8E92008D517B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07EFFD32240E8E92008D517B /* Main.storyboard */; };
 		07EFFD36240E8E97008D517B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07EFFD35240E8E97008D517B /* Assets.xcassets */; };
 		07EFFD39240E8E97008D517B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07EFFD37240E8E97008D517B /* LaunchScreen.storyboard */; };
-		3941572C2422F1C40056A49D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3941572B2422F1C30056A49D /* GoogleService-Info.plist */; };
 		394BDEAC2421AB2E00117290 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394BDEAB2421AB2E00117290 /* AudioManager.swift */; };
 		BF04E3C5C6156B477F783EC6 /* Pods_testePhysics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FEE4D044313EBCE5ED3CD90 /* Pods_testePhysics.framework */; };
 /* End PBXBuildFile section */
@@ -42,6 +43,8 @@
 		077C3473242312A200E92A9E /* Towers Music.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "Towers Music.wav"; path = "../../../../../../Downloads/Towers Music.wav"; sourceTree = "<group>"; };
 		077C3476242312A900E92A9E /* Towers Music.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Towers Music.wav"; sourceTree = "<group>"; };
 		077C3477242312A900E92A9E /* Block Out.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Block Out.wav"; sourceTree = "<group>"; };
+		077C34782423151500E92A9E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0788D3D52423B0F2003EBE69 /* GameCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenter.swift; sourceTree = "<group>"; };
 		079C9B68242242C2002EDEEE /* AudioManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		079C9B6B24224406002EDEEE /* New Record .wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "New Record .wav"; sourceTree = "<group>"; };
 		079C9B6C24224406002EDEEE /* Block touch.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Block touch.wav"; sourceTree = "<group>"; };
@@ -58,7 +61,6 @@
 		07EFFD35240E8E97008D517B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		07EFFD38240E8E97008D517B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		07EFFD3A240E8E97008D517B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3941572B2422F1C30056A49D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		394BDE9F2421AA8800117290 /* New Record .wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "New Record .wav"; sourceTree = "<group>"; };
 		394BDEA12421AA8900117290 /* Block touch.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Block touch.wav"; sourceTree = "<group>"; };
 		394BDEA22421AA8900117290 /* New Record with crowd.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "New Record with crowd.wav"; sourceTree = "<group>"; };
@@ -118,7 +120,7 @@
 			children = (
 				394BDE9E2421AA6600117290 /* Sounds */,
 				07EFFD28240E8E92008D517B /* AppDelegate.swift */,
-				3941572B2422F1C30056A49D /* GoogleService-Info.plist */,
+				077C34782423151500E92A9E /* GoogleService-Info.plist */,
 				07EFFD2A240E8E92008D517B /* GameScene.sks */,
 				07EFFD2C240E8E92008D517B /* Actions.sks */,
 				079C9B68242242C2002EDEEE /* AudioManager.swift */,
@@ -135,6 +137,7 @@
 				0758202C241137FD008DE26F /* BlockType.swift */,
 				07AA2CDA241BC30300FE20E3 /* UserInfo.swift */,
 				394BDEAB2421AB2E00117290 /* AudioManager.swift */,
+				0788D3D52423B0F2003EBE69 /* GameCenter.swift */,
 			);
 			path = testePhysics;
 			sourceTree = "<group>";
@@ -235,7 +238,7 @@
 				079C9B7224224406002EDEEE /* Block touch.wav in Resources */,
 				07EFFD2B240E8E92008D517B /* GameScene.sks in Resources */,
 				07EFFD36240E8E97008D517B /* Assets.xcassets in Resources */,
-				3941572C2422F1C40056A49D /* GoogleService-Info.plist in Resources */,
+				077C34792423151500E92A9E /* GoogleService-Info.plist in Resources */,
 				079C9B7524224406002EDEEE /* New Record with crowd.wav in Resources */,
 				07EFFD39240E8E97008D517B /* LaunchScreen.storyboard in Resources */,
 				079C9B7124224406002EDEEE /* New Record .wav in Resources */,
@@ -302,6 +305,7 @@
 				07AA2CDB241BC30300FE20E3 /* UserInfo.swift in Sources */,
 				394BDEAC2421AB2E00117290 /* AudioManager.swift in Sources */,
 				07EFFD29240E8E92008D517B /* AppDelegate.swift in Sources */,
+				0788D3D62423B0F2003EBE69 /* GameCenter.swift in Sources */,
 				0758202924112F3A008DE26F /* BlockBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -448,7 +452,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.2;
+				CURRENT_PROJECT_VERSION = 1.3;
 				DEVELOPMENT_TEAM = ZSLUMCNRNL;
 				INFOPLIST_FILE = testePhysics/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -456,7 +460,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.PedroVargas.StackTowers;
+				PRODUCT_BUNDLE_IDENTIFIER = com.PedroVargas.StackAdventure;
 				PRODUCT_NAME = "Stack Towers";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -469,7 +473,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.2;
+				CURRENT_PROJECT_VERSION = 1.3;
 				DEVELOPMENT_TEAM = ZSLUMCNRNL;
 				INFOPLIST_FILE = testePhysics/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -477,7 +481,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.PedroVargas.StackTowers;
+				PRODUCT_BUNDLE_IDENTIFIER = com.PedroVargas.StackAdventure;
 				PRODUCT_NAME = "Stack Towers";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

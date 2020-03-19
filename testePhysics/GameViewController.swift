@@ -13,13 +13,13 @@ import GoogleMobileAds
 import GameKit
 
 class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBasedVideoAdDelegate{
+//    , GKGameCenterControllerDelegate
 //    GKGameCenterControllerDelegate
+    
 //    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
 //        gameCenterViewController.dismiss(animated: true, completion: nil)
 //    }
-    
-    
-    
+
     
     func rewardedAd(_ rewardedAd: GADRewardedAd, userDidEarn reward: GADAdReward) {
         
@@ -32,20 +32,20 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
     
     var score = 0
     
-//    let leaderboardId = "com.PedroVargas.HighScore"
+    let leaderboardId = "com.PedroVargas.HighScore"
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 //        authenticateLocalPlayer()
-        
+        GADRewardBasedVideoAd.sharedInstance().delegate = self
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers =
         [ "6f0766e55539d67ae625c3ed00af5546" ]
         GADRewardBasedVideoAd.sharedInstance().delegate = self
         interstitial = createAndLoadInterstitial()
         let request = GADRequest()
         interstitial.load(request)
-        
+        GameCenter.shared.authenticateLocalPlayer(presentingVC: self)
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
@@ -69,7 +69,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
     
 //   func authenticateLocalPlayer() {
 //    let localPlayer: GKLocalPlayer = GKLocalPlayer.local
-//             
+//
 //        localPlayer.authenticateHandler = {(ViewController, error) -> Void in
 //            if((ViewController) != nil) {
 //                // 1. Show login if player is not logged in
@@ -77,13 +77,13 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
 //            } else if (localPlayer.isAuthenticated) {
 //                // 2. Player is already authenticated & logged in, load game center
 //                self.gcEnabled = true
-//                     
+//
 //                // Get the default leaderboard ID
 //                localPlayer.loadDefaultLeaderboardIdentifier(completionHandler: { (leaderboardIdentifer, error) in
 //                    if error != nil { print(error)
 //                    } else { self.gcDefaultLeaderBoard = leaderboardIdentifer! }
 //                })
-//                 
+//
 //            } else {
 //                // 3. Game center is not enabled on the users device
 //                self.gcEnabled = false
@@ -92,7 +92,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
 //            }
 //        }
 //    }
-    
+//
 //    func openGameCenter() {
 //        let gcVC = GKGameCenterViewController()
 //        gcVC.gameCenterDelegate = self
@@ -137,6 +137,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
         didRewardUserWith reward: GADAdReward) {
       print("Reward received with currency: \(reward.type), amount \(reward.amount).")
         self.gameScene.lifes = 1
+        UserInfo.shared.showRewardedAd = false
     }
 
     func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd:GADRewardBasedVideoAd) {
@@ -159,12 +160,16 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
 
     func rewardBasedVideoAdDidClose(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
         print("TEYQUETINHO")
+        
       GADRewardBasedVideoAd.sharedInstance().load(GADRequest(),
           withAdUnitID: "ca-app-pub-9555319833753210/6124335048")
+        
         if self.gameScene.lifes  < 1 {
             self.gameScene.playEnable = .menu
+            UserInfo.shared.showRewardedAd = false
             self.gameScene.goBackground?.removeFromParent()
         } else {
+            UserInfo.shared.showRewardedAd = true
             self.gameScene.playEnable = .play
         }
         self.gameScene.isPaused = false
