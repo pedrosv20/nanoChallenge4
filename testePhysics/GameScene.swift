@@ -76,7 +76,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     var maxScoreLabel: SKLabelNode?
     var gameOverLabel: SKLabelNode?
     var goCloseButton: SKNode?
+//    var gameCenterButton: SKNode?
     //Sounds
+    
     var audioManager :AudioManager?
     
     override func didMove(to view: SKView) {
@@ -162,6 +164,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         maxScoreLabel = (goBackgroundLite!.childNode(withName: "maxScoreLabel") as! SKLabelNode)
         goCloseButton = goBackgroundLite!.childNode(withName: "goCloseButton")
         goCloseButton!.name = "goCloseButton"
+//
+//        gameCenterButton = self.childNode(withName: "gameCenter")
+//        gameCenterButton!.name = "gameCenter"
         
         
         
@@ -257,7 +262,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         self.addChild(self.guideRectangle!)
         
         
-        print("#1 addRec")
+//        print("#1 addRec")
         
         
         //MARK: ADD ARRAY BLOCKS
@@ -371,7 +376,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             let touchedNodes = self.nodes(at: positionInScene)
             for touch in touchedNodes {
                 let touchName = touch.name
-                print(touch.name)
+//                print(touch.name)
                 if (touchName != nil && touchName!.contains("go_extraLife") ) {
                     self.controller?.showRewardedAd()
                     UserInfo.shared.showRewardedAd = true
@@ -390,6 +395,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                     
                     
                 }
+//                else if (touchName != nil && (touchName?.contains("gameCenter"))!) {
+//                    self.controller!.openGameCenter()
+//                }
             }
         }
     }
@@ -489,7 +497,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             }
             self.maxY = positions.max()
         }else{
-            print("tey", self.frame.minY + self.frame.height / 3)
+//            print("tey", self.frame.minY + self.frame.height / 3)
             self.maxY = roler
         }
         
@@ -547,7 +555,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         
         for block in blocksList {
             if block.frame.maxY / 50 > highestY {
-                print(block.frame.maxY / 50)
+//                print(block.frame.maxY / 50)
                 highestY = block.frame.maxY / 50
                 
             }
@@ -686,10 +694,14 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             layerScore?.removeAllChildren()
             layerScore?.removeFromParent()
         }
+//        if self.children.contains(gameCenterButton!) {
+//            gameCenterButton?.removeFromParent()
+//        }
         
         //        lifeInGame?.text = "life: \(getLifes())"
         heartInGame?.run(SKAction.setTexture(SKTexture(imageNamed: "heart_\(getLifes())")))
         scoreInGame?.text = "\(returnScore())m"
+//        self.controller?.addValue(score: returnScore())
         
         //        lifeInGame?.zPosition = 2
         heartInGame?.zPosition = 2
@@ -727,13 +739,16 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         if !self.children.contains(nameLabel!) {
             addChild(nameLabel!)
         }
+//        if !self.children.contains(gameCenterButton!) {
+//            addChild(gameCenterButton!)
+//        }
         if !self.children.contains(layerScore!) {
             addChild(layerScore!)
             layerScore?.zPosition = 2
             labelScore?.text = "\(UserInfo.shared.highScore)m"
             labelScore?.zPosition = 5
         } else {
-            print("carregou labelScore")
+//            print("carregou labelScore")
             labelScore?.text = "\(UserInfo.shared.highScore)m"
             labelScore?.zPosition = 5
         }
@@ -792,9 +807,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         }
         else if playEnable == .menu{
             if self.guideRectangle == nil {
-                print("Aaaaa")
+//                print("Aaaaa")
             }
-            print(self.children)
+//            print(self.children)
             self.lifes = 3
             if self.guideRectangle != nil {
                 self.guideRectangle?.removeFromParent()
@@ -861,11 +876,11 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             self.guideRectangle!.removeFromParent()
             if !self.children.contains(goBackground!) {
                 self.addChild(goBackground!)
-                print(goBackground!.position.y, self.cam.position.y)
+//                print(goBackground!.position.y, self.cam.position.y)
                 goBackground?.position.y = 0 + self.cam.position.y
                 self.scoreGameOver?.text = "\(returnScore())m"
                 self.maxScoreGameOver?.text = "\(UserInfo.shared.highScore)m"
-                print("ad")
+//                print("ad")
             } else {
                 self.scoreGameOver?.text = "\(returnScore())m"
                 self.maxScoreGameOver?.text = "\(UserInfo.shared.highScore)m"
