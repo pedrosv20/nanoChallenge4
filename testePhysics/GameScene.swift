@@ -161,7 +161,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         gameOverLabel = (goBackgroundLite!.childNode(withName: "gameOverLabel") as! SKLabelNode)
         maxScoreLabel = (goBackgroundLite!.childNode(withName: "maxScoreLabel") as! SKLabelNode)
         goCloseButton = goBackgroundLite!.childNode(withName: "goCloseButton")
-        goCloseButton?.name = "goCloseButton"
+        goCloseButton!.name = "goCloseButton"
         
         
         
@@ -728,8 +728,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             addChild(nameLabel!)
         }
         if !self.children.contains(layerScore!) {
-            addChild(layerScore!)
-            labelScore = (layerScore!.children.first as! SKLabelNode)
+            addChild(layerScore!)gi
             layerScore?.zPosition = 2
             labelScore?.text = "\(UserInfo.shared.highScore)m"
             labelScore?.zPosition = 5
