@@ -115,7 +115,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
 //    }
 
     func createAndLoadInterstitial() -> GADInterstitial {
-      var interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+      var interstitial = GADInterstitial(adUnitID: "ca-app-pub-9555319833753210/2323894677")
       interstitial.delegate = self
       interstitial.load(GADRequest())
       return interstitial
@@ -160,7 +160,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
     func rewardBasedVideoAdDidClose(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
         print("TEYQUETINHO")
       GADRewardBasedVideoAd.sharedInstance().load(GADRequest(),
-          withAdUnitID: "ca-app-pub-3940256099942544/1712485313")
+          withAdUnitID: "ca-app-pub-9555319833753210/6124335048")
         if self.gameScene.lifes  < 1 {
             self.gameScene.playEnable = .menu
             self.gameScene.goBackground?.removeFromParent()
