@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "07EFFD24240E8E92008D517B"
-               BuildableName = "Stack Adventure.app"
+               BuildableName = "Stack Towers.app"
                BlueprintName = "testePhysics"
                ReferencedContainer = "container:testePhysics.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "07EFFD24240E8E92008D517B"
-            BuildableName = "Stack Adventure.app"
+            BuildableName = "Stack Towers.app"
             BlueprintName = "testePhysics"
             ReferencedContainer = "container:testePhysics.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "07EFFD24240E8E92008D517B"
-            BuildableName = "Stack Adventure.app"
+            BuildableName = "Stack Towers.app"
             BlueprintName = "testePhysics"
             ReferencedContainer = "container:testePhysics.xcodeproj">
          </BuildableReference>
