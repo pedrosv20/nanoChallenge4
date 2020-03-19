@@ -142,6 +142,8 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         scoreInGame = (childNode(withName: "scoreInGame") as! SKLabelNode)
         layerScoreInGame = (childNode(withName: "layerScoreInGame")!)
         
+        labelScore = layerScore?.childNode(withName: "labelScore") as! SKLabelNode
+        
         goBackground = (childNode(withName: "go_background")!)
         go_extraLife = goBackground?.childNode(withName: "go_extraLife")
         go_extraLife!.name = "go_extraLife"
@@ -680,6 +682,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         if !self.children.contains(layerScoreInGame!) {
             self.addChild(layerScoreInGame!)
         }
+        if self.children.contains(layerScore!) {
+            layerScore?.removeAllChildren()
+            layerScore?.removeFromParent()
+        }
         
         //        lifeInGame?.text = "life: \(getLifes())"
         heartInGame?.run(SKAction.setTexture(SKTexture(imageNamed: "heart_\(getLifes())")))
@@ -705,9 +711,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         if self.children.contains(layerScoreInGame!) {
             layerScoreInGame!.removeFromParent()
         }
-        //        if self.children.contains(lifeInGame!) {
-        //            lifeInGame?.removeFromParent()
-        //        }
+
         if self.children.contains(heartInGame!) {
             heartInGame?.removeFromParent()
         }
@@ -727,10 +731,12 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             addChild(layerScore!)
             labelScore = (layerScore!.children.first as! SKLabelNode)
             layerScore?.zPosition = 2
+            labelScore?.text = "\(UserInfo.shared.highScore)m"
+            labelScore?.zPosition = 5
+        } else {
             print("carregou labelScore")
-            labelScore!.text = "\(UserInfo.shared.highScore)m"
-            labelScore?.zPosition = 3
-            
+            labelScore?.text = "\(UserInfo.shared.highScore)m"
+            labelScore?.zPosition = 5
         }
     }
     
@@ -837,7 +843,14 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             if !self.children.contains(goBackgroundLite!) {
                 self.addChild(goBackgroundLite!)
                 goBackgroundLite?.position.y = 0 + self.cam.position.y
+                self.yourScoreLabel?.text = "\(returnScore())m"
+                self.maxScoreLabel?.text = "\(UserInfo.shared.highScore)m"
+            } else {
+                self.yourScoreLabel?.text = "\(returnScore())m"
+                self.maxScoreLabel?.text = "\(UserInfo.shared.highScore)m"
             }
+            
+            
         }
         else if playEnable == .gameOverAd {
             if self.children.contains(goBackgroundLite!) {
@@ -851,8 +864,12 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 self.addChild(goBackground!)
                 print(goBackground!.position.y, self.cam.position.y)
                 goBackground?.position.y = 0 + self.cam.position.y
-                
+                self.scoreGameOver?.text = "\(returnScore())m"
+                self.maxScoreGameOver?.text = "\(UserInfo.shared.highScore)m"
                 print("ad")
+            } else {
+                self.scoreGameOver?.text = "\(returnScore())m"
+                self.maxScoreGameOver?.text = "\(UserInfo.shared.highScore)m"
             }
                
             
