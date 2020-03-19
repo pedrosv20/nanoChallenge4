@@ -247,7 +247,12 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         
         
         self.addChild(self.currentNode!)
+        guideRectangle?.removeFromParent()
         self.addChild(guideRectangle!)
+        
+        
+        print("#1 addRec")
+        
         
         //MARK: ADD ARRAY BLOCKS
         //        self.blocksList.append(self.currentNode!)
@@ -291,6 +296,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         if playEnable == .menu {
             if (playLabel?.contains(pos))! {
                 self.cam.position.y = 0
+                self.guideRectangle?.removeFromParent()
                 playEnable = .play
             }
         }
@@ -359,14 +365,14 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             let touchedNodes = self.nodes(at: positionInScene)
             for touch in touchedNodes {
                 let touchName = touch.name
-                
-                if (touchName != nil && touchName!.contains("go_extraLife.name") ) {
+                print(touch.name)
+                if (touchName != nil && touchName!.contains("go_extraLife") ) {
                     self.controller?.showRewardedAd()
                     UserInfo.shared.showRewardedAd = true
                     self.isPaused = true
                     
                 }
-                else if (touchName != nil && touchName!.contains("go_noThanks.name")  ) {
+                else if (touchName != nil && touchName!.contains("go_noThanks")  ) {
                     UserInfo.shared.showRewardedAd = false
                     self.playEnable = .menu
                     self.isPaused = false
@@ -417,9 +423,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 run(self.audioManager!.blockTouch)
                 
                 self.currentNode?.removeAllChildren()
+                self.guideRectangle!.removeFromParent()
                 self.currentNode = nil
                 self.isFalling = false
-                self.guideRectangle!.removeFromParent()
+                
             }
                 
                 
@@ -434,9 +441,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 
                 self.currentNode?.removeAllChildren()
                 self.removeChildren(in: [self.currentNode!])
+                self.guideRectangle!.removeFromParent()
                 self.currentNode = nil
                 self.isFalling = false
-                self.guideRectangle!.removeFromParent()
+                
                 lifes -= 1
                 
             }
@@ -581,6 +589,22 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         if getLifes() <= 0 { //gameOver
             heartInGame?.run(SKAction.setTexture(SKTexture(imageNamed: "heart_0")))
             
+            currentNode?.removeFromParent()
+            
+            self.guideRectangle?.removeFromParent()
+            
+            
+            self.isFalling = false
+            
+            
+            if highScoreLine == nil {
+                addLine()
+            }
+            
+            self.isUserInteractionEnabled = false
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (Timer) in
+                self.isUserInteractionEnabled = true
+            }
             
             if !UserInfo.shared.showRewardedAd {
                 self.playEnable = .gameOverAd
@@ -588,25 +612,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 self.playEnable = .gameOver
             }
             
-            if highScoreLine == nil {
-                addLine()
-            }
-            
-            
-            if self.currentNode != nil {
-                currentNode?.removeFromParent()
-                guideRectangle?.removeFromParent()
-            }
-            
-            
-            self.isFalling = false
             
             
             
-            self.isUserInteractionEnabled = false
-            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (Timer) in
-                self.isUserInteractionEnabled = true
-            }
             //            self.controller?.showRewardedAd()
             
             
@@ -728,7 +736,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     func checkHighScore() {
         
         if highScoreLine != nil {
-            print("#1", maxY!, highScoreLine!.frame.midY)
+            
             if maxY != 0.0 {
                 if  maxY! > highScoreLine!.frame.midY {
                     self.highScoreLine!.removeFromParent()
@@ -741,11 +749,14 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        print(playEnable)
+        
         if playEnable == .play { //game
             
             UIConfigInGame()
             highScoreLine?.isHidden = false
+            if self.guideRectangle != nil && currentNode == nil{
+                self.guideRectangle?.removeFromParent()
+            }
             if self.children.contains(goBackground!) {
                 goBackground?.removeFromParent()
             }
@@ -772,6 +783,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         }
         else if playEnable == .menu{
             self.lifes = 3
+            if self.guideRectangle != nil {
+                self.guideRectangle?.removeFromParent()
+            }
             if self.children.contains(goBackgroundLite!) {
                 goBackgroundLite?.removeFromParent()
             }
@@ -791,6 +805,8 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             distance = 0.0
             self.cam.position.y = 0
             clearBlocks()
+            self.guideRectangle?.removeAllChildren()
+            self.guideRectangle?.removeFromParent()
             //tela inicial
             UserInfo.shared.showRewardedAd = false
             highScoreLine?.isHidden = true
@@ -806,28 +822,30 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             if self.children.contains(goBackground!) {
                 goBackground?.removeFromParent()
             }
-            
+            if self.guideRectangle != nil {
+                self.guideRectangle?.removeFromParent()
+            }
             if !self.children.contains(goBackgroundLite!) {
                 self.addChild(goBackgroundLite!)
-                goBackgroundLite?.position.y = (goBackgroundLite?.position.y)! + self.cam.position.y
-                
-            } else {
-                goBackgroundLite?.position.y = (goBackgroundLite?.position.y)! + self.cam.position.y
-                
+                goBackgroundLite?.position.y = 0 + self.cam.position.y
             }
         }
         else if playEnable == .gameOverAd {
             if self.children.contains(goBackgroundLite!) {
                 goBackgroundLite?.removeFromParent()
             }
+            if self.guideRectangle != nil {
+                self.guideRectangle?.removeFromParent()
+            }
             if !self.children.contains(goBackground!) {
                 self.addChild(goBackground!)
-                
+                print(goBackground!.position.y, self.cam.position.y)
+                goBackground?.position.y = 0 + self.cam.position.y
                 
                 print("ad")
-            } else {
-                goBackground?.position.y = (goBackground?.position.y)! + self.cam.position.y
             }
+               
+            
             
             
         }
