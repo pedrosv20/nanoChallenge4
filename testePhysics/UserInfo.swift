@@ -11,7 +11,7 @@ import SpriteKit
 
 class UserInfo {
     
-    var highScore: Int = 0 {
+    var highScore: Int {
         didSet {
             UserDefaults.standard.set(self.highScore, forKey: "highScore")
         }

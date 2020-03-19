@@ -744,13 +744,12 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         }
         if !self.children.contains(layerScore!) {
             addChild(layerScore!)
-            layerScore?.zPosition = 2
-            labelScore?.text = "\(UserInfo.shared.highScore)m"
-            labelScore?.zPosition = 5
-        } else {
-//            print("carregou labelScore")
-            labelScore?.text = "\(UserInfo.shared.highScore)m"
-            labelScore?.zPosition = 5
+            if !layerScore!.children.contains(labelScore!) {
+                layerScore!.addChild(labelScore!)
+                labelScore!.text = "\(UserInfo.shared.highScore) m"
+            } else {
+                
+            }
         }
     }
     
@@ -806,10 +805,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             
         }
         else if playEnable == .menu{
-            if self.guideRectangle == nil {
-//                print("Aaaaa")
-            }
-//            print(self.children)
+            
             UserInfo.shared.showRewardedAd = false
             self.lifes = 3
             if self.guideRectangle != nil {
