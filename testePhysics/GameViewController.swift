@@ -13,12 +13,7 @@ import GoogleMobileAds
 import GameKit
 
 class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBasedVideoAdDelegate{
-//    , GKGameCenterControllerDelegate
-//    GKGameCenterControllerDelegate
-    
-//    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
-//        gameCenterViewController.dismiss(animated: true, completion: nil)
-//    }
+
 
     
     func rewardedAd(_ rewardedAd: GADRewardedAd, userDidEarn reward: GADAdReward) {
@@ -38,6 +33,9 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
     override func viewDidLoad() {
         super.viewDidLoad()
 //        authenticateLocalPlayer()
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        GADRewardBasedVideoAd.sharedInstance().load(GADRequest(),
+        withAdUnitID: "ca-app-pub-9555319833753210/6124335048")
         GADRewardBasedVideoAd.sharedInstance().delegate = self
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers =
         [ "6f0766e55539d67ae625c3ed00af5546" ]
@@ -136,6 +134,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
     func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
         didRewardUserWith reward: GADAdReward) {
       print("Reward received with currency: \(reward.type), amount \(reward.amount).")
+        self.gameScene.checkFallingBlocks()
         self.gameScene.lifes = 1
         UserInfo.shared.showRewardedAd = false
     }
@@ -162,7 +161,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
         print("TEYQUETINHO")
         
       GADRewardBasedVideoAd.sharedInstance().load(GADRequest(),
-          withAdUnitID: "ca-app-pub-9555319833753210/6124335048")
+      withAdUnitID: "ca-app-pub-9555319833753210/6124335048")
         
         if self.gameScene.lifes  < 1 {
             self.gameScene.playEnable = .menu
@@ -173,6 +172,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
             self.gameScene.playEnable = .play
         }
         self.gameScene.isPaused = false
+        
         
     }
 

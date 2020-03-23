@@ -376,7 +376,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             let touchedNodes = self.nodes(at: positionInScene)
             for touch in touchedNodes {
                 let touchName = touch.name
-                print(touchName, UserInfo.shared.showRewardedAd)
+//                print(touchName, UserInfo.shared.showRewardedAd)
                 if (touchName != nil && touchName!.contains("go_extraLife") ) {
                     self.controller?.showRewardedAd()
                     UserInfo.shared.showRewardedAd = true
@@ -465,10 +465,11 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 
             else  {
                 for block in blocksList {
-                    if block.position.y < -600 {
+                    if block.position.y < -600  {
                         if blocksList.contains(block) {
                             blocksList.remove(at: blocksList.firstIndex(of: block)!)
                         }
+                        
                         lifes -= 1
 
                         run(self.audioManager!.blockOut)
@@ -604,12 +605,8 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             //gameOver
             
             heartInGame?.run(SKAction.setTexture(SKTexture(imageNamed: "heart_0")))
-            
+            GameCenter.shared.updateScore(with: UserInfo.shared.highScore)
             currentNode?.removeFromParent()
-            
-   
-            
-            
             self.isFalling = false
             
             
@@ -620,6 +617,13 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             self.isUserInteractionEnabled = false
             Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (Timer) in
                 self.isUserInteractionEnabled = true
+            }
+            
+            for node in blocksList {
+                if (node.physicsBody?.velocity.dy)! > CGFloat(0) {
+                    node.removeFromParent()
+                    blocksList.remove(at: blocksList.firstIndex(of: node)!)
+                }
             }
             
             if !UserInfo.shared.showRewardedAd {
@@ -701,7 +705,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         //        lifeInGame?.text = "life: \(getLifes())"
         heartInGame?.run(SKAction.setTexture(SKTexture(imageNamed: "heart_\(getLifes())")))
         scoreInGame?.text = "\(returnScore())m"
-        GameCenter.shared.updateScore(with: returnScore())
+        
         
         //        lifeInGame?.zPosition = 2
         heartInGame?.zPosition = 2
@@ -747,10 +751,15 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             if !layerScore!.children.contains(labelScore!) {
                 layerScore!.addChild(labelScore!)
                 labelScore!.text = "\(UserInfo.shared.highScore) m"
+                print(UserInfo.shared.highScore)
             } else {
-                
+                labelScore!.text = "\(UserInfo.shared.highScore) m"
+                print(UserInfo.shared.highScore)
             }
-        }
+        } else {
+            labelScore!.text = "\(UserInfo.shared.highScore) m"
+            print(UserInfo.shared.highScore)
+            }
     }
     
     func checkHighScore() {
@@ -768,8 +777,20 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         
     }
     
+    func checkFallingBlocks() {
+        for block in blocksList {
+            if ((block.physicsBody?.velocity.dy)!) > CGFloat(0.0) {
+                block.removeFromParent()
+                blocksList.remove(at: blocksList.firstIndex(of: block)!)
+            }
+        }
+    }
+    
+    
+    
     override func update(_ currentTime: TimeInterval) {
-        print(UserInfo.shared.showRewardedAd)
+//        print(UserInfo.shared.showRewardedAd)
+        
         
         
         if playEnable == .play { //game
@@ -881,10 +902,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 self.scoreGameOver?.text = "\(returnScore())m"
                 self.maxScoreGameOver?.text = "\(UserInfo.shared.highScore)m"
             }
-               
-            
-            
-            
         }
     }
 }
