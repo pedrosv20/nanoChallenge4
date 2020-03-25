@@ -37,8 +37,8 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
         GADRewardBasedVideoAd.sharedInstance().load(GADRequest(),
         withAdUnitID: "ca-app-pub-9555319833753210/6124335048")
         GADRewardBasedVideoAd.sharedInstance().delegate = self
-        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers =
-        [ "6f0766e55539d67ae625c3ed00af5546" ]
+//        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers =
+//        [ "6f0766e55539d67ae625c3ed00af5546" ]
         GADRewardBasedVideoAd.sharedInstance().delegate = self
         interstitial = createAndLoadInterstitial()
         let request = GADRequest()
@@ -141,6 +141,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
 
     func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd:GADRewardBasedVideoAd) {
       print("Reward based video ad is received.")
+        UserInfo.shared.canShowAd = true
     }
 
     func rewardBasedVideoAdDidOpen(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
@@ -170,6 +171,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
         } else {
             UserInfo.shared.showRewardedAd = true
             self.gameScene.playEnable = .play
+            UserInfo.shared.mataTudo = true
         }
         self.gameScene.isPaused = false
         
@@ -182,7 +184,8 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
 
     func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
         didFailToLoadWithError error: Error) {
-      print("Reward based video ad failed to load.")
+        UserInfo.shared.canShowAd = false
+      print("Reward based video ad failed to load.", error)
     }
     
     func showRewardedAd() {

@@ -25,6 +25,10 @@ class UserInfo {
         }
     }
     
+    var mataTudo = false
+    
+    var canShowAd = false
+    
     public static let shared = UserInfo()
     
     private init() {

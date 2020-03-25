@@ -377,10 +377,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             for touch in touchedNodes {
                 let touchName = touch.name
 //                print(touchName, UserInfo.shared.showRewardedAd)
-                if (touchName != nil && touchName!.contains("go_extraLife") ) {
+                if (touchName != nil && touchName!.contains("go_extraLife") && UserInfo.shared.canShowAd) {
                     self.controller?.showRewardedAd()
                     UserInfo.shared.showRewardedAd = true
-                    self.isPaused = true
                     
                 }
                 else if (touchName != nil && touchName!.contains("go_noThanks")) {
@@ -422,6 +421,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     func checkCollision() {
         
         // verifica se colidiu com outro bloco, cenario ou caiu pra fora
+        let maxX = self.view!.bounds.width/2 + currentNode!.frame.width/2
+        let minX = -1 * maxX
+        
         if self.currentNode != nil {
             
             if (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Polygon"))! || (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Rectangle"))! || (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Compound"))!  {
@@ -444,7 +446,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             }
                 
                 
-            else if self.currentNode!.position.y <= CGFloat(-600 + self.cam.position.y) {
+            else if self.currentNode!.position.y <= CGFloat(-600 + self.cam.position.y) || currentNode!.position.x > maxX || currentNode!.position.x < minX {
                 
                 if blocksList.contains(currentNode!) {
                     blocksList.remove(at: blocksList.firstIndex(of: self.currentNode!)!)
@@ -464,8 +466,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             }
                 
             else  {
+                
+                
                 for block in blocksList {
-                    if block.position.y < -600  {
+                    if block.position.y < -600    {
                         if blocksList.contains(block) {
                             blocksList.remove(at: blocksList.firstIndex(of: block)!)
                         }
@@ -617,13 +621,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             self.isUserInteractionEnabled = false
             Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (Timer) in
                 self.isUserInteractionEnabled = true
-            }
-            
-            for node in blocksList {
-                if (node.physicsBody?.velocity.dy)! > CGFloat(0) {
-                    node.removeFromParent()
-                    blocksList.remove(at: blocksList.firstIndex(of: node)!)
-                }
             }
             
             if !UserInfo.shared.showRewardedAd {
@@ -779,7 +776,8 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     func checkFallingBlocks() {
         for block in blocksList {
-            if ((block.physicsBody?.velocity.dy)!) > CGFloat(0.0) {
+            if ((block.physicsBody?.velocity.dy)!) > CGFloat(0.0) && block.position.y < -600 + self.cam.position.y {
+                print("existe", block.position)
                 block.removeFromParent()
                 blocksList.remove(at: blocksList.firstIndex(of: block)!)
             }
@@ -798,6 +796,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             
             UIConfigInGame()
             highScoreLine?.isHidden = false
+            
             if self.guideRectangle != nil && currentNode == nil{
                 self.guideRectangle?.removeFromParent()
             }
@@ -819,10 +818,26 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 }
             }
             if currentNode?.physicsBody != nil {
-                checkCollision()
+                //if flag true, timer 1 segundo e depois vai pra false e roda o checkcolision
+                if UserInfo.shared.mataTudo {
+                    Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (Timer) in
+                        self.cameraObserver()
+                        for block in self.blocksList {
+                            if block.position.y < -600  {
+                                if self.blocksList.contains(block) {
+                                    self.blocksList.remove(at: self.blocksList.firstIndex(of: block)!)
+                                }
+                                
+                            }
+                        }
+                        UserInfo.shared.mataTudo = false
+                    }
+                } else {
+                    checkCollision()
+                }
             }
-            cameraObserver()
             gameOver()
+            cameraObserver()
             
         }
         else if playEnable == .menu{
@@ -884,6 +899,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             
         }
         else if playEnable == .gameOverAd {
+            checkFallingBlocks()
             if self.children.contains(goBackgroundLite!) {
                 goBackgroundLite?.removeFromParent()
             }
@@ -901,6 +917,12 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             } else {
                 self.scoreGameOver?.text = "\(returnScore())m"
                 self.maxScoreGameOver?.text = "\(UserInfo.shared.highScore)m"
+            }
+            
+            if !UserInfo.shared.canShowAd {
+                self.go_extraLife?.alpha = 0.5
+            } else {
+                self.go_extraLife!.alpha = 1
             }
         }
     }
