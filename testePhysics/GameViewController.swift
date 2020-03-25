@@ -12,7 +12,7 @@ import GameplayKit
 import GoogleMobileAds
 import GameKit
 
-class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBasedVideoAdDelegate{
+class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardedAdDelegate{
 
 
     
@@ -29,19 +29,29 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
     
     let leaderboardId = "com.PedroVargas.HighScore"
     
+    var rewardedAd: GADRewardedAd?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 //        authenticateLocalPlayer()
-        
-        
-        GADRewardBasedVideoAd.sharedInstance().load(GADRequest(),
-        withAdUnitID: "ca-app-pub-9555319833753210/6124335048")
-        
-        GADRewardBasedVideoAd.sharedInstance().delegate = self
-        
-        
-        GADRewardBasedVideoAd.sharedInstance().delegate = self
+        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+         rewardedAd?.load(GADRequest()) { error in
+           if let error = error {
+             // Handle ad failed to load case.
+            UserInfo.shared.canShowAd = false
+           } else {
+             // Ad successfully loaded.
+            UserInfo.shared.canShowAd = false
+           }
+        }
+//
+//        GADRewardBasedVideoAd.sharedInstance().load(GADRequest(),
+//        withAdUnitID: "ca-app-pub-9555319833753210/6124335048")
+//
+//        GADRewardBasedVideoAd.sharedInstance().delegate = self
+//
+//
+//        GADRewardBasedVideoAd.sharedInstance().delegate = self
 //        interstitial = createAndLoadInterstitial()
 //        let request = GADRequest()
 //        interstitial.load(request)
@@ -118,85 +128,100 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
 //           }
 //    }
 
-    func createAndLoadInterstitial() -> GADInterstitial {
-      var interstitial = GADInterstitial(adUnitID: "ca-app-pub-9555319833753210/2323894677")
-      interstitial.delegate = self
-      interstitial.load(GADRequest())
-      return interstitial
-    }
-
-
-    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
-        interstitial = createAndLoadInterstitial()
-        print("saiu")
+//    func createAndLoadInterstitial() -> GADInterstitial {
+//      var interstitial = GADInterstitial(adUnitID: "ca-app-pub-9555319833753210/2323894677")
+//      interstitial.delegate = self
+//      interstitial.load(GADRequest())
+//      return interstitial
+//    }
+//
+//
+//    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+//        interstitial = createAndLoadInterstitial()
+//        print("saiu")
+//    }
+//    
+//    func showAd() {
+//        if interstitial.isReady {
+//            interstitial.present(fromRootViewController: self)
+//        }
+//    }
+    
+//    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
+//        didRewardUserWith reward: GADAdReward) {
+//      print("Reward received with currency: \(reward.type), amount \(reward.amount).")
+//        self.gameScene.checkFallingBlocks()
+//        self.gameScene.lifes = 1
+//        UserInfo.shared.showRewardedAd = false
+//    }
+//
+//    func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd:GADRewardBasedVideoAd) {
+//      print("Reward based video ad is received.")
+//        UserInfo.shared.canShowAd = true
+//    }
+//
+//    func rewardBasedVideoAdDidOpen(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
+//      print("Opened reward based video ad.")
+//
+//    }
+//
+//    func rewardBasedVideoAdDidStartPlaying(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
+//      print("Reward based video ad started playing.")
+//    }
+//
+//    func rewardBasedVideoAdDidCompletePlaying(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
+//      print("Reward based video ad has completed.")
+//
+//    }
+//
+//    func rewardBasedVideoAdDidClose(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
+//        print("TEYQUETINHO")
+//
+//      GADRewardBasedVideoAd.sharedInstance().load(GADRequest(),
+//      withAdUnitID: "ca-app-pub-9555319833753210/6124335048")
+//
+//        if self.gameScene.lifes  < 1 {
+//            self.gameScene.playEnable = .menu
+//            UserInfo.shared.showRewardedAd = false
+//            self.gameScene.goBackground?.removeFromParent()
+//        } else {
+//            UserInfo.shared.showRewardedAd = true
+//            self.gameScene.playEnable = .play
+//            UserInfo.shared.mataTudo = true
+//        }
+//        self.gameScene.isPaused = false
+//
+//
+//    }
+//
+//    func rewardBasedVideoAdWillLeaveApplication(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
+//      print("Reward based video ad will leave application.")
+//    }
+//
+//    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
+//        didFailToLoadWithError error: Error) {
+//        UserInfo.shared.canShowAd = false
+//        print("Reward based video ad failed to load.", error.localizedDescription)
+//    }
+    func rewardedAdDidDismiss(_ rewardedAd: GADRewardedAd) {
+      print("Rewarded ad dismissed.")
     }
     
-    func showAd() {
-        if interstitial.isReady {
-            interstitial.present(fromRootViewController: self)
-        }
-    }
-    
-    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
-        didRewardUserWith reward: GADAdReward) {
-      print("Reward received with currency: \(reward.type), amount \(reward.amount).")
-        self.gameScene.checkFallingBlocks()
-        self.gameScene.lifes = 1
-        UserInfo.shared.showRewardedAd = false
-    }
-
-    func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd:GADRewardBasedVideoAd) {
-      print("Reward based video ad is received.")
-        UserInfo.shared.canShowAd = true
-    }
-
-    func rewardBasedVideoAdDidOpen(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-      print("Opened reward based video ad.")
+    func rewardedAdDidPresent(_ rewardedAd: GADRewardedAd) {
+      print("Rewarded ad presented.")
         
     }
 
-    func rewardBasedVideoAdDidStartPlaying(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-      print("Reward based video ad started playing.")
+    func rewardedAd(_ rewardedAd: GADRewardedAd, didFailToPresentWithError error: Error) {
+      print("Rewarded ad failed to present.")
     }
-
-    func rewardBasedVideoAdDidCompletePlaying(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-      print("Reward based video ad has completed.")
-        
-    }
-
-    func rewardBasedVideoAdDidClose(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        print("TEYQUETINHO")
-        
-      GADRewardBasedVideoAd.sharedInstance().load(GADRequest(),
-      withAdUnitID: "ca-app-pub-9555319833753210/6124335048")
-        
-        if self.gameScene.lifes  < 1 {
-            self.gameScene.playEnable = .menu
-            UserInfo.shared.showRewardedAd = false
-            self.gameScene.goBackground?.removeFromParent()
-        } else {
-            UserInfo.shared.showRewardedAd = true
-            self.gameScene.playEnable = .play
-            UserInfo.shared.mataTudo = true
-        }
-        self.gameScene.isPaused = false
-        
-        
-    }
-
-    func rewardBasedVideoAdWillLeaveApplication(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-      print("Reward based video ad will leave application.")
-    }
-
-    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
-        didFailToLoadWithError error: Error) {
-        UserInfo.shared.canShowAd = false
-        print("Reward based video ad failed to load.", error.localizedDescription)
-    }
-    
+//
     func showRewardedAd() {
-        if GADRewardBasedVideoAd.sharedInstance().isReady == true {
-          GADRewardBasedVideoAd.sharedInstance().present(fromRootViewController: self)
+//        if GADRewardBasedVideoAd.sharedInstance().isReady == true {
+//          GADRewardBasedVideoAd.sharedInstance().present(fromRootViewController: self)
+//        }
+        if rewardedAd?.isReady == true {
+           rewardedAd?.present(fromRootViewController: self, delegate:self)
         }
     }
 
@@ -216,3 +241,4 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
         return true
     }
 }
+
