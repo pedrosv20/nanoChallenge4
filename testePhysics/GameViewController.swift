@@ -14,11 +14,6 @@ import GameKit
 
 class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardedAdDelegate{
 
-
-    
-    func rewardedAd(_ rewardedAd: GADRewardedAd, userDidEarn reward: GADAdReward) {
-        
-    }
     
     var gameScene: GameScene!
     var interstitial: GADInterstitial!
@@ -34,27 +29,20 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
     override func viewDidLoad() {
         super.viewDidLoad()
 //        authenticateLocalPlayer()
-        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
-         rewardedAd?.load(GADRequest()) { error in
-           if let error = error {
-             // Handle ad failed to load case.
-            UserInfo.shared.canShowAd = false
-           } else {
-             // Ad successfully loaded.
-            UserInfo.shared.canShowAd = false
-           }
-        }
-//
-//        GADRewardBasedVideoAd.sharedInstance().load(GADRequest(),
-//        withAdUnitID: "ca-app-pub-9555319833753210/6124335048")
-//
-//        GADRewardBasedVideoAd.sharedInstance().delegate = self
-//
-//
-//        GADRewardBasedVideoAd.sharedInstance().delegate = self
-//        interstitial = createAndLoadInterstitial()
-//        let request = GADRequest()
-//        interstitial.load(request)
+        rewardedAd = createAndLoadRewardedAd()
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ "6f0766e55539d67ae625c3ed00af5546" ]
+//         rewardedAd?.load(GADRequest()) { error in
+//           if let error = error {
+//             // Handle ad failed to load case.
+//            print("reward cant be loaded")
+//            UserInfo.shared.canShowAd = false
+//           } else {
+//             // Ad successfully loaded.
+//            print("reward loaded")
+//            UserInfo.shared.canShowAd = true
+//           }
+//        }
+
         
         GameCenter.shared.authenticateLocalPlayer(presentingVC: self)
         
@@ -203,12 +191,46 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
 //        UserInfo.shared.canShowAd = false
 //        print("Reward based video ad failed to load.", error.localizedDescription)
 //    }
+    
+    func createAndLoadRewardedAd() -> GADRewardedAd {
+      rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-9555319833753210/6124335048")
+      rewardedAd?.load(GADRequest()) { error in
+        if let error = error {
+          print("Loading failed: \(error)")
+            UserInfo.shared.canShowAd = false
+        } else {
+          print("Loading Succeeded")
+            UserInfo.shared.canShowAd = true
+        }
+      }
+      return rewardedAd!
+    }
+    
+    func rewardedAd(_ rewardedAd: GADRewardedAd, userDidEarn reward: GADAdReward) {
+      print("Reward received with currency: \(reward.type), amount \(reward.amount).")
+        self.gameScene.checkFallingBlocks()
+        self.gameScene.lifes = 1
+        UserInfo.shared.showRewardedAd = false
+    }
+    
     func rewardedAdDidDismiss(_ rewardedAd: GADRewardedAd) {
-      print("Rewarded ad dismissed.")
+        print("Rewarded ad dismissed.")
+        self.rewardedAd = createAndLoadRewardedAd()
+        if self.gameScene.lifes  < 1 {
+            self.gameScene.playEnable = .menu
+            UserInfo.shared.showRewardedAd = false
+            self.gameScene.goBackground?.removeFromParent()
+        } else {
+            UserInfo.shared.showRewardedAd = true
+            self.gameScene.playEnable = .play
+            UserInfo.shared.mataTudo = true
+        }
+        self.gameScene.isPaused = false
     }
     
     func rewardedAdDidPresent(_ rewardedAd: GADRewardedAd) {
       print("Rewarded ad presented.")
+        
         
     }
 
