@@ -15,10 +15,12 @@
 		0788D3D62423B0F2003EBE69 /* GameCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0788D3D52423B0F2003EBE69 /* GameCenter.swift */; };
 		07AA2CDB241BC30300FE20E3 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA2CDA241BC30300FE20E3 /* UserInfo.swift */; };
 		07E0DF9F242B804C00B0B4EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 07E0DF9E242B804C00B0B4EF /* GoogleService-Info.plist */; };
-		07E0DFA4242B811100B0B4EF /* New Record .wav in Resources */ = {isa = PBXBuildFile; fileRef = 07E0DFA0242B811100B0B4EF /* New Record .wav */; };
-		07E0DFA5242B811100B0B4EF /* Block touch.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07E0DFA1242B811100B0B4EF /* Block touch.wav */; };
-		07E0DFA6242B811100B0B4EF /* New Record with crowd.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07E0DFA2242B811100B0B4EF /* New Record with crowd.wav */; };
-		07E0DFA7242B811100B0B4EF /* Lose.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07E0DFA3242B811100B0B4EF /* Lose.wav */; };
+		07E0DFAC242B826F00B0B4EF /* Towers Music.wav in Resources */ = {isa = PBXBuildFile; fileRef = 077C3476242312A900E92A9E /* Towers Music.wav */; };
+		07E0DFAD242B827300B0B4EF /* Block touch.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07E0DFAA242B822F00B0B4EF /* Block touch.wav */; };
+		07E0DFAE242B827300B0B4EF /* Lose.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07E0DFAB242B823000B0B4EF /* Lose.wav */; };
+		07E0DFAF242B827300B0B4EF /* New Record .wav in Resources */ = {isa = PBXBuildFile; fileRef = 07E0DFA8242B822F00B0B4EF /* New Record .wav */; };
+		07E0DFB0242B827300B0B4EF /* New Record with crowd.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07E0DFA9242B822F00B0B4EF /* New Record with crowd.wav */; };
+		07E0DFB1242B827300B0B4EF /* Block Out.wav in Resources */ = {isa = PBXBuildFile; fileRef = 077C3477242312A900E92A9E /* Block Out.wav */; };
 		07EFFD29240E8E92008D517B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EFFD28240E8E92008D517B /* AppDelegate.swift */; };
 		07EFFD2B240E8E92008D517B /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 07EFFD2A240E8E92008D517B /* GameScene.sks */; };
 		07EFFD2D240E8E92008D517B /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 07EFFD2C240E8E92008D517B /* Actions.sks */; };
@@ -43,10 +45,10 @@
 		079C9B68242242C2002EDEEE /* AudioManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		07AA2CDA241BC30300FE20E3 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		07E0DF9E242B804C00B0B4EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		07E0DFA0242B811100B0B4EF /* New Record .wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "New Record .wav"; path = "../../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/New Record .wav"; sourceTree = "<group>"; };
-		07E0DFA1242B811100B0B4EF /* Block touch.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "Block touch.wav"; path = "../../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/Block touch.wav"; sourceTree = "<group>"; };
-		07E0DFA2242B811100B0B4EF /* New Record with crowd.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "New Record with crowd.wav"; path = "../../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/New Record with crowd.wav"; sourceTree = "<group>"; };
-		07E0DFA3242B811100B0B4EF /* Lose.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Lose.wav; path = "../../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/Lose.wav"; sourceTree = "<group>"; };
+		07E0DFA8242B822F00B0B4EF /* New Record .wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "New Record .wav"; sourceTree = "<group>"; };
+		07E0DFA9242B822F00B0B4EF /* New Record with crowd.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "New Record with crowd.wav"; sourceTree = "<group>"; };
+		07E0DFAA242B822F00B0B4EF /* Block touch.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Block touch.wav"; sourceTree = "<group>"; };
+		07E0DFAB242B823000B0B4EF /* Lose.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Lose.wav; sourceTree = "<group>"; };
 		07EFFD25240E8E92008D517B /* Stack Towers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Stack Towers.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		07EFFD28240E8E92008D517B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		07EFFD2A240E8E92008D517B /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -76,19 +78,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		079C9B6A24224406002EDEEE /* Sounds */ = {
-			isa = PBXGroup;
-			children = (
-				07E0DFA1242B811100B0B4EF /* Block touch.wav */,
-				07E0DFA3242B811100B0B4EF /* Lose.wav */,
-				07E0DFA0242B811100B0B4EF /* New Record .wav */,
-				07E0DFA2242B811100B0B4EF /* New Record with crowd.wav */,
-				077C3477242312A900E92A9E /* Block Out.wav */,
-				077C3476242312A900E92A9E /* Towers Music.wav */,
-			);
-			path = Sounds;
-			sourceTree = "<group>";
-		};
 		07EFFD1C240E8E92008D517B = {
 			isa = PBXGroup;
 			children = (
@@ -119,7 +108,12 @@
 				07EFFD30240E8E92008D517B /* GameViewController.swift */,
 				07EFFD32240E8E92008D517B /* Main.storyboard */,
 				07EFFD35240E8E97008D517B /* Assets.xcassets */,
-				079C9B6A24224406002EDEEE /* Sounds */,
+				07E0DFAA242B822F00B0B4EF /* Block touch.wav */,
+				07E0DFAB242B823000B0B4EF /* Lose.wav */,
+				07E0DFA8242B822F00B0B4EF /* New Record .wav */,
+				07E0DFA9242B822F00B0B4EF /* New Record with crowd.wav */,
+				077C3477242312A900E92A9E /* Block Out.wav */,
+				077C3476242312A900E92A9E /* Towers Music.wav */,
 				07EFFD37240E8E97008D517B /* LaunchScreen.storyboard */,
 				07EFFD3A240E8E97008D517B /* Info.plist */,
 				0758202824112F3A008DE26F /* BlockBuilder.swift */,
@@ -211,15 +205,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07E0DFB1242B827300B0B4EF /* Block Out.wav in Resources */,
 				07EFFD34240E8E92008D517B /* Main.storyboard in Resources */,
-				07E0DFA7242B811100B0B4EF /* Lose.wav in Resources */,
-				07E0DFA5242B811100B0B4EF /* Block touch.wav in Resources */,
-				07E0DFA4242B811100B0B4EF /* New Record .wav in Resources */,
+				07E0DFB0242B827300B0B4EF /* New Record with crowd.wav in Resources */,
+				07E0DFAD242B827300B0B4EF /* Block touch.wav in Resources */,
 				07EFFD2B240E8E92008D517B /* GameScene.sks in Resources */,
 				07EFFD36240E8E97008D517B /* Assets.xcassets in Resources */,
-				07E0DFA6242B811100B0B4EF /* New Record with crowd.wav in Resources */,
+				07E0DFAF242B827300B0B4EF /* New Record .wav in Resources */,
+				07E0DFAE242B827300B0B4EF /* Lose.wav in Resources */,
 				07EFFD39240E8E97008D517B /* LaunchScreen.storyboard in Resources */,
 				07E0DF9F242B804C00B0B4EF /* GoogleService-Info.plist in Resources */,
+				07E0DFAC242B826F00B0B4EF /* Towers Music.wav in Resources */,
 				07EFFD2D240E8E92008D517B /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

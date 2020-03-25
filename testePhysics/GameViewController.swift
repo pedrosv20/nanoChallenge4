@@ -34,15 +34,18 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
         super.viewDidLoad()
 //        authenticateLocalPlayer()
         GADMobileAds.sharedInstance().start(completionHandler: nil)
+        
         GADRewardBasedVideoAd.sharedInstance().load(GADRequest(),
         withAdUnitID: "ca-app-pub-9555319833753210/6124335048")
+        
         GADRewardBasedVideoAd.sharedInstance().delegate = self
-//        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers =
-//        [ "6f0766e55539d67ae625c3ed00af5546" ]
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers =
+        [ "6f0766e55539d67ae625c3ed00af5546" ]
+        
         GADRewardBasedVideoAd.sharedInstance().delegate = self
-        interstitial = createAndLoadInterstitial()
-        let request = GADRequest()
-        interstitial.load(request)
+//        interstitial = createAndLoadInterstitial()
+//        let request = GADRequest()
+//        interstitial.load(request)
         GameCenter.shared.authenticateLocalPlayer(presentingVC: self)
         
         if let view = self.view as! SKView? {
@@ -185,7 +188,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
     func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
         didFailToLoadWithError error: Error) {
         UserInfo.shared.canShowAd = false
-      print("Reward based video ad failed to load.", error)
+        print("Reward based video ad failed to load.", error.localizedDescription)
     }
     
     func showRewardedAd() {
