@@ -30,6 +30,7 @@
 		07EFFD36240E8E97008D517B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07EFFD35240E8E97008D517B /* Assets.xcassets */; };
 		07EFFD39240E8E97008D517B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07EFFD37240E8E97008D517B /* LaunchScreen.storyboard */; };
 		394BDEAC2421AB2E00117290 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394BDEAB2421AB2E00117290 /* AudioManager.swift */; };
+		397BA297242B8D7700E2A1A5 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 397BA296242B8D7700E2A1A5 /* Fonts */; };
 		BF04E3C5C6156B477F783EC6 /* Pods_testePhysics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FEE4D044313EBCE5ED3CD90 /* Pods_testePhysics.framework */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +61,7 @@
 		07EFFD38240E8E97008D517B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		07EFFD3A240E8E97008D517B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		394BDEAB2421AB2E00117290 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
+		397BA296242B8D7700E2A1A5 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		9FEE4D044313EBCE5ED3CD90 /* Pods_testePhysics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_testePhysics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C90698E840811A1E8440755D /* Pods-testePhysics.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testePhysics.release.xcconfig"; path = "Target Support Files/Pods-testePhysics/Pods-testePhysics.release.xcconfig"; sourceTree = "<group>"; };
 		D7F93D87ECF45B39FA3E6669 /* Pods-testePhysics.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testePhysics.debug.xcconfig"; path = "Target Support Files/Pods-testePhysics/Pods-testePhysics.debug.xcconfig"; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 		07EFFD27240E8E92008D517B /* testePhysics */ = {
 			isa = PBXGroup;
 			children = (
+				397BA296242B8D7700E2A1A5 /* Fonts */,
 				07EFFD28240E8E92008D517B /* AppDelegate.swift */,
 				07E0DF9E242B804C00B0B4EF /* GoogleService-Info.plist */,
 				07EFFD2A240E8E92008D517B /* GameScene.sks */,
@@ -210,6 +213,7 @@
 				07E0DFB0242B827300B0B4EF /* New Record with crowd.wav in Resources */,
 				07E0DFAD242B827300B0B4EF /* Block touch.wav in Resources */,
 				07EFFD2B240E8E92008D517B /* GameScene.sks in Resources */,
+				397BA297242B8D7700E2A1A5 /* Fonts in Resources */,
 				07EFFD36240E8E97008D517B /* Assets.xcassets in Resources */,
 				07E0DFAF242B827300B0B4EF /* New Record .wav in Resources */,
 				07E0DFAE242B827300B0B4EF /* Lose.wav in Resources */,
