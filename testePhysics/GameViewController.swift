@@ -30,7 +30,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
         super.viewDidLoad()
 //        authenticateLocalPlayer()
         rewardedAd = createAndLoadRewardedAd()
-        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ "6f0766e55539d67ae625c3ed00af5546" ]
+//        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ "6f0766e55539d67ae625c3ed00af5546" ]
 //         rewardedAd?.load(GADRequest()) { error in
 //           if let error = error {
 //             // Handle ad failed to load case.
@@ -42,8 +42,6 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
 //            UserInfo.shared.canShowAd = true
 //           }
 //        }
-
-        
         GameCenter.shared.authenticateLocalPlayer(presentingVC: self)
         
         if UserInfo.shared.highScore != 0 {
