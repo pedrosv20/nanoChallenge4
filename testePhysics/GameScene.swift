@@ -819,11 +819,13 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             }
             if currentNode?.physicsBody != nil {
                 //if flag true, timer 1 segundo e depois vai pra false e roda o checkcolision
+                let maxX = self.view!.bounds.width/2 + currentNode!.frame.width/2
+                let minX = -1 * maxX
+                 
                 if UserInfo.shared.mataTudo {
                     Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (Timer) in
-                        self.cameraObserver()
                         for block in self.blocksList {
-                            if block.position.y < -600  {
+                            if block.position.y < -600 || block.position.x > maxX || block.position.x < minX {
                                 if self.blocksList.contains(block) {
                                     self.blocksList.remove(at: self.blocksList.firstIndex(of: block)!)
                                 }

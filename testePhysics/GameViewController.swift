@@ -33,21 +33,24 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardBa
     override func viewDidLoad() {
         super.viewDidLoad()
 //        authenticateLocalPlayer()
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        
         
         GADRewardBasedVideoAd.sharedInstance().load(GADRequest(),
         withAdUnitID: "ca-app-pub-9555319833753210/6124335048")
         
         GADRewardBasedVideoAd.sharedInstance().delegate = self
-        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers =
-        [ "6f0766e55539d67ae625c3ed00af5546" ]
+        
         
         GADRewardBasedVideoAd.sharedInstance().delegate = self
 //        interstitial = createAndLoadInterstitial()
 //        let request = GADRequest()
 //        interstitial.load(request)
+        
         GameCenter.shared.authenticateLocalPlayer(presentingVC: self)
         
+        if UserInfo.shared.highScore != 0 {
+            GameCenter.shared.updateScore(with: UserInfo.shared.highScore)
+        }
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {
