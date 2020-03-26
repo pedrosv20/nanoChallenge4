@@ -293,7 +293,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         
         if currentNode != nil {
             currentNode!.physicsBody?.linearDamping = 0.1
-//            currentNode?.physicsBody?.mass = 0.01
+            currentNode?.physicsBody?.mass = 0.01
             
         }
     }
@@ -398,6 +398,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 //MARK: ADD ARRAY BLOCKS
                 self.currentNode?.physicsBody?.linearDamping = 6
                 self.blocksList.append(self.currentNode!)
+                currentNode?.physicsBody?.mass = 1
                 
                 //MARK: ADD LINHA
                 //                self.addChild(self.createLine(y: (self.currentNode?.frame.maxY)!))
