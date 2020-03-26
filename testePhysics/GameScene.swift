@@ -460,8 +460,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 self.guideRectangle!.removeFromParent()
                 self.currentNode = nil
                 self.isFalling = false
+                if !UserInfo.shared.mataTudo {
+                    lifes -= 1
+                }
                 
-                lifes -= 1
                 
             }
                 
@@ -474,7 +476,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                             blocksList.remove(at: blocksList.firstIndex(of: block)!)
                         }
                         
-                        lifes -= 1
+                        if !UserInfo.shared.mataTudo {
+                            lifes -= 1
+                        }
 
                         run(self.audioManager!.blockOut)
                         self.vibrate()
@@ -486,6 +490,8 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             
         }
     }
+    
+    
     
     //MARK: UPDATE CAMERA
     func updateCamera(){
@@ -601,7 +607,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     func getLifes() -> Int {
         return lifes
     }
-    
     
     
     func gameOver() {
@@ -776,7 +781,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     func checkFallingBlocks() {
         for block in blocksList {
-            if ((block.physicsBody?.velocity.dy)!) > CGFloat(0.0) && block.position.y < -600 + self.cam.position.y {
+            if block.position.y < -600 {
                 print("existe", block.position)
                 block.removeFromParent()
                 blocksList.remove(at: blocksList.firstIndex(of: block)!)
@@ -790,7 +795,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
 //        print(UserInfo.shared.showRewardedAd)
         
         
-        
+        print(blocksList.count)
         if playEnable == .play { //game
             
             
@@ -823,20 +828,12 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 let minX = -1 * maxX
                  
                 if UserInfo.shared.mataTudo {
-                    Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (Timer) in
-                        for block in self.blocksList {
-                            if block.position.y < -600 || block.position.x > maxX || block.position.x < minX {
-                                if self.blocksList.contains(block) {
-                                    self.blocksList.remove(at: self.blocksList.firstIndex(of: block)!)
-                                }
-                                
-                            }
-                        }
+                    Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { (Timer) in
                         UserInfo.shared.mataTudo = false
                     }
-                } else {
-                    checkCollision()
                 }
+                checkCollision()
+                
             }
             gameOver()
             cameraObserver()
@@ -901,6 +898,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             
         }
         else if playEnable == .gameOverAd {
+            cameraObserver()
             checkFallingBlocks()
             if self.children.contains(goBackgroundLite!) {
                 goBackgroundLite?.removeFromParent()
@@ -917,6 +915,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 self.maxScoreGameOver?.text = "\(UserInfo.shared.highScore)m"
 //                print("ad")
             } else {
+                goBackground?.position.y = 0 + self.cam.position.y
                 self.scoreGameOver?.text = "\(returnScore())m"
                 self.maxScoreGameOver?.text = "\(UserInfo.shared.highScore)m"
             }
