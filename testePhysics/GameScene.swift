@@ -59,7 +59,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     var layerScore: SKNode?
     var labelScore: SKLabelNode?
     var beganPosition : CGPoint = .zero
-    var highScoreLine: SKShapeNode? = nil
     
     var goBackground: SKNode?
     var go_extraLife : SKNode?
@@ -77,6 +76,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
 //    var gameOverLabel: SKLabelNode?
     var goCloseButton: SKNode?
     var gameCenterButton: SKNode?
+    
+    
+    var highScoreLine: SKNode?
+    
     //Sounds
     
     var audioManager :AudioManager?
@@ -111,6 +114,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     }
     
     func setupUI() {
+        
+        highScoreLine = childNode(withName: "highScoreLine") as! SKSpriteNode
+        
+        setHighScorePosition()
         
         nameLabel = childNode(withName: "nameLabel") as! SKSpriteNode
         
@@ -183,41 +190,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         return true
     }
     
-    //    func createLinesGride(){
-    //        let spaceLines = CGFloat(50/1)
-    //
-    //        let screenSize = UIScreen.main.bounds
-    //        let screenWidth = screenSize.width
-    ////        print("screenWidth: \(screenWidth)")
-    //        let numberGrids = Int(screenWidth / spaceLines) - 2
-    ////        print("numberGrids: \(numberGrids)")
-    //
-    //        //line center
-    //        let centerLine = self.createLine(x: 0)
-    //        centerLine.strokeColor = .blue
-    //        //        addChild(centerLine)
-    //
-    //
-    //        for i in 1...numberGrids{
-    //            let x = CGFloat(i)*spaceLines
-    //            addChild(self.createLine(x: x))
-    //            addChild(self.createLine(x: -x))
-    //
-    //        }
-    //
-    //    }
-    
-    //    func createLine(x1 : CGFloat, x2 :CGFloat, y1 :CGFloat, y2 :CGFloat) -> SKShapeNode{
-    //        let line = SKShapeNode()
-    //        let path = CGMutablePath()
-    //        path.move(to: CGPoint(x: 0, y: 0))
-    //        path.addLines(between: [CGPoint(x: x1, y: y1), CGPoint(x: x2, y: y2)])
-    //        line.path = path
-    //        line.strokeColor = .red
-    //        line.zPosition = 2
-    //
-    //        return line
-    //    }
     
     func addBlockInScene() {
         self.isFalling = true
@@ -262,12 +234,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         self.addChild(self.guideRectangle!)
         
         
-//        print("#1 addRec")
-        
-        
-        //MARK: ADD ARRAY BLOCKS
-        //        self.blocksList.append(self.currentNode!)
-        
         textureCount += 1
         
     }
@@ -276,14 +242,13 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         let blockElement = pieceArray.randomElement()!
         let blockElementPosition = pieceArray.firstIndex(of: blockElement)!
         let texture = blockElement + "_" + (String((textureCount % 5) + 1))
-        //        print("teste", texture)
         let block = builder.createBlock(texture: texture, path: BlockType.allCases[blockElementPosition])
         let xPos = CGFloat.random(in: (self.scene!.position.x - 200) ..< (self.scene!.position.x + 200))
         
         let maxX = self.view!.bounds.width/2 + block.node.size.width/2
         let minX = -1 * maxX
         
-        block.node.position = CGPoint(x: round(min(max(minX, xPos), maxX)), y: 400)
+        block.node.position = CGPoint(x: round(min(max(minX, xPos), maxX)), y: 600)
         block.node.physicsBody = nil
         block.node.run(SKAction.moveTo(y: (self.camera?.position.y)! - 1000, duration: 1))
         
@@ -379,6 +344,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
 //                print(touchName, UserInfo.shared.showRewardedAd)
                 if (touchName != nil && touchName!.contains("go_extraLife") && UserInfo.shared.canShowAd) {
                     self.controller?.showRewardedAd()
+                    self.audioManager!.bg.speed = 0
                     UserInfo.shared.showRewardedAd = true
                     
                 }
@@ -590,17 +556,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         return line
     }
     
-    func addLine() {
+    func setHighScorePosition() {
         let linePositionY = (UserInfo.shared.highScore - 12) * 50
-        let line = createLine(x1: self.frame.minX, x2: self.frame.maxX, y1: CGFloat(linePositionY), y2: CGFloat(linePositionY))
-        line.name = "line"
-        for children in self.children {
-            if children.name == "line" {
-                children.removeFromParent()
-            }
-        }
-        highScoreLine = line
-        addChild(highScoreLine!)
+        highScoreLine!.position.y = CGFloat(linePositionY)
+        highScoreLine!.name = "line"
     }
     
     
@@ -617,11 +576,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             GameCenter.shared.updateScore(with: UserInfo.shared.highScore)
             currentNode?.removeFromParent()
             self.isFalling = false
-            
-            
-            if highScoreLine == nil {
-                addLine()
-            }
             
             self.isUserInteractionEnabled = false
             Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (Timer) in
@@ -766,16 +720,15 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     func checkHighScore() {
         
-        if highScoreLine != nil {
-            
             if maxY != 0.0 {
-                if  maxY! > highScoreLine!.frame.midY {
-                    self.highScoreLine!.removeFromParent()
-                    self.highScoreLine = nil
+                if  maxY! > highScoreLine!.position.y {
+                    
+                    self.highScoreLine?.isHidden = true
+                    self.run(audioManager!.newRecord)
                 }
             }
             
-        }
+        
         
     }
     
@@ -798,7 +751,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         print(blocksList.count)
         if playEnable == .play { //game
             
-            
+            self.highScoreLine?.isHidden = false
             UIConfigInGame()
             highScoreLine?.isHidden = false
             

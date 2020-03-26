@@ -224,10 +224,13 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
             UserInfo.shared.mataTudo = true
         }
         self.gameScene.isPaused = false
+        self.gameScene.audioManager!.bg.speed = 1
     }
     
     func rewardedAdDidPresent(_ rewardedAd: GADRewardedAd) {
       print("Rewarded ad presented.")
+        
+        
         
         
     }
