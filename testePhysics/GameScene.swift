@@ -22,7 +22,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     let builder = BlockBuilder()
     var minTick = 0
     let maxTick = 60
-    private let pieceArray = ["bar"]
+    private let pieceArray = ["bar", "square", "teco", "tareco"]
     var textureCountArray = [1,2,3,4,5]
     var textureCount = 0
     var isFalling = false
@@ -725,7 +725,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 if  maxY! > highScoreLine!.position.y {
                     
                     self.highScoreLine?.isHidden = true
-                    self.run(audioManager!.newRecord)
+                    self.audioManager?.newRecord.speed = 1
+                    self.run(audioManager!.newRecord) {
+                        self.audioManager?.newRecord.speed = 0
+                    }
                 }
             }
             
