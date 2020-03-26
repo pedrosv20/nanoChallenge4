@@ -14,13 +14,13 @@
 		07459F64242B903400C6EA3D /* Towers Music.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07459F5E242B903300C6EA3D /* Towers Music.wav */; };
 		07459F65242B903400C6EA3D /* New Record with crowd.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07459F5F242B903300C6EA3D /* New Record with crowd.wav */; };
 		07459F66242B903400C6EA3D /* Block Out.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07459F60242B903300C6EA3D /* Block Out.wav */; };
+		07459F68242CF43200C6EA3D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 07459F67242CF43200C6EA3D /* GoogleService-Info.plist */; };
 		0758202924112F3A008DE26F /* BlockBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0758202824112F3A008DE26F /* BlockBuilder.swift */; };
 		0758202B241136F0008DE26F /* PathHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0758202A241136F0008DE26F /* PathHelper.swift */; };
 		0758202D241137FD008DE26F /* BlockType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0758202C241137FD008DE26F /* BlockType.swift */; };
 		077C3471242305BD00E92A9E /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077C3470242305BD00E92A9E /* GameKit.framework */; };
 		0788D3D62423B0F2003EBE69 /* GameCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0788D3D52423B0F2003EBE69 /* GameCenter.swift */; };
 		07AA2CDB241BC30300FE20E3 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA2CDA241BC30300FE20E3 /* UserInfo.swift */; };
-		07E0DF9F242B804C00B0B4EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 07E0DF9E242B804C00B0B4EF /* GoogleService-Info.plist */; };
 		07EFFD29240E8E92008D517B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EFFD28240E8E92008D517B /* AppDelegate.swift */; };
 		07EFFD2B240E8E92008D517B /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 07EFFD2A240E8E92008D517B /* GameScene.sks */; };
 		07EFFD2D240E8E92008D517B /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 07EFFD2C240E8E92008D517B /* Actions.sks */; };
@@ -42,6 +42,7 @@
 		07459F5E242B903300C6EA3D /* Towers Music.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Towers Music.wav"; sourceTree = "<group>"; };
 		07459F5F242B903300C6EA3D /* New Record with crowd.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "New Record with crowd.wav"; sourceTree = "<group>"; };
 		07459F60242B903300C6EA3D /* Block Out.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Block Out.wav"; sourceTree = "<group>"; };
+		07459F67242CF43200C6EA3D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0758202824112F3A008DE26F /* BlockBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockBuilder.swift; sourceTree = "<group>"; };
 		0758202A241136F0008DE26F /* PathHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathHelper.swift; sourceTree = "<group>"; };
 		0758202C241137FD008DE26F /* BlockType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockType.swift; sourceTree = "<group>"; };
@@ -49,7 +50,6 @@
 		0788D3D52423B0F2003EBE69 /* GameCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenter.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		079C9B68242242C2002EDEEE /* AudioManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		07AA2CDA241BC30300FE20E3 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
-		07E0DF9E242B804C00B0B4EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		07EFFD25240E8E92008D517B /* Stack Towers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Stack Towers.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		07EFFD28240E8E92008D517B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		07EFFD2A240E8E92008D517B /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -116,7 +116,7 @@
 			children = (
 				394829A1242CCD2800BA037B /* Fonts */,
 				07EFFD28240E8E92008D517B /* AppDelegate.swift */,
-				07E0DF9E242B804C00B0B4EF /* GoogleService-Info.plist */,
+				07459F67242CF43200C6EA3D /* GoogleService-Info.plist */,
 				07EFFD2A240E8E92008D517B /* GameScene.sks */,
 				07EFFD2C240E8E92008D517B /* Actions.sks */,
 				079C9B68242242C2002EDEEE /* AudioManager.swift */,
@@ -224,6 +224,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07459F68242CF43200C6EA3D /* GoogleService-Info.plist in Resources */,
 				07EFFD34240E8E92008D517B /* Main.storyboard in Resources */,
 				07459F64242B903400C6EA3D /* Towers Music.wav in Resources */,
 				07459F65242B903400C6EA3D /* New Record with crowd.wav in Resources */,
@@ -235,7 +236,6 @@
 				07459F61242B903400C6EA3D /* New Record .wav in Resources */,
 				07459F66242B903400C6EA3D /* Block Out.wav in Resources */,
 				07EFFD39240E8E97008D517B /* LaunchScreen.storyboard in Resources */,
-				07E0DF9F242B804C00B0B4EF /* GoogleService-Info.plist in Resources */,
 				07EFFD2D240E8E92008D517B /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

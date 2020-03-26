@@ -30,7 +30,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
         super.viewDidLoad()
 //        authenticateLocalPlayer()
         rewardedAd = createAndLoadRewardedAd()
-//        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ "6f0766e55539d67ae625c3ed00af5546" ]
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ "6f0766e55539d67ae625c3ed00af5546", "7b5dc55f3972c13bc47d8466bb6fe1cc" ]
 //         rewardedAd?.load(GADRequest()) { error in
 //           if let error = error {
 //             // Handle ad failed to load case.
@@ -189,9 +189,9 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
 //        UserInfo.shared.canShowAd = false
 //        print("Reward based video ad failed to load.", error.localizedDescription)
 //    }
-    
+    //teste ad ca-app-pub-3940256099942544/1712485313
     func createAndLoadRewardedAd() -> GADRewardedAd {
-      rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+      rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-9555319833753210/6124335048")
       rewardedAd?.load(GADRequest()) { error in
         if let error = error {
           print("Loading failed: \(error)")
