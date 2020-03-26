@@ -74,7 +74,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     var maxScoreBackground: SKNode?
     var yourScoreLabel: SKLabelNode?
     var maxScoreLabel: SKLabelNode?
-    var gameOverLabel: SKLabelNode?
+//    var gameOverLabel: SKLabelNode?
     var goCloseButton: SKNode?
     var gameCenterButton: SKNode?
     //Sounds
@@ -160,7 +160,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         yourScoreBackground = goBackgroundLite!.childNode(withName: "yourScoreBackground")
         maxScoreBackground = goBackgroundLite!.childNode(withName: "maxScoreBackground")
         yourScoreLabel = goBackgroundLite!.childNode(withName: "yourScoreLabel") as! SKLabelNode
-        gameOverLabel = (goBackgroundLite!.childNode(withName: "gameOverLabel") as! SKLabelNode)
+//        gameOverLabel = (goBackgroundLite!.childNode(withName: "gameOverLabel") as! SKLabelNode)
         maxScoreLabel = (goBackgroundLite!.childNode(withName: "maxScoreLabel") as! SKLabelNode)
         goCloseButton = goBackgroundLite!.childNode(withName: "goCloseButton")
         goCloseButton!.name = "goCloseButton"
