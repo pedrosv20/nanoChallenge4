@@ -773,6 +773,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 minTick = 0
                 if !(UserInfo.shared.highScore > returnScore()) {
                     UserInfo.shared.highScore = returnScore()
+                    setHighScorePosition()
                 }
             }
             if currentNode?.physicsBody != nil {
