@@ -22,7 +22,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     let builder = BlockBuilder()
     var minTick = 0
     let maxTick = 60
-    private let pieceArray = ["bar", "square", "teco", "tareco"]
+    private let pieceArray = ["bar"]
     var textureCountArray = [1,2,3,4,5]
     var textureCount = 0
     var isFalling = false
@@ -293,6 +293,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         
         if currentNode != nil {
             currentNode!.physicsBody?.linearDamping = 0.1
+//            currentNode?.physicsBody?.mass = 0.01
             
         }
     }
