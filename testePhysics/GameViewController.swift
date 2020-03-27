@@ -260,8 +260,9 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
         }
     }
 
-    override var prefersStatusBarHidden: Bool {
-        return true
+    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
+        return UIRectEdge.all
     }
+    
 }
 
