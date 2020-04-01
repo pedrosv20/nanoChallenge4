@@ -59,129 +59,6 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
             
         }
     }
-    
-//   func authenticateLocalPlayer() {
-//    let localPlayer: GKLocalPlayer = GKLocalPlayer.local
-//
-//        localPlayer.authenticateHandler = {(ViewController, error) -> Void in
-//            if((ViewController) != nil) {
-//                // 1. Show login if player is not logged in
-//                self.present(ViewController!, animated: true, completion: nil)
-//            } else if (localPlayer.isAuthenticated) {
-//                // 2. Player is already authenticated & logged in, load game center
-//                self.gcEnabled = true
-//
-//                // Get the default leaderboard ID
-//                localPlayer.loadDefaultLeaderboardIdentifier(completionHandler: { (leaderboardIdentifer, error) in
-//                    if error != nil { print(error)
-//                    } else { self.gcDefaultLeaderBoard = leaderboardIdentifer! }
-//                })
-//
-//            } else {
-//                // 3. Game center is not enabled on the users device
-//                self.gcEnabled = false
-//                print("Local player could not be authenticated!")
-//                print(error)
-//            }
-//        }
-//    }
-//
-//    func openGameCenter() {
-//        let gcVC = GKGameCenterViewController()
-//        gcVC.gameCenterDelegate = self
-//        gcVC.viewState = .leaderboards
-//        gcVC.leaderboardIdentifier = leaderboardId
-//        present(gcVC, animated: true, completion: nil)
-//    }
-//
-//    public func addValue(score: Int) {
-//           let bestScoreInt = GKScore(leaderboardIdentifier: leaderboardId)
-//           bestScoreInt.value = Int64(score)
-//        print(bestScoreInt.value)
-//           GKScore.report([bestScoreInt]) { (error) in
-//               if error != nil {
-//                   print(error!.localizedDescription)
-//               } else {
-//                   print("Best Score submitted to your Leaderboard!")
-//               }
-//           }
-//    }
-
-//    func createAndLoadInterstitial() -> GADInterstitial {
-//      var interstitial = GADInterstitial(adUnitID: "ca-app-pub-9555319833753210/2323894677")
-//      interstitial.delegate = self
-//      interstitial.load(GADRequest())
-//      return interstitial
-//    }
-//
-//
-//    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
-//        interstitial = createAndLoadInterstitial()
-//        print("saiu")
-//    }
-//    
-//    func showAd() {
-//        if interstitial.isReady {
-//            interstitial.present(fromRootViewController: self)
-//        }
-//    }
-    
-//    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
-//        didRewardUserWith reward: GADAdReward) {
-//      print("Reward received with currency: \(reward.type), amount \(reward.amount).")
-//        self.gameScene.checkFallingBlocks()
-//        self.gameScene.lifes = 1
-//        UserInfo.shared.showRewardedAd = false
-//    }
-//
-//    func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd:GADRewardBasedVideoAd) {
-//      print("Reward based video ad is received.")
-//        UserInfo.shared.canShowAd = true
-//    }
-//
-//    func rewardBasedVideoAdDidOpen(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-//      print("Opened reward based video ad.")
-//
-//    }
-//
-//    func rewardBasedVideoAdDidStartPlaying(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-//      print("Reward based video ad started playing.")
-//    }
-//
-//    func rewardBasedVideoAdDidCompletePlaying(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-//      print("Reward based video ad has completed.")
-//
-//    }
-//
-//    func rewardBasedVideoAdDidClose(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-//        print("TEYQUETINHO")
-//
-//      GADRewardBasedVideoAd.sharedInstance().load(GADRequest(),
-//      withAdUnitID: "ca-app-pub-9555319833753210/6124335048")
-//
-//        if self.gameScene.lifes  < 1 {
-//            self.gameScene.playEnable = .menu
-//            UserInfo.shared.showRewardedAd = false
-//            self.gameScene.goBackground?.removeFromParent()
-//        } else {
-//            UserInfo.shared.showRewardedAd = true
-//            self.gameScene.playEnable = .play
-//            UserInfo.shared.mataTudo = true
-//        }
-//        self.gameScene.isPaused = false
-//
-//
-//    }
-//
-//    func rewardBasedVideoAdWillLeaveApplication(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-//      print("Reward based video ad will leave application.")
-//    }
-//
-//    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
-//        didFailToLoadWithError error: Error) {
-//        UserInfo.shared.canShowAd = false
-//        print("Reward based video ad failed to load.", error.localizedDescription)
-//    }
     //teste ad ca-app-pub-3940256099942544/1712485313
     func createAndLoadRewardedAd() -> GADRewardedAd {
       rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-9555319833753210/6124335048")
@@ -216,7 +93,6 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
             self.gameScene.playEnable = .play
             UserInfo.shared.mataTudo = true
         }
-        self.gameScene.isPaused = false
         self.gameScene.audioPlayer.play(music: Audio.MusicFiles.background)
     }
     

@@ -45,6 +45,7 @@ extension AudioPlayerImpl: AudioPlayer {
         guard let newPlayer = try? AVAudioPlayer(soundFile: music) else { return }
         newPlayer.prepareToPlay()
         newPlayer.volume = musicVolume
+        newPlayer.numberOfLoops = -1
         newPlayer.play()
         currentMusicPlayer = newPlayer
     }

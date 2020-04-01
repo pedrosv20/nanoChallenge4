@@ -262,11 +262,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 else if (touchName != nil && touchName!.contains("go_noThanks")) {
                     UserInfo.shared.showRewardedAd = false
                     self.playEnable = .menu
-                    self.isPaused = false
                 }
                 else if (touchName != nil && touchName!.contains("goCloseButton")) {
                     self.playEnable = .menu
-                    self.isPaused = false
                 }
                 else if (touchName != nil && (touchName?.contains("gameCenter"))!) {
                     GameCenter.shared.showLeaderboard(presentingVC: self.controller!)
@@ -476,6 +474,30 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         }
     }
     
+    func cameraObserverFast() {
+        self.updateCamera()
+        if(self.maxY != nil){
+            if((self.cam.position.y) < self.distance){
+                self.cam.position.y += 1
+                if(self.cam.position.y > self.distance){
+                    self.cam.position.y = self.distance
+                }
+            }else{
+                self.cam.position.y -= 10
+                if(self.cam.position.y < self.distance){
+                    self.cam.position.y = self.distance
+                }
+            }
+            if guideRectangle != nil {
+                guideRectangle!.position.y = (self.cam.position.y)
+                self.mist?.position.y = self.cam.position.y - self.frame.height / 2 + 80
+                self.heartInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 100
+                self.scoreInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 120
+                self.layerScoreInGame?.position.y = self.cam.position.y + self.frame.height / 2 - 100
+            }
+        }
+    }
+    
     func UIConfigInGame() {
         if !introArray.isEmpty {
             for i in introArray {
@@ -598,13 +620,8 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 let maxX = self.view!.bounds.width/2 + currentNode!.frame.width/2
                 let minX = -1 * maxX
                 if UserInfo.shared.mataTudo {
-                    let fadeIn = SKAction.fadeIn(withDuration: 0.2)
-                    let fadeOut = SKAction.fadeOut(withDuration: 0.2)
-                    let sequence = SKAction.sequence([fadeIn, SKAction.wait(forDuration: 0.05), fadeOut])
-                    self.currentNode?.run(sequence)
                     Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { (Timer) in
                         UserInfo.shared.mataTudo = false
-                        self.currentNode?.removeAllActions()
                     }
                 }
                 checkCollision()
@@ -665,7 +682,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             }
         }
         else if playEnable == .gameOverAd {
-            cameraObserver()
+            cameraObserverFast()
             checkFallingBlocks()
             if self.children.contains(goBackgroundLite!) {
                 goBackgroundLite?.removeFromParent()
