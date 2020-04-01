@@ -11,6 +11,8 @@ import SpriteKit
 import GameplayKit
 import GoogleMobileAds
 import GameKit
+import AVKit
+
 
 class GameViewController: UIViewController, GADInterstitialDelegate, GADRewardedAdDelegate{
 
@@ -28,20 +30,9 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        authenticateLocalPlayer()
         rewardedAd = createAndLoadRewardedAd()
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ "6f0766e55539d67ae625c3ed00af5546", "7b5dc55f3972c13bc47d8466bb6fe1cc" ]
-//         rewardedAd?.load(GADRequest()) { error in
-//           if let error = error {
-//             // Handle ad failed to load case.
-//            print("reward cant be loaded")
-//            UserInfo.shared.canShowAd = false
-//           } else {
-//             // Ad successfully loaded.
-//            print("reward loaded")
-//            UserInfo.shared.canShowAd = true
-//           }
-//        }
+        
         GameCenter.shared.authenticateLocalPlayer(presentingVC: self)
         
         if UserInfo.shared.highScore != 0 {
@@ -56,6 +47,8 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
                 if let gameScene = scene as? GameScene {
                     self.gameScene = gameScene
                     self.gameScene.controller = self
+                    
+                    
                     
                 }
                 // Present the scene
@@ -224,15 +217,11 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
             UserInfo.shared.mataTudo = true
         }
         self.gameScene.isPaused = false
-        self.gameScene.audioManager!.bg.speed = 1
+        self.gameScene.audioPlayer.play(music: Audio.MusicFiles.background)
     }
     
     func rewardedAdDidPresent(_ rewardedAd: GADRewardedAd) {
       print("Rewarded ad presented.")
-        
-        
-        
-        
     }
 
     func rewardedAd(_ rewardedAd: GADRewardedAd, didFailToPresentWithError error: Error) {
