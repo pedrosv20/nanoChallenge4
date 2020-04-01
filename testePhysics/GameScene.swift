@@ -200,8 +200,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     func touchMoved(toPoint pos : CGPoint) {}
     
     func touchUp(atPoint pos : CGPoint) {
-        
-        //        print("entrou up \(getElapsedTime(touchStart: touchStart))")
         if playEnable == .menu {
             if (playLabel?.contains(pos))! {
                 self.cam.position.y = 0
@@ -600,8 +598,13 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 let maxX = self.view!.bounds.width/2 + currentNode!.frame.width/2
                 let minX = -1 * maxX
                 if UserInfo.shared.mataTudo {
+                    let fadeIn = SKAction.fadeIn(withDuration: 0.2)
+                    let fadeOut = SKAction.fadeOut(withDuration: 0.2)
+                    let sequence = SKAction.sequence([fadeIn, SKAction.wait(forDuration: 0.05), fadeOut])
+                    self.currentNode?.run(sequence)
                     Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { (Timer) in
                         UserInfo.shared.mataTudo = false
+                        self.currentNode?.removeAllActions()
                     }
                 }
                 checkCollision()
