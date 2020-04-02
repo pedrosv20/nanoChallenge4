@@ -36,7 +36,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     var startPos: CGFloat!
     var panGesture: UIPanGestureRecognizer!
     var didSwipe = false
-    var playEnable: playEnabled = .menu
+    var gameState: gameStates = .menu
     
     var baseNode: SKNode?
     var highestY: CGFloat = -600
@@ -47,6 +47,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     var introArray: [SKNode] = []
     
     var lifes = 3
+    //pause
     var heartInGame: SKNode?
     var scoreInGame: SKLabelNode?
     var layerScoreInGame : SKNode?
@@ -75,6 +76,13 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     var gameCenterButton: SKNode?
     var highScoreLine: SKNode?
     let audioPlayer = AudioPlayerImpl()
+    
+    var tutorialNode: SKNode?
+    var tutorialNodeFirstPosition: CGPoint?
+    
+    var addedHighScore = false
+    var beatedHighScore = false
+    //load tutorial
     
     override func didMove(to view: SKView) {
         audioPlayer.play(music: Audio.MusicFiles.background)
@@ -112,6 +120,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         playLabel?.zPosition = 4
         layerScore = childNode(withName: "layerScore") as! SKSpriteNode
         mist = childNode(withName: "mist") as! SKSpriteNode
+        //pause
         heartInGame = (childNode(withName: "heartInGame")!)
         scoreInGame = (childNode(withName: "scoreInGame") as! SKLabelNode)
         layerScoreInGame = (childNode(withName: "layerScoreInGame")!)
@@ -134,6 +143,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         goCloseButton!.name = "goCloseButton"
         gameCenterButton = self.childNode(withName: "gameCenter")
         gameCenterButton!.name = "gameCenter"
+        //load tutorial
+        
+        tutorialNode = (childNode(withName: "tutorialNode") as! SKSpriteNode)
+        tutorialNodeFirstPosition = tutorialNode?.position
     }
     
     @objc func handleSwipeDown() {
@@ -154,7 +167,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         let xPos = CGFloat.random(in: (self.scene!.position.x - 200) ..< (self.scene!.position.x + 200))
         let maxX = self.view!.bounds.width/2 + block.node.size.width/2
         let minX = -1 * maxX
-        let yPos = 400 +  self.cam.position.y
+        let yPos = 500 +  self.cam.position.y
         let newX = round(min(max(minX, xPos), maxX))
         block.node.position = CGPoint(x: newX ,
                                       y: yPos)
@@ -200,15 +213,15 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     func touchMoved(toPoint pos : CGPoint) {}
     
     func touchUp(atPoint pos : CGPoint) {
-        if playEnable == .menu {
+        if gameState == .menu {
             if (playLabel?.contains(pos))! {
                 self.cam.position.y = 0
                 self.guideRectangle?.removeFromParent()
-                playEnable = .play
+                gameState = .play
             }
         }
         if getElapsedTime(touchStart: touchStart) <= 0.15 {
-            if playEnable == .play {
+            if gameState == .play {
                 if didSwipe == false {
                     rotateBlock()
                 }
@@ -261,10 +274,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 }
                 else if (touchName != nil && touchName!.contains("go_noThanks")) {
                     UserInfo.shared.showRewardedAd = false
-                    self.playEnable = .menu
+                    self.gameState = .menu
                 }
                 else if (touchName != nil && touchName!.contains("goCloseButton")) {
-                    self.playEnable = .menu
+                    self.gameState = .menu
                 }
                 else if (touchName != nil && (touchName?.contains("gameCenter"))!) {
                     GameCenter.shared.showLeaderboard(presentingVC: self.controller!)
@@ -289,12 +302,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         return line
     }
     
-    
     func checkCollision() {
         
-        // verifica se colidiu com outro bloco, cenario ou caiu pra fora
-        
-        
+        // verifica se col
         if self.currentNode != nil {
             
             if (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Polygon"))! || (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Rectangle"))! || (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Compound"))!  {
@@ -415,9 +425,12 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     }
     
     func setHighScorePosition() {
-        let linePositionY = (UserInfo.shared.highScore - 12) * 50
-        highScoreLine!.position.y = CGFloat(linePositionY)
-        highScoreLine!.name = "line"
+        if UserInfo.shared.highScore > 12 {
+            let linePositionY = (UserInfo.shared.highScore - 12) * 50
+            highScoreLine!.position.y = CGFloat(linePositionY)
+            highScoreLine!.name = "line"
+        }
+        
     }
     
     func getLifes() -> Int {
@@ -435,10 +448,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 self.isUserInteractionEnabled = true
             }
             if !UserInfo.shared.showRewardedAd {
-                self.playEnable = .gameOverAd
+                self.gameState = .gameOverAd
                 self.guideRectangle!.removeFromParent()
             } else {
-                self.playEnable = .gameOver
+                self.gameState = .gameOver
                 self.guideRectangle!.removeFromParent()
             }
         }
@@ -470,6 +483,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             if guideRectangle != nil {
                 guideRectangle!.position.y = (self.cam.position.y)
                 self.mist?.position.y = self.cam.position.y - self.frame.height / 2 + 80
+                //pause
                 self.heartInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 100
                 self.scoreInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 120
                 self.layerScoreInGame?.position.y = self.cam.position.y + self.frame.height / 2 - 100
@@ -486,6 +500,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         if !self.children.contains(heartInGame!) {
             self.addChild(heartInGame!)
         }
+        //pause
         if !self.children.contains(scoreInGame!) {
             self.addChild(scoreInGame!)
         }
@@ -502,6 +517,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         heartInGame?.run(SKAction.setTexture(SKTexture(imageNamed: "heart_\(getLifes())")))
         scoreInGame?.text = "\(returnScore()) m"
         heartInGame?.zPosition = 2
+        //pause
         layerScoreInGame?.zPosition = 2
         scoreInGame?.zPosition = 3
         baseNode?.alpha = 1
@@ -551,10 +567,14 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     }
     
     func checkHighScore() {
+        if beatedHighScore {
+            return
+        }
         if maxY != 0.0 {
             if  maxY! > highScoreLine!.position.y {
-                self.highScoreLine?.isHidden = true
+                self.highScoreLine?.removeFromParent()
                 audioPlayer.play(effect: Audio.EffectFiles.newRecord)
+                beatedHighScore = true
             }
         }
     }
@@ -573,7 +593,15 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         
-        if playEnable == .play { //game
+        if gameState == .play { //game
+            
+            if !addedHighScore {
+                if !self.children.contains(highScoreLine!) {
+                    addChild(highScoreLine!)
+                }
+                setHighScorePosition()
+                addedHighScore = true
+            }
             self.highScoreLine?.isHidden = false
             UIConfigInGame()
             if self.guideRectangle != nil && currentNode == nil{
@@ -594,7 +622,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 minTick = 0
                 if !(UserInfo.shared.highScore > returnScore()) {
                     UserInfo.shared.highScore = returnScore()
-                    setHighScorePosition()
                 }
             }
             if currentNode?.physicsBody != nil {
@@ -610,7 +637,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             gameOver()
             cameraObserver()
         }
-        else if playEnable == .menu{
+        else if gameState == .menu{
+            beatedHighScore = false
+            addedHighScore = false
             UserInfo.shared.showRewardedAd = false
             self.lifes = 3
             if self.guideRectangle != nil {
@@ -644,7 +673,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 addBlockInSceneIntro()
             }
         }
-        else if playEnable == .gameOver {
+        else if gameState == .gameOver {
             if self.children.contains(goBackground!) {
                 goBackground?.removeFromParent()
             }
@@ -662,7 +691,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 self.maxScoreLabel?.text = "\(UserInfo.shared.highScore)m"
             }
         }
-        else if playEnable == .gameOverAd {
+        else if gameState == .gameOverAd {
             cameraObserver()
             checkFallingBlocks()
             if self.children.contains(goBackgroundLite!) {
@@ -689,12 +718,38 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 self.go_extraLife!.alpha = 1
             }
         }
+//        else if gameState == .tutorial {
+//
+//            //////////////////////////////////////////////////////SWIPE LADOS/////////////////////////////////////////////////////////////////
+//            minTick += 1
+//
+//            if minTick >= maxTick {
+//                minTick = 0
+//                let swipeLeft = SKAction.moveTo(x: tutorialNodeFirstPosition!.x - 100, duration: 0.5)
+//                let swipeToZero = SKAction.moveTo(x: tutorialNodeFirstPosition!.x + 100, duration: 0.5)
+//                let sequence = SKAction.sequence([swipeLeft,swipeToZero])
+//                tutorialNode?.run(SKAction.repeatForever(sequence))
+//                if didSwipe {
+//                    tutorialNode?.removeAllActions()
+//                    //state == swipeDown
+//                    gameState = .menu
+//                }
+//            }
+//            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//        }
     }
 }
 
-public enum playEnabled {
+public enum gameStates {
     case menu
     case play
     case gameOverAd
     case gameOver
+    case tutorial
+}
+
+public enum tutorialStates {
+    case swipeHorizontal
+    case swipeDown
+    case tap
 }

@@ -19,13 +19,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
     
     var gameScene: GameScene!
     var interstitial: GADInterstitial!
-//    var gcEnabled = Bool()
-//    var gcDefaultLeaderBoard = String()
-    
-    var score = 0
-    
     let leaderboardId = "com.PedroVargas.HighScore"
-    
     var rewardedAd: GADRewardedAd?
     
     override func viewDidLoad() {
@@ -43,13 +37,9 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
             if let scene = SKScene(fileNamed: "GameScene") {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFill
-                
                 if let gameScene = scene as? GameScene {
                     self.gameScene = gameScene
                     self.gameScene.controller = self
-                    
-                    
-                    
                 }
                 // Present the scene
                 view.presentScene(scene)
@@ -85,12 +75,12 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
         print("Rewarded ad dismissed.")
         self.rewardedAd = createAndLoadRewardedAd()
         if self.gameScene.lifes  < 1 {
-            self.gameScene.playEnable = .menu
+            self.gameScene.gameState = .menu
             UserInfo.shared.showRewardedAd = false
             self.gameScene.goBackground?.removeFromParent()
         } else {
             UserInfo.shared.showRewardedAd = true
-            self.gameScene.playEnable = .play
+            self.gameScene.gameState = .play
             UserInfo.shared.mataTudo = true
         }
         self.gameScene.audioPlayer.play(music: Audio.MusicFiles.background)
@@ -103,11 +93,8 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
     func rewardedAd(_ rewardedAd: GADRewardedAd, didFailToPresentWithError error: Error) {
       print("Rewarded ad failed to present.")
     }
-//
+    
     func showRewardedAd() {
-//        if GADRewardBasedVideoAd.sharedInstance().isReady == true {
-//          GADRewardBasedVideoAd.sharedInstance().present(fromRootViewController: self)
-//        }
         if rewardedAd?.isReady == true {
            rewardedAd?.present(fromRootViewController: self, delegate:self)
         }
