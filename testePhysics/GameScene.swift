@@ -293,8 +293,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     func checkCollision() {
         
         // verifica se colidiu com outro bloco, cenario ou caiu pra fora
-        let maxX = self.view!.bounds.width/2 + currentNode!.frame.width/2
-        let minX = -1 * maxX
+        
         
         if self.currentNode != nil {
             
@@ -313,7 +312,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 self.isFalling = false
                 
             }
-            else if self.currentNode!.position.y <= CGFloat(-600 + self.cam.position.y) || currentNode!.position.x > maxX || currentNode!.position.x < minX {
+            else if self.currentNode!.position.y <= CGFloat(-600) {
                 if blocksList.contains(currentNode!) {
                     blocksList.remove(at: blocksList.firstIndex(of: self.currentNode!)!)
                 }
@@ -330,10 +329,14 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             }
             else  {
                 for block in blocksList {
-                    if block.position.y < -600    {
+                    let maxX = self.view!.bounds.width / 2 + block.frame.width
+                    let minX = -1 * maxX
+                    print("jonas", block.position.x, minX)
+                    if block.position.y < -600  || block.position.x > maxX || block.position.x < minX {
                         if blocksList.contains(block) {
                             blocksList.remove(at: blocksList.firstIndex(of: block)!)
                         }
+                        block.removeFromParent()
                         if !UserInfo.shared.mataTudo {
                             lifes -= 1
                         }
@@ -459,30 +462,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                     self.cam.position.y = self.distance
                 }
             }else{
-                self.cam.position.y -= 1
-                if(self.cam.position.y < self.distance){
-                    self.cam.position.y = self.distance
-                }
-            }
-            if guideRectangle != nil {
-                guideRectangle!.position.y = (self.cam.position.y)
-                self.mist?.position.y = self.cam.position.y - self.frame.height / 2 + 80
-                self.heartInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 100
-                self.scoreInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 120
-                self.layerScoreInGame?.position.y = self.cam.position.y + self.frame.height / 2 - 100
-            }
-        }
-    }
-    
-    func cameraObserverFast() {
-        self.updateCamera()
-        if(self.maxY != nil){
-            if((self.cam.position.y) < self.distance){
-                self.cam.position.y += 1
-                if(self.cam.position.y > self.distance){
-                    self.cam.position.y = self.distance
-                }
-            }else{
                 self.cam.position.y -= 10
                 if(self.cam.position.y < self.distance){
                     self.cam.position.y = self.distance
@@ -582,7 +561,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     func checkFallingBlocks() {
         for block in blocksList {
-            if block.position.y < -600 {
+            let maxX = self.view!.bounds.width / 2 + block.frame.width
+            let minX = -1 * maxX
+            if block.position.y < -600 || block.position.x > maxX || block.position.x < minX{
                 print("existe", block.position)
                 block.removeFromParent()
                 blocksList.remove(at: blocksList.firstIndex(of: block)!)
@@ -682,7 +663,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             }
         }
         else if playEnable == .gameOverAd {
-            cameraObserverFast()
+            cameraObserver()
             checkFallingBlocks()
             if self.children.contains(goBackgroundLite!) {
                 goBackgroundLite?.removeFromParent()
