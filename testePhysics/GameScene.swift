@@ -339,15 +339,16 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             }
             else  {
                 for block in blocksList {
-                    let maxX = self.view!.bounds.width / 2 + block.frame.width
+                    let maxX = self.frame.width / 2 + block.frame.width / 2
                     let minX = -1 * maxX
-                    print("jonas", block.position.x, minX)
                     if block.position.y < -600  || block.position.x > maxX || block.position.x < minX {
                         if blocksList.contains(block) {
                             blocksList.remove(at: blocksList.firstIndex(of: block)!)
                         }
+                        print("removeu blovo em posicao", block.position, self.frame.size)
                         block.removeFromParent()
                         if !UserInfo.shared.mataTudo {
+                            
                             lifes -= 1
                         }
                         audioPlayer.play(effect: Audio.EffectFiles.blockOut)
@@ -555,14 +556,14 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             if !layerScore!.children.contains(labelScore!) {
                 layerScore!.addChild(labelScore!)
                 labelScore!.text = "\(UserInfo.shared.highScore) m"
-                print(UserInfo.shared.highScore)
+//                print(UserInfo.shared.highScore)
             } else {
                 labelScore!.text = "\(UserInfo.shared.highScore) m"
-                print(UserInfo.shared.highScore)
+//                print(UserInfo.shared.highScore)
             }
         } else {
             labelScore!.text = "\(UserInfo.shared.highScore) m"
-            print(UserInfo.shared.highScore)
+//            print(UserInfo.shared.highScore)
         }
     }
     
@@ -581,10 +582,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     func checkFallingBlocks() {
         for block in blocksList {
-            let maxX = self.view!.bounds.width / 2 + block.frame.width
+            let maxX = self.frame.width / 2 + block.frame.width
             let minX = -1 * maxX
             if block.position.y < -600 || block.position.x > maxX || block.position.x < minX{
-                print("existe", block.position)
+//                print("existe", block.position)
                 block.removeFromParent()
                 blocksList.remove(at: blocksList.firstIndex(of: block)!)
             }
@@ -625,8 +626,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 }
             }
             if currentNode?.physicsBody != nil {
-                let maxX = self.view!.bounds.width/2 + currentNode!.frame.width/2
-                let minX = -1 * maxX
                 if UserInfo.shared.mataTudo {
                     Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { (Timer) in
                         UserInfo.shared.mataTudo = false
