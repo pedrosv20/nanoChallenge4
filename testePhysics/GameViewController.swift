@@ -25,7 +25,8 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
     override func viewDidLoad() {
         super.viewDidLoad()
         rewardedAd = createAndLoadRewardedAd()
-        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ "6f0766e55539d67ae625c3ed00af5546", "7b5dc55f3972c13bc47d8466bb6fe1cc" ]
+        
+//        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ "6f0766e55539d67ae625c3ed00af5546", "7b5dc55f3972c13bc47d8466bb6fe1cc" ]
         
         GameCenter.shared.authenticateLocalPlayer(presentingVC: self)
         

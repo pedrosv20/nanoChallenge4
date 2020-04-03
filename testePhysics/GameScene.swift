@@ -290,17 +290,17 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
     
-    func createLine(y : CGFloat) -> SKShapeNode{
-        let line = SKShapeNode()
-        let path = CGMutablePath()
-        path.move(to: CGPoint(x: 0, y: 0))
-        path.addLines(between: [CGPoint(x: -200, y: y), CGPoint(x: 200, y: y)])
-        line.path = path
-        line.strokeColor = .red
-        line.zPosition = 2
-        
-        return line
-    }
+//    func createLine(y : CGFloat) -> SKShapeNode{
+//        let line = SKShapeNode()
+//        let path = CGMutablePath()
+//        path.move(to: CGPoint(x: 0, y: 0))
+//        path.addLines(between: [CGPoint(x: -200, y: y), CGPoint(x: 200, y: y)])
+//        line.path = path
+//        line.strokeColor = .red
+//        line.zPosition = 2
+//
+//        return line
+//    }
     
     func checkCollision() {
         
@@ -412,17 +412,17 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         return Int(highestY + 12)
     }
     
-    func createLine(x1 : CGFloat, x2 :CGFloat, y1 :CGFloat, y2 :CGFloat) -> SKShapeNode{
-        let line = SKShapeNode()
-        let path = CGMutablePath()
-        path.move(to: CGPoint(x: 0, y: 0))
-        path.addLines(between: [CGPoint(x: x1, y: y1), CGPoint(x: x2, y: y2)])
-        line.path = path
-        line.lineWidth = 2.0
-        line.strokeColor = .yellow
-        line.zPosition = 2
-        return line
-    }
+//    func createLine(x1 : CGFloat, x2 :CGFloat, y1 :CGFloat, y2 :CGFloat) -> SKShapeNode{
+//        let line = SKShapeNode()
+//        let path = CGMutablePath()
+//        path.move(to: CGPoint(x: 0, y: 0))
+//        path.addLines(between: [CGPoint(x: x1, y: y1), CGPoint(x: x2, y: y2)])
+//        line.path = path
+//        line.lineWidth = 2.0
+//        line.strokeColor = .yellow
+//        line.zPosition = 2
+//        return line
+//    }
     
     func setHighScorePosition() {
         if UserInfo.shared.highScore > 12 {
@@ -690,8 +690,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 self.yourScoreLabel?.text = "\(returnScore()) m"
                 self.maxScoreLabel?.text = "\(UserInfo.shared.highScore)m"
             }
+            highScoreLine?.isHidden = true
         }
         else if gameState == .gameOverAd {
+            
             cameraObserver()
             checkFallingBlocks()
             if self.children.contains(goBackgroundLite!) {
@@ -711,12 +713,12 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 self.scoreGameOver?.text = "\(returnScore()) m"
                 self.maxScoreGameOver?.text = "\(UserInfo.shared.highScore)m"
             }
-            self.highScoreLine?.zPosition = goBackground!.zPosition - 1
             if !UserInfo.shared.canShowAd {
                 self.go_extraLife?.alpha = 0.5
             } else {
                 self.go_extraLife!.alpha = 1
             }
+            highScoreLine?.isHidden = true
         }
 //        else if gameState == .tutorial {
 //

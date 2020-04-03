@@ -30,8 +30,8 @@ import AVKit
 
 class AudioPlayerImpl {
     
-    private var currentMusicPlayer: AVAudioPlayer?
-    private var currentEffectPlayer: AVAudioPlayer?
+    var currentMusicPlayer: AVAudioPlayer?
+    var currentEffectPlayer: AVAudioPlayer?
     var musicVolume: Float = 1.0 {
         didSet { currentMusicPlayer?.volume = musicVolume }
     }
