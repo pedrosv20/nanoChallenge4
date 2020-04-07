@@ -53,7 +53,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
     //teste ad ca-app-pub-3940256099942544/1712485313
     func createAndLoadRewardedAd() -> GADRewardedAd {
         var id = "ca-app-pub-6710438178084678/5754471825"
-        #if DEBUG
+        #if DEBUG // Roda o ad de testes se estiver debugando
             id = "ca-app-pub-3940256099942544/1712485313"
         #endif
       rewardedAd = GADRewardedAd(adUnitID: id)
