@@ -175,7 +175,7 @@
 				07EFFD21240E8E92008D517B /* Sources */,
 				07EFFD22240E8E92008D517B /* Frameworks */,
 				07EFFD23240E8E92008D517B /* Resources */,
-				668892AD78C715648A80D5A8 /* [CP] Embed Pods Frameworks */,
+				41BC1134131770BF6A87EC73 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -243,7 +243,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		668892AD78C715648A80D5A8 /* [CP] Embed Pods Frameworks */ = {
+		41BC1134131770BF6A87EC73 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -445,7 +445,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.9;
-				DEVELOPMENT_TEAM = ZSLUMCNRNL;
+				DEVELOPMENT_TEAM = QM43B7QRF9;
 				INFOPLIST_FILE = testePhysics/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -453,7 +453,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.4;
-				PRODUCT_BUNDLE_IDENTIFIER = com.PedroVargas.StackAdventure;
+				PRODUCT_BUNDLE_IDENTIFIER = com.PedroVargas.StackAdventure1;
 				PRODUCT_NAME = "Stack Towers";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -467,7 +467,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.9;
-				DEVELOPMENT_TEAM = ZSLUMCNRNL;
+				DEVELOPMENT_TEAM = QM43B7QRF9;
 				INFOPLIST_FILE = testePhysics/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -475,7 +475,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.4;
-				PRODUCT_BUNDLE_IDENTIFIER = com.PedroVargas.StackAdventure;
+				PRODUCT_BUNDLE_IDENTIFIER = com.PedroVargas.StackAdventure1;
 				PRODUCT_NAME = "Stack Towers";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
