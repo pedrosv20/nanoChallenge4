@@ -52,7 +52,11 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
     }
     //teste ad ca-app-pub-3940256099942544/1712485313
     func createAndLoadRewardedAd() -> GADRewardedAd {
-      rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-9555319833753210/6124335048")
+        var id = "ca-app-pub-6710438178084678/5754471825"
+        #if DEBUG
+            id = "ca-app-pub-3940256099942544/1712485313"
+        #endif
+      rewardedAd = GADRewardedAd(adUnitID: id)
       rewardedAd?.load(GADRequest()) { error in
         if let error = error {
           print("Loading failed: \(error)")
