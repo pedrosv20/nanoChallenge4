@@ -6,6 +6,7 @@
 //  Copyright © 2020 Pedro Vargas. All rights reserved.
 //
 
+
 import SpriteKit
 import GameplayKit
 import AudioToolbox
@@ -82,6 +83,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     var addedHighScore = false
     var beatedHighScore = false
+//    var pauseButton: SKNode?
     //load tutorial
     
     override func didMove(to view: SKView) {
@@ -122,6 +124,8 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         mist = childNode(withName: "mist") as! SKSpriteNode
         //pause
         heartInGame = (childNode(withName: "heartInGame")!)
+//        pauseButton = (childNode(withName: "pauseButton")! as! SKSpriteNode)
+//        pauseButton!.name = "pauseButton"
         scoreInGame = (childNode(withName: "scoreInGame") as! SKLabelNode)
         layerScoreInGame = (childNode(withName: "layerScoreInGame")!)
         labelScore = (layerScore?.childNode(withName: "labelScore") as! SKLabelNode)
@@ -222,6 +226,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         }
         if getElapsedTime(touchStart: touchStart) <= 0.15 {
             if gameState == .play {
+//                if (pauseButton?.contains(pos))! {
+//                    self.isPaused.toggle()
+//                }
                 if didSwipe == false {
                     rotateBlock()
                 }
@@ -234,6 +241,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         if currentNode != nil {
             currentNode!.physicsBody?.linearDamping = 0.1
             currentNode?.physicsBody?.mass = 0.01
+            
         }
     }
     
@@ -281,7 +289,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 }
                 else if (touchName != nil && (touchName?.contains("gameCenter"))!) {
                     GameCenter.shared.showLeaderboard(presentingVC: self.controller!)
-                }
+                }                
             }
         }
     }
@@ -289,18 +297,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
-    
-//    func createLine(y : CGFloat) -> SKShapeNode{
-//        let line = SKShapeNode()
-//        let path = CGMutablePath()
-//        path.move(to: CGPoint(x: 0, y: 0))
-//        path.addLines(between: [CGPoint(x: -200, y: y), CGPoint(x: 200, y: y)])
-//        line.path = path
-//        line.strokeColor = .red
-//        line.zPosition = 2
-//
-//        return line
-//    }
     
     func checkCollision() {
         
@@ -413,18 +409,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         return Int(highestY + 12)
     }
     
-//    func createLine(x1 : CGFloat, x2 :CGFloat, y1 :CGFloat, y2 :CGFloat) -> SKShapeNode{
-//        let line = SKShapeNode()
-//        let path = CGMutablePath()
-//        path.move(to: CGPoint(x: 0, y: 0))
-//        path.addLines(between: [CGPoint(x: x1, y: y1), CGPoint(x: x2, y: y2)])
-//        line.path = path
-//        line.lineWidth = 2.0
-//        line.strokeColor = .yellow
-//        line.zPosition = 2
-//        return line
-//    }
-    
     func setHighScorePosition() {
         if UserInfo.shared.highScore > 12 {
             let linePositionY = (UserInfo.shared.highScore - 12) * 50
@@ -486,6 +470,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 self.mist?.position.y = self.cam.position.y - self.frame.height / 2 + 80
                 //pause
                 self.heartInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 100
+//                self.pauseButton!.position.y = self.cam.position.y + self.frame.height / 2 - 100
                 self.scoreInGame!.position.y = self.cam.position.y + self.frame.height / 2 - 120
                 self.layerScoreInGame?.position.y = self.cam.position.y + self.frame.height / 2 - 100
             }
@@ -501,6 +486,10 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         if !self.children.contains(heartInGame!) {
             self.addChild(heartInGame!)
         }
+//        if !self.children.contains(pauseButton!) {
+//            self.addChild(pauseButton!)
+//        }
+        
         //pause
         if !self.children.contains(scoreInGame!) {
             self.addChild(scoreInGame!)
@@ -518,6 +507,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         heartInGame?.run(SKAction.setTexture(SKTexture(imageNamed: "heart_\(getLifes())")))
         scoreInGame?.text = "\(returnScore()) m"
         heartInGame?.zPosition = 2
+//        pauseButton?.zPosition = 2
         //pause
         layerScoreInGame?.zPosition = 2
         scoreInGame?.zPosition = 3
@@ -539,6 +529,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         if self.children.contains(heartInGame!) {
             heartInGame?.removeFromParent()
         }
+//        if self.children.contains(pauseButton!) {
+//            pauseButton?.removeFromParent()
+//        }
         baseNode?.alpha = 0
         self.cam.position.y = 0
         self.mist?.zPosition  = 1
@@ -589,6 +582,18 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 block.removeFromParent()
                 blocksList.remove(at: blocksList.firstIndex(of: block)!)
             }
+        }
+    }
+    
+    func changeBlockMassByHeight() {
+        for block in blocksList {
+            let blockHeight = block.frame.maxY / 50
+            if Int(blockHeight + 12) < 0 {
+                block.physicsBody!.mass = 1
+            } else {
+                block.physicsBody?.mass = CGFloat( Int(highestY + 12))
+            }
+            
         }
     }
     
