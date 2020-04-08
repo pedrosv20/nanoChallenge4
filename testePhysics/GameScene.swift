@@ -17,7 +17,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     public var controller: GameViewController?
     var node: SKSpriteNode!
     var cam = SKCameraNode()
-    var blocksList :[SKNode] = []
+    var blocksList: [SKNode] = []
     var maxY : CGFloat?
     var distance : CGFloat = 0.0
     let builder = BlockBuilder()
@@ -85,6 +85,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     var beatedHighScore = false
 //    var pauseButton: SKNode?
     //load tutorial
+    var lastStableTower: [SKNode] = []
+    var recreatedTower = false
+    var totalValueOfMovement: Double = 0
     
     override func didMove(to view: SKView) {
         audioPlayer.play(music: Audio.MusicFiles.background)
@@ -304,6 +307,21 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         if self.currentNode != nil {
             
             if (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Polygon"))! || (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Rectangle"))! || (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Compound"))!  {
+                let dx = (self.currentNode!.physicsBody?.velocity.dx)! * (self.currentNode!.physicsBody?.velocity.dx)!
+                let dy = (self.currentNode!.physicsBody?.velocity.dy)! * (self.currentNode!.physicsBody?.velocity.dy)!
+                
+                let result = Double(dx + dy)
+                let vetorVelocity = sqrt(result)
+
+                if vetorVelocity < 0.01 {
+                    let blockHeight = Int(currentNode!.frame.maxY / 50) + 12
+                    print("jonas", blockHeight)
+                    if blockHeight < 0 {
+                        currentNode!.physicsBody?.mass = 1
+                    } else if Int(blockHeight / 10) >= 0 {
+                        currentNode!.physicsBody?.mass = CGFloat(100 - blockHeight * 10)
+                    }
+                }
                 
                 //MARK: ADD ARRAY BLOCKS
                 self.currentNode?.physicsBody?.linearDamping = 6
@@ -341,7 +359,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                         if blocksList.contains(block) {
                             blocksList.remove(at: blocksList.firstIndex(of: block)!)
                         }
-                        print("removeu blovo em posicao", block.position, self.frame.size)
+//                        print("removeu blovo em posicao", block.position, self.frame.size)
                         block.removeFromParent()
                         if !UserInfo.shared.mataTudo {
                             
@@ -397,11 +415,16 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         }
     }
     
-    func returnScore() -> Int{
+    func returnScore() -> Int {
         for block in blocksList {
+//            print(block.)
             if block.frame.maxY / 50 > highestY {
                 highestY = block.frame.maxY / 50
+                print("tey", highestY, block.frame.maxY, block.name, block.position.y)
             }
+        }
+        if highestY.isInfinite {
+            return 0
         }
         if Int(highestY + 12) < 0 {
             return 0
@@ -587,20 +610,40 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     
     func changeBlockMassByHeight() {
         for block in blocksList {
-            let blockHeight = block.frame.maxY / 50
-            if Int(blockHeight + 12) < 0 {
-                block.physicsBody!.mass = 1
-            } else {
-                block.physicsBody?.mass = CGFloat( Int(highestY + 12))
-            }
-            
+//            let dx = (block.physicsBody?.velocity.dx)! * (block.cphysicsBody?.velocity.dx)!
+//            let dy = (block.physicsBody?.velocity.dy)! * (block.physicsBody?.velocity.dy)!
+//            let result = Double(dx + dy)
+//            let vetorVelocity = sqrt(result)
+//
+//            if vetorVelocity < 0.01 {
+//                let blockHeight = Int(block.frame.maxY / 50) + 12
+//                print("jonas", blockHeight)
+//                if blockHeight < 0 {
+//                    block.physicsBody?.mass = 1
+//                } else if Int(blockHeight / 10) >= 0 {
+//                    block.physicsBody?.mass = CGFloat(100 - blockHeight * 10)
+//                }
+//            }
         }
     }
     
     override func update(_ currentTime: TimeInterval) {
         
         if gameState == .play { //game
-            
+            for block in blocksList {
+                
+                let dx = (block.physicsBody?.velocity.dx)! * (block.physicsBody?.velocity.dx)!
+                let dy = (block.physicsBody?.velocity.dy)! * (block.physicsBody?.velocity.dy)!
+                let result = Double(dx + dy)
+                let vetorVelocity = sqrt(result)
+                totalValueOfMovement += vetorVelocity
+            }
+            let averageMovement = totalValueOfMovement / Double(blocksList.count)
+            print("avg", averageMovement)
+            if averageMovement < 5 {
+                lastStableTower = blocksList
+            }
+            totalValueOfMovement = 0.0
             if !addedHighScore {
                 if !self.children.contains(highScoreLine!) {
                     addChild(highScoreLine!)
@@ -608,6 +651,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 setHighScorePosition()
                 addedHighScore = true
             }
+
             self.highScoreLine?.isHidden = false
             UIConfigInGame()
             if self.guideRectangle != nil && currentNode == nil{
@@ -642,6 +686,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             cameraObserver()
         }
         else if gameState == .menu{
+            recreatedTower = false
             beatedHighScore = false
             addedHighScore = false
             UserInfo.shared.showRewardedAd = false
@@ -699,7 +744,20 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         else if gameState == .gameOverAd {
             
             cameraObserver()
-            checkFallingBlocks()
+            if !recreatedTower {
+                checkFallingBlocks()
+                for i in blocksList {
+                    i.removeFromParent()
+                }
+                blocksList.removeAll()
+                print("jonaaas", lastStableTower.count)
+                for i in lastStableTower {
+                    blocksList.append(i)
+                    addChild(i)
+                    print(i.position.y)
+                }
+                recreatedTower = true
+            }
             if self.children.contains(goBackgroundLite!) {
                 goBackgroundLite?.removeFromParent()
             }
@@ -759,3 +817,4 @@ public enum tutorialStates {
     case swipeDown
     case tap
 }
+
