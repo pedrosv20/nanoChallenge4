@@ -14,7 +14,6 @@
 		07459F64242B903400C6EA3D /* Towers Music.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07459F5E242B903300C6EA3D /* Towers Music.wav */; };
 		07459F65242B903400C6EA3D /* New Record with crowd.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07459F5F242B903300C6EA3D /* New Record with crowd.wav */; };
 		07459F66242B903400C6EA3D /* Block Out.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07459F60242B903300C6EA3D /* Block Out.wav */; };
-		07459F68242CF43200C6EA3D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 07459F67242CF43200C6EA3D /* GoogleService-Info.plist */; };
 		0758202924112F3A008DE26F /* BlockBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0758202824112F3A008DE26F /* BlockBuilder.swift */; };
 		0758202B241136F0008DE26F /* PathHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0758202A241136F0008DE26F /* PathHelper.swift */; };
 		0758202D241137FD008DE26F /* BlockType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0758202C241137FD008DE26F /* BlockType.swift */; };
@@ -32,6 +31,7 @@
 		394829A3242CCD3700BA037B /* Bungee-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 394829A2242CCD3700BA037B /* Bungee-Regular.otf */; };
 		394BDEAC2421AB2E00117290 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394BDEAB2421AB2E00117290 /* AudioManager.swift */; };
 		BF04E3C5C6156B477F783EC6 /* Pods_testePhysics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FEE4D044313EBCE5ED3CD90 /* Pods_testePhysics.framework */; };
+		D7780DBA243D0501009E7BB0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D7780DB9243D0501009E7BB0 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,7 +42,6 @@
 		07459F5E242B903300C6EA3D /* Towers Music.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Towers Music.wav"; sourceTree = "<group>"; };
 		07459F5F242B903300C6EA3D /* New Record with crowd.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "New Record with crowd.wav"; sourceTree = "<group>"; };
 		07459F60242B903300C6EA3D /* Block Out.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Block Out.wav"; sourceTree = "<group>"; };
-		07459F67242CF43200C6EA3D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0758202824112F3A008DE26F /* BlockBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockBuilder.swift; sourceTree = "<group>"; };
 		0758202A241136F0008DE26F /* PathHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathHelper.swift; sourceTree = "<group>"; };
 		0758202C241137FD008DE26F /* BlockType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockType.swift; sourceTree = "<group>"; };
@@ -64,6 +63,7 @@
 		394BDEAB2421AB2E00117290 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		9FEE4D044313EBCE5ED3CD90 /* Pods_testePhysics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_testePhysics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C90698E840811A1E8440755D /* Pods-testePhysics.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testePhysics.release.xcconfig"; path = "Target Support Files/Pods-testePhysics/Pods-testePhysics.release.xcconfig"; sourceTree = "<group>"; };
+		D7780DB9243D0501009E7BB0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D7F93D87ECF45B39FA3E6669 /* Pods-testePhysics.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testePhysics.debug.xcconfig"; path = "Target Support Files/Pods-testePhysics/Pods-testePhysics.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -116,10 +116,10 @@
 			children = (
 				394829A1242CCD2800BA037B /* Fonts */,
 				07EFFD28240E8E92008D517B /* AppDelegate.swift */,
-				07459F67242CF43200C6EA3D /* GoogleService-Info.plist */,
 				07EFFD2A240E8E92008D517B /* GameScene.sks */,
 				07EFFD2C240E8E92008D517B /* Actions.sks */,
 				079C9B68242242C2002EDEEE /* AudioManager.swift */,
+				D7780DB9243D0501009E7BB0 /* GoogleService-Info.plist */,
 				07EFFD2E240E8E92008D517B /* GameScene.swift */,
 				07EFFD30240E8E92008D517B /* GameViewController.swift */,
 				07EFFD32240E8E92008D517B /* Main.storyboard */,
@@ -175,7 +175,7 @@
 				07EFFD21240E8E92008D517B /* Sources */,
 				07EFFD22240E8E92008D517B /* Frameworks */,
 				07EFFD23240E8E92008D517B /* Resources */,
-				668892AD78C715648A80D5A8 /* [CP] Embed Pods Frameworks */,
+				41BC1134131770BF6A87EC73 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -224,7 +224,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07459F68242CF43200C6EA3D /* GoogleService-Info.plist in Resources */,
 				07EFFD34240E8E92008D517B /* Main.storyboard in Resources */,
 				07459F64242B903400C6EA3D /* Towers Music.wav in Resources */,
 				07459F65242B903400C6EA3D /* New Record with crowd.wav in Resources */,
@@ -235,6 +234,7 @@
 				07459F62242B903400C6EA3D /* Block touch.wav in Resources */,
 				07459F61242B903400C6EA3D /* New Record .wav in Resources */,
 				07459F66242B903400C6EA3D /* Block Out.wav in Resources */,
+				D7780DBA243D0501009E7BB0 /* GoogleService-Info.plist in Resources */,
 				07EFFD39240E8E97008D517B /* LaunchScreen.storyboard in Resources */,
 				07EFFD2D240E8E92008D517B /* Actions.sks in Resources */,
 			);
@@ -243,7 +243,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		668892AD78C715648A80D5A8 /* [CP] Embed Pods Frameworks */ = {
+		41BC1134131770BF6A87EC73 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -453,7 +453,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.4;
-				PRODUCT_BUNDLE_IDENTIFIER = com.PedroVargas.StackAdventure;
+				PRODUCT_BUNDLE_IDENTIFIER = com.PedroVargas.StackAdventure1;
 				PRODUCT_NAME = "Stack Towers";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -475,7 +475,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.4;
-				PRODUCT_BUNDLE_IDENTIFIER = com.PedroVargas.StackAdventure;
+				PRODUCT_BUNDLE_IDENTIFIER = com.PedroVargas.StackAdventure1;
 				PRODUCT_NAME = "Stack Towers";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

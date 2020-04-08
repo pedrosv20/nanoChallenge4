@@ -88,6 +88,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     var lastStableTower: [SKNode] = []
     var recreatedTower = false
     var totalValueOfMovement: Double = 0
+    var stabilized = true
     
     override func didMove(to view: SKView) {
         audioPlayer.play(music: Audio.MusicFiles.background)
@@ -323,9 +324,15 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                     }
                 }
                 
+                
+                //arrayAux
                 //MARK: ADD ARRAY BLOCKS
                 self.currentNode?.physicsBody?.linearDamping = 6
                 self.blocksList.append(self.currentNode!)
+                //faz media se der boa arrayEstavel, se n arrayEstavel = arrayAux
+
+                
+                
                 currentNode?.physicsBody?.mass = 1
                 
                 //MARK: ADD LINHA
@@ -630,20 +637,25 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     override func update(_ currentTime: TimeInterval) {
         
         if gameState == .play { //game
-            for block in blocksList {
+//            for block in blocksList {
                 
-                let dx = (block.physicsBody?.velocity.dx)! * (block.physicsBody?.velocity.dx)!
-                let dy = (block.physicsBody?.velocity.dy)! * (block.physicsBody?.velocity.dy)!
-                let result = Double(dx + dy)
-                let vetorVelocity = sqrt(result)
-                totalValueOfMovement += vetorVelocity
-            }
-            let averageMovement = totalValueOfMovement / Double(blocksList.count)
-            print("avg", averageMovement)
-            if averageMovement < 5 {
-                lastStableTower = blocksList
-            }
-            totalValueOfMovement = 0.0
+//                let dx = (block.physicsBody?.velocity.dx)! * (block.physicsBody?.velocity.dx)!
+//                let dy = (block.physicsBody?.velocity.dy)! * (block.physicsBody?.velocity.dy)!
+//                let result = Double(dx + dy)
+//                let vetorVelocity = sqrt(result)
+//                let vetorVelocity = block.physicsBody?.angularVelocity
+//                totalValueOfMovement += Double(vetorVelocity!)
+//            }
+//            let averageMovement = totalValueOfMovement / Double(blocksList.count)
+//            print("avg", averageMovement)
+//            if abs(averageMovement) < 0.001 && stabilized{
+//                print("avg salvou torre")
+//                lastStableTower = blocksList
+//            } else {
+//                print("avg nao salvou")
+//            }
+//            totalValueOfMovement = 0.0
+            
             if !addedHighScore {
                 if !self.children.contains(highScoreLine!) {
                     addChild(highScoreLine!)
@@ -686,6 +698,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             cameraObserver()
         }
         else if gameState == .menu{
+            stabilized = true
             recreatedTower = false
             beatedHighScore = false
             addedHighScore = false
@@ -753,7 +766,9 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 print("jonaaas", lastStableTower.count)
                 for i in lastStableTower {
                     blocksList.append(i)
+                    
                     addChild(i)
+                    i.zPosition = 4
                     print(i.position.y)
                 }
                 recreatedTower = true
