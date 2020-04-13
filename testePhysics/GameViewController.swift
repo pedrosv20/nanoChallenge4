@@ -47,6 +47,7 @@ class GameViewController: UIViewController, GADInterstitialDelegate, GADRewarded
             }
 
             view.ignoresSiblingOrder = true
+            view.showsPhysics = true
             
         }
     }

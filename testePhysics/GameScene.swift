@@ -85,9 +85,14 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
     var beatedHighScore = false
 //    var pauseButton: SKNode?
     //load tutorial
+    
     var lastStableTower: [SKNode] = []
+    var auxTower: [SKNode] = []
+    
     var recreatedTower = false
+    
     var totalValueOfMovement: Double = 0
+    
     var stabilized = true
     
     override func didMove(to view: SKView) {
@@ -280,6 +285,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 let touchName = touch.name
                 //                print(touchName, UserInfo.shared.showRewardedAd)
                 if (touchName != nil && touchName!.contains("go_extraLife") && UserInfo.shared.canShowAd) {
+                    saveTower()
                     self.controller?.showRewardedAd()
                     audioPlayer.pause(music: Audio.MusicFiles.background)
                     UserInfo.shared.showRewardedAd = true
@@ -308,6 +314,7 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         if self.currentNode != nil {
             
             if (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Polygon"))! || (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Rectangle"))! || (self.currentNode!.physicsBody?.allContactedBodies().description.contains("Compound"))!  {
+                
                 let dx = (self.currentNode!.physicsBody?.velocity.dx)! * (self.currentNode!.physicsBody?.velocity.dx)!
                 let dy = (self.currentNode!.physicsBody?.velocity.dy)! * (self.currentNode!.physicsBody?.velocity.dy)!
                 
@@ -325,13 +332,14 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
                 }
                 
                 
+                
                 //arrayAux
                 //MARK: ADD ARRAY BLOCKS
                 self.currentNode?.physicsBody?.linearDamping = 6
+                self.auxTower = blocksList
                 self.blocksList.append(self.currentNode!)
-                //faz media se der boa arrayEstavel, se n arrayEstavel = arrayAux
-
                 
+                //faz media se der boa arrayEstavel, se n arrayEstavel = arrayAux
                 
                 currentNode?.physicsBody?.mass = 1
                 
@@ -427,7 +435,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
 //            print(block.)
             if block.frame.maxY / 50 > highestY {
                 highestY = block.frame.maxY / 50
-                print("tey", highestY, block.frame.maxY, block.name, block.position.y)
             }
         }
         if highestY.isInfinite {
@@ -607,55 +614,37 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         for block in blocksList {
             let maxX = self.frame.width / 2 + block.frame.width
             let minX = -1 * maxX
-            if block.position.y < -600 || block.position.x > maxX || block.position.x < minX{
-//                print("existe", block.position)
+            if block.position.y < -600 || block.position.x > maxX || block.position.x < minX {
                 block.removeFromParent()
                 blocksList.remove(at: blocksList.firstIndex(of: block)!)
             }
         }
     }
     
-    func changeBlockMassByHeight() {
-        for block in blocksList {
-//            let dx = (block.physicsBody?.velocity.dx)! * (block.cphysicsBody?.velocity.dx)!
-//            let dy = (block.physicsBody?.velocity.dy)! * (block.physicsBody?.velocity.dy)!
-//            let result = Double(dx + dy)
-//            let vetorVelocity = sqrt(result)
-//
-//            if vetorVelocity < 0.01 {
-//                let blockHeight = Int(block.frame.maxY / 50) + 12
-//                print("jonas", blockHeight)
-//                if blockHeight < 0 {
-//                    block.physicsBody?.mass = 1
-//                } else if Int(blockHeight / 10) >= 0 {
-//                    block.physicsBody?.mass = CGFloat(100 - blockHeight * 10)
-//                }
-//            }
+    func saveTower() {
+        let node = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 400, height: 50))
+        node.fillColor = .black
+        let physicsbody = SKPhysicsBody(rectangleOf: CGSize(width: 400, height: 50), center: CGPoint(x: 200, y: 25))
+        node.physicsBody = physicsbody
+        node.physicsBody?.restitution = 0
+        node.physicsBody?.friction = 1
+        node.physicsBody?.affectedByGravity = false
+        node.physicsBody?.isDynamic = false
+        self.addChild(node)
+        node.position.x = self.cam.position.x - node.frame.width / 2
+        node.position.y = CGFloat((returnScore() - 12) * 50)
+        self.cam.position.y = node.position.y + 20
+        node.zPosition = 3
+        for i in blocksList {
+            i.removeFromParent()
         }
+        blocksList.removeAll()
+        blocksList.append(node)
     }
     
     override func update(_ currentTime: TimeInterval) {
         
         if gameState == .play { //game
-//            for block in blocksList {
-                
-//                let dx = (block.physicsBody?.velocity.dx)! * (block.physicsBody?.velocity.dx)!
-//                let dy = (block.physicsBody?.velocity.dy)! * (block.physicsBody?.velocity.dy)!
-//                let result = Double(dx + dy)
-//                let vetorVelocity = sqrt(result)
-//                let vetorVelocity = block.physicsBody?.angularVelocity
-//                totalValueOfMovement += Double(vetorVelocity!)
-//            }
-//            let averageMovement = totalValueOfMovement / Double(blocksList.count)
-//            print("avg", averageMovement)
-//            if abs(averageMovement) < 0.001 && stabilized{
-//                print("avg salvou torre")
-//                lastStableTower = blocksList
-//            } else {
-//                print("avg nao salvou")
-//            }
-//            totalValueOfMovement = 0.0
-            
             if !addedHighScore {
                 if !self.children.contains(highScoreLine!) {
                     addChild(highScoreLine!)
@@ -757,22 +746,8 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
         else if gameState == .gameOverAd {
             
             cameraObserver()
-            if !recreatedTower {
-                checkFallingBlocks()
-                for i in blocksList {
-                    i.removeFromParent()
-                }
-                blocksList.removeAll()
-                print("jonaaas", lastStableTower.count)
-                for i in lastStableTower {
-                    blocksList.append(i)
-                    
-                    addChild(i)
-                    i.zPosition = 4
-                    print(i.position.y)
-                }
-                recreatedTower = true
-            }
+            checkFallingBlocks()
+            
             if self.children.contains(goBackgroundLite!) {
                 goBackgroundLite?.removeFromParent()
             }
@@ -797,25 +772,6 @@ class GameScene: SKScene, UIGestureRecognizerDelegate {
             }
             highScoreLine?.isHidden = true
         }
-//        else if gameState == .tutorial {
-//
-//            //////////////////////////////////////////////////////SWIPE LADOS/////////////////////////////////////////////////////////////////
-//            minTick += 1
-//
-//            if minTick >= maxTick {
-//                minTick = 0
-//                let swipeLeft = SKAction.moveTo(x: tutorialNodeFirstPosition!.x - 100, duration: 0.5)
-//                let swipeToZero = SKAction.moveTo(x: tutorialNodeFirstPosition!.x + 100, duration: 0.5)
-//                let sequence = SKAction.sequence([swipeLeft,swipeToZero])
-//                tutorialNode?.run(SKAction.repeatForever(sequence))
-//                if didSwipe {
-//                    tutorialNode?.removeAllActions()
-//                    //state == swipeDown
-//                    gameState = .menu
-//                }
-//            }
-//            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//        }
     }
 }
 
@@ -824,7 +780,6 @@ public enum gameStates {
     case play
     case gameOverAd
     case gameOver
-    case tutorial
 }
 
 public enum tutorialStates {
